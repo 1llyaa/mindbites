@@ -9,12 +9,53 @@
  */
 {
   "sections": {
-    "main": {
-      "type": "hello-world",
-      "settings": {}
+    "password_MxeGai": {
+      "type": "password",
+      "blocks": {
+        "pillar_UMF9Bd": {
+          "type": "pillar",
+          "settings": {
+            "icon": "∧",
+            "label": "BOOST"
+          }
+        },
+        "pillar_VYYUAM": {
+          "type": "pillar",
+          "settings": {
+            "icon": "◯",
+            "label": "FOCUS"
+          }
+        },
+        "pillar_ab4YTE": {
+          "type": "pillar",
+          "settings": {
+            "icon": "∞",
+            "label": "SUSTAIN"
+          }
+        }
+      },
+      "block_order": [
+        "pillar_UMF9Bd",
+        "pillar_VYYUAM",
+        "pillar_ab4YTE"
+      ],
+      "name": "t:password.name",
+      "settings": {
+        "brand_name": "MindBites",
+        "badge_text": "Store opening soon",
+        "heading_accent": "Something is",
+        "heading": "brewing in the dark.",
+        "description": "<p>We're putting the finishing touches on something that powers you up <strong>without burning you out</strong>. Join the waitlist and be the first through the door — <strong>no crash, no FOMO.</strong></p>",
+        "button_text": "Notify me",
+        "disclaimer_text": "Early-access drops + a launch-day discount. No spam.",
+        "success_title": "You're on the list.",
+        "success_message": "We'll email you the moment the doors open.",
+        "product_image": "shopify://shop_images/mindbites-bottle_8012a630-b0ce-4a2f-aa77-a2a3d13c353e.png",
+        "accent_color": "#c79a4f"
+      }
     }
   },
   "order": [
-    "main"
+    "password_MxeGai"
   ]
 }
