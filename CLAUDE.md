@@ -1,1 +1,1 @@
-/Users/user/Workspace/mindbites/mindbites-theme/AGENTS.md
+/Users/user/Workspace/testsss/AGENTS.md
