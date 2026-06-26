@@ -1,0 +1,1 @@
+/Users/user/Workspace/mindbites/mindbites-theme/AGENTS.md

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  @keyframes mb-glow { 0%,100% { opacity: .55; } 50% { opacity: .9; } }
+  @keyframes mb-fade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+</helmet>
+
+<div style="min-height: 100vh; width: 100%; background: #0a0705; font-family: 'Manrope', system-ui, sans-serif; display: flex; align-items: stretch; overflow: hidden; position: relative;">
+
+  <!-- ambient warm glow -->
+  <div style="position: absolute; top: -10%; right: 18%; width: 60vw; height: 90vh; background: radial-gradient(ellipse at center, rgba(199,146,63,0.22) 0%, rgba(199,146,63,0.06) 38%, rgba(10,7,5,0) 68%); pointer-events: none; animation: mb-glow 7s ease-in-out infinite;"></div>
+  <div style="position: absolute; bottom: -30%; right: 22%; width: 50vw; height: 60vh; background: radial-gradient(ellipse at center, rgba(150,40,30,0.16) 0%, rgba(10,7,5,0) 60%); pointer-events: none;"></div>
+
+  <!-- LEFT: content -->
+  <div style="flex: 1 1 52%; display: flex; flex-direction: column; justify-content: center; padding: clamp(40px, 6vw, 96px); position: relative; z-index: 2; max-width: 780px;">
+
+    <div style="display: flex; align-items: baseline; gap: 14px; animation: mb-fade .7s ease both;">
+      <div style="font-size: clamp(28px, 3vw, 38px); font-weight: 700; letter-spacing: -0.5px; color: #c79a4f;">MindBites<span style="font-size: 0.5em; vertical-align: super; color: #9c7a40;">™</span></div>
+    </div>
+
+    <div style="margin-top: clamp(36px, 5vw, 64px); animation: mb-fade .7s ease .08s both;">
+      <div style="display: inline-flex; align-items: center; gap: 10px; padding: 7px 14px; border: 1px solid rgba(199,154,79,0.32); border-radius: 999px; font-size: 12px; font-weight: 600; letter-spacing: 2.5px; color: #c79a4f; text-transform: uppercase;">
+        <span style="width: 6px; height: 6px; border-radius: 50%; background: #c79a4f; box-shadow: 0 0 10px #c79a4f;"></span>
+        Store Opening Soon
+      </div>
+    </div>
+
+    <h1 style="margin: 26px 0 0; font-size: clamp(40px, 5.4vw, 72px); line-height: 1.02; font-weight: 800; letter-spacing: -1.5px; color: #efe7d6; animation: mb-fade .7s ease .14s both;">
+      <span style="color: #c79a4f;">Something is</span><br>brewing in the dark.
+    </h1>
+
+    <div style="width: 120px; height: 1px; margin: 30px 0 26px; background: linear-gradient(90deg, #c79a4f, rgba(199,154,79,0)); animation: mb-fade .7s ease .2s both;"></div>
+
+    <p style="margin: 0; max-width: 480px; font-size: clamp(16px, 1.4vw, 19px); line-height: 1.6; color: #b6ab97; animation: mb-fade .7s ease .26s both;">
+      We're putting the finishing touches on something that powers you up <strong style="color: #d9c9a4; font-weight: 700;">without burning you out</strong>. Join the waitlist and be the first through the door — <strong style="color: #d9c9a4; font-weight: 700;">no crash, no FOMO.</strong>
+    </p>
+
+    <!-- waitlist form -->
+    <form onSubmit="{{ onSubmit }}" style="margin-top: 34px; max-width: 480px; animation: mb-fade .7s ease .32s both;">
+      <sc-if value="{{ submitted }}" hint-placeholder-val="{{ false }}">
+        <div style="display: flex; align-items: center; gap: 14px; padding: 18px 22px; border: 1px solid rgba(199,154,79,0.35); border-radius: 12px; background: rgba(199,154,79,0.06);">
+          <div style="flex: none; width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #c79a4f; display: flex; align-items: center; justify-content: center; color: #c79a4f; font-size: 15px;">✓</div>
+          <div>
+            <div style="color: #efe7d6; font-weight: 700; font-size: 16px;">You're on the list.</div>
+            <div style="color: #9a8f7c; font-size: 13.5px; margin-top: 2px;">We'll email you the moment the doors open.</div>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ notSubmitted }}" hint-placeholder-val="{{ true }}">
+        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+          <input type="email" required="required" value="{{ email }}" onInput="{{ onInput }}" placeholder="you@email.com"
+            style="flex: 1 1 240px; min-width: 0; padding: 16px 18px; font-size: 15px; font-family: inherit; color: #efe7d6; background: rgba(255,255,255,0.03); border: 1px solid rgba(199,154,79,0.28); border-radius: 12px; outline: none;"
+            style-focus="border-color:#c79a4f;background:rgba(199,154,79,0.06);" />
+          <button type="submit"
+            style="flex: 0 0 auto; padding: 16px 28px; font-size: 15px; font-weight: 700; font-family: inherit; letter-spacing: 0.3px; color: #1a120a; background: linear-gradient(180deg, #d7af63, #c79a4f); border: none; border-radius: 12px; cursor: pointer; box-shadow: 0 6px 24px rgba(199,154,79,0.28);"
+            style-hover="filter:brightness(1.08);box-shadow:0 8px 30px rgba(199,154,79,0.42);">
+            Notify Me
+          </button>
+        </div>
+        <div style="margin-top: 11px; font-size: 12.5px; color: #6f6555;">Early-access drops + a launch-day discount. No spam.</div>
+      </sc-if>
+    </form>
+
+    <!-- pillars -->
+    <div style="display: flex; gap: clamp(28px, 4vw, 52px); margin-top: clamp(40px, 5vw, 64px); animation: mb-fade .7s ease .4s both;">
+      <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="3">
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 14px;">
+          <div style="width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; color: #d7af63;">
+            <span style="font-size: 30px; line-height: 1; filter: drop-shadow(0 0 8px rgba(199,154,79,0.5));">{{ p.glyph }}</span>
+          </div>
+          <div style="font-size: 12px; font-weight: 600; letter-spacing: 2px; color: #b6ab97;">{{ p.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: product image placeholder -->
+  <div style="flex: 1 1 48%; position: relative; z-index: 1; display: flex; align-items: center; justify-content: center; padding: 40px;">
+    <div style="position: relative; width: 100%; max-width: 560px; aspect-ratio: 4 / 5; border-radius: 16px; overflow: hidden; background: repeating-linear-gradient(45deg, #14100b 0px, #14100b 14px, #181208 14px, #181208 28px); border: 1px solid rgba(199,154,79,0.18); display: flex; align-items: center; justify-content: center; box-shadow: 0 30px 80px rgba(0,0,0,0.6);">
+      <div style="text-align: center;">
+        <div style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 13px; letter-spacing: 1px; color: #8a7a55; text-transform: uppercase;">[ product shot ]</div>
+        <div style="font-family: ui-monospace, 'SF Mono', Menlo, monospace; font-size: 11px; color: #5c5238; margin-top: 8px;">drop hero jar image here · 4:5</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:820}}">
+class Component extends DCLogic {
+  state = { email: "", submitted: false };
+  renderVals() {
+    return {
+      email: this.state.email,
+      submitted: this.state.submitted,
+      notSubmitted: !this.state.submitted,
+      onInput: (e) => this.setState({ email: e.target.value }),
+      onSubmit: (e) => { e.preventDefault(); this.setState({ submitted: true }); },
+      pillars: [
+        { glyph: "\u2227", label: "BOOST" },
+        { glyph: "\u25EF", label: "FOCUS" },
+        { glyph: "\u221E", label: "SUSTAIN" },
+      ],
+    };
+  }
+}
+</script>
+</body>
+</html>
