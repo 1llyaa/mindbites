@@ -244,6 +244,12 @@
     },
     "blocks": {
       "pillar": "Feature pillar"
+    },
+    "info": {
+      "brand_name": "The page now shows the store logo from Theme settings → Brand.",
+      "product_image": "Leave empty to use the bundled pouch packshot.",
+      "accent_color": "The page now uses the theme accent color from Theme settings → Colors.",
+      "icon": "Labels Boost, Sustain and Focus show the matching brand icon instead."
     }
   }
 }
