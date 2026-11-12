@@ -1,5 +1,9 @@
 {%- liquid
-  assign fallback_asset = 'mb-' | append: section.settings.fallback_image | append: '.webp'
+  assign fallback_ext = '.webp'
+  if section.settings.fallback_image contains 'lab-'
+    assign fallback_ext = '.jpg'
+  endif
+  assign fallback_asset = 'mb-' | append: section.settings.fallback_image | append: fallback_ext
 -%}
 
 <div class="section image-text image-text--{{ section.settings.layout }}">
@@ -102,6 +106,10 @@
         { "value": "ingredients", "label": "t:options.fallback_image.gummy" },
         { "value": "hero-pouch", "label": "t:options.fallback_image.pouch" },
         { "value": "display-stand", "label": "t:options.fallback_image.display" },
+        { "value": "lab-floor", "label": "t:options.fallback_image.lab_floor" },
+        { "value": "lab-hplc", "label": "t:options.fallback_image.lab_hplc" },
+        { "value": "lab-petri", "label": "t:options.fallback_image.lab_petri" },
+        { "value": "lab-flasks", "label": "t:options.fallback_image.lab_flasks" },
         { "value": "none", "label": "t:options.fallback_image.none" }
       ],
       "default": "ingredients"

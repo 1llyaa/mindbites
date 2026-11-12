@@ -1,0 +1,185 @@
+<div class="section founder">
+  <div class="founder__panel gcard reveal">
+    <div class="founder__portrait">
+      {%- if section.settings.image -%}
+        {{
+          section.settings.image
+          | image_url: width: 900
+          | image_tag: widths: '400, 600, 900', sizes: '(min-width: 860px) 30vw, 70vw', loading: 'lazy', class: 'founder__photo'
+        }}
+      {%- else -%}
+        <div class="founder__monogram" aria-hidden="true">
+          {%- render 'icon', name: 'hex' -%}
+          <span>{{ section.settings.initials | escape }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="founder__content">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if section.settings.quote != blank -%}
+        <blockquote class="founder__quote">
+          <span class="chrome thin">“{{ section.settings.quote | escape }}”</span>
+        </blockquote>
+      {%- endif -%}
+      <div class="rule" aria-hidden="true"></div>
+      <p class="founder__name">
+        <b>{{ section.settings.name | escape }}</b>
+        {%- if section.settings.role != blank %}<span>{{ section.settings.role | escape }}</span>{% endif -%}
+      </p>
+      {%- if section.settings.text != blank -%}
+        <div class="founder__text rte">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .founder__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+    padding: clamp(28px, 5vw, 64px);
+    background: radial-gradient(70% 60% at 0% 50%, rgba(var(--color-accent-rgb), 0.24), transparent 65%), rgba(10, 9, 14, 0.6);
+  }
+
+  .founder__portrait {
+    display: grid;
+    place-items: center;
+  }
+
+  .founder__photo {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 16px;
+  }
+
+  .founder__monogram {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: min(100%, 300px);
+    aspect-ratio: 1;
+  }
+
+  .founder__monogram svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 0 28px rgba(var(--color-accent-rgb), 0.8));
+  }
+
+  .founder__monogram span {
+    position: relative;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    padding-left: 0.08em;
+    color: #efe6fa;
+  }
+
+  .founder__content {
+    display: grid;
+    gap: 22px;
+    justify-items: start;
+  }
+
+  .founder__quote {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.6vw, 2.2rem);
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+
+  .founder__quote .chrome {
+    line-height: 1.35;
+  }
+
+  .founder__name {
+    display: grid;
+    gap: 4px;
+  }
+
+  .founder__name b {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  .founder__name span {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent-light);
+  }
+
+  .founder__text {
+    color: var(--color-muted);
+    max-width: 60ch;
+  }
+
+  @media (max-width: 860px) {
+    .founder__panel {
+      grid-template-columns: 1fr;
+    }
+
+    .founder__monogram {
+      width: min(60%, 220px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.founder",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image",
+      "info": "t:info.founder_image"
+    },
+    {
+      "type": "text",
+      "id": "initials",
+      "label": "t:labels.initials",
+      "default": "PJ"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Meet the founder"
+    },
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "t:labels.quote",
+      "default": "I wanted focus I could dose, not a can I had to finish."
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "t:labels.name",
+      "default": "Patrik Jaroš"
+    },
+    {
+      "type": "text",
+      "id": "role",
+      "label": "t:labels.role",
+      "default": "Founder & creator of MindBites"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:labels.text"
+    }
+  ],
+  "presets": [{ "name": "t:names.founder" }]
+}
+{% endschema %}

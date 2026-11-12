@@ -1,0 +1,65 @@
+<div class="stat gcard reveal" {{ block.shopify_attributes }}>
+  <p class="stat__value"><span class="chrome">{{ block.settings.value | escape }}</span></p>
+  <p class="stat__label">{{ block.settings.label | escape }}</p>
+  {%- if block.settings.text != blank -%}
+    <p class="stat__text">{{ block.settings.text | escape }}</p>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .stat {
+    display: grid;
+    align-content: start;
+    justify-items: center;
+    gap: 10px;
+    padding: 30px 20px 28px;
+    text-align: center;
+  }
+
+  .stat__value {
+    font-size: clamp(2.6rem, 5vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat__label {
+    font-size: 0.76rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-foreground);
+  }
+
+  .stat__text {
+    font-size: 0.9rem;
+    color: var(--color-muted);
+    max-width: 26ch;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.stat",
+  "settings": [
+    {
+      "type": "text",
+      "id": "value",
+      "label": "t:labels.value",
+      "default": "6"
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "t:labels.title",
+      "default": "Active ingredients"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:labels.text"
+    }
+  ],
+  "presets": [{ "name": "t:names.stat" }]
+}
+{% endschema %}

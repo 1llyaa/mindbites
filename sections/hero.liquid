@@ -95,15 +95,15 @@
           {%- endif -%}
         </div>
 
-        <ul class="hero__facts">
+        <div class="hero__facts">
           {%- if section.settings.show_price and product != blank -%}
-            <li>
+            <span>
               <b>{{ product.price | money }}</b>
               {{ 'hero.per_pouch' | t }}
-            </li>
+            </span>
           {%- endif -%}
           {% content_for 'blocks' %}
-        </ul>
+        </div>
       </div>
     </div>
   </div>

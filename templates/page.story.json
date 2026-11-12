@@ -1,0 +1,247 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "eyebrow": "Our story",
+        "heading_thin": "From one late night",
+        "heading_heavy": "to a new category.",
+        "heading_size": "l",
+        "heading_tag": "h1",
+        "text": "<p>MindBites started with a simple frustration: every way to stay sharp came with a trade-off. Too much sugar, too much caffeine, or a crash two hours later. So we went to the lab to build something better.</p>",
+        "alignment": "center",
+        "page_top": true
+      }
+    },
+    "founder": {
+      "type": "founder",
+      "settings": {
+        "initials": "PJ",
+        "eyebrow": "Meet the founder",
+        "quote": "I wanted focus I could dose, not a can I had to finish.",
+        "name": "Patrik Jaroš",
+        "role": "Founder & creator of MindBites",
+        "text": "<p>Patrik spent years juggling long work days, late nights and training. Coffee was hit and miss, energy drinks felt like a compromise and pills felt clinical. What he wanted was simple: clean energy, calm focus, and full control over how much he took.</p><p>When he couldn't find it, he decided to build it. MindBites is the result: a microdosed gummy you can take three at a time, six at a time or nine at a time, depending on the day ahead.</p>"
+      }
+    },
+    "timeline": {
+      "type": "timeline",
+      "settings": {
+        "eyebrow": "How we got here",
+        "heading_thin": "From idea",
+        "heading_heavy": "to pouch.",
+        "lead": "<p>Eighteen months, dozens of prototypes and one formula we're proud of.</p>"
+      },
+      "blocks": {
+        "m2023": {
+          "type": "_milestone",
+          "settings": {
+            "date": "2023",
+            "title": "The problem",
+            "text": "<p>Patrik starts sketching the idea on a napkin: a functional gummy with a precise, stackable dose instead of a one-size-fits-all hit.</p>"
+          }
+        },
+        "m2024a": {
+          "type": "_milestone",
+          "settings": {
+            "date": "Early 2024",
+            "title": "Into the lab",
+            "text": "<p>We team up with food technologists and an EU-based contract lab. First goal: get caffeine, L-theanine and tyrosine into a gummy that actually tastes good.</p>"
+          }
+        },
+        "m2024b": {
+          "type": "_milestone",
+          "settings": {
+            "date": "Late 2024",
+            "title": "47 iterations",
+            "text": "<p>Texture, taste, stability, dose accuracy. Prototype after prototype goes through analysis until every gummy carries the same 16.67 mg of caffeine.</p>"
+          }
+        },
+        "m2025": {
+          "type": "_milestone",
+          "settings": {
+            "date": "2025",
+            "title": "Formula locked",
+            "text": "<p>Six active ingredients, one considered formula. Citicoline and vitamins B6 and B12 join the recipe, and the brain-shaped gummy gets its signature violet look.</p>"
+          }
+        },
+        "m2026": {
+          "type": "_milestone",
+          "settings": {
+            "date": "2026",
+            "title": "First pouches ship",
+            "text": "<p>Produced in GMP- and HACCP-certified facilities in the EU, with every batch lab-tested before it leaves. MindBites is officially out in the world.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "m2023",
+        "m2024a",
+        "m2024b",
+        "m2025",
+        "m2026"
+      ]
+    },
+    "lab": {
+      "type": "image-with-text",
+      "settings": {
+        "fallback_image": "lab-floor",
+        "image_fit": "cover",
+        "layout": "image-left",
+        "eyebrow": "Inside the lab",
+        "heading_thin": "Science first.",
+        "heading_heavy": "Snack second.",
+        "text": "<p>Every MindBites gummy is developed and verified in partnership with accredited EU laboratories. We measure potency, check stability over shelf life and screen every batch before it ships.</p><p>It's slower and more expensive than the usual way. It's also the only way we can promise that 3, 6 or 9 gummies always means the same thing.</p>",
+        "button_label": "Read our lab notes",
+        "button_link": "/blogs/news"
+      }
+    },
+    "stats": {
+      "type": "stats",
+      "settings": {
+        "eyebrow": "By the numbers",
+        "heading_thin": "Built in",
+        "heading_heavy": "the lab."
+      },
+      "blocks": {
+        "iterations": {
+          "type": "_stat",
+          "settings": {
+            "value": "47",
+            "label": "Formula iterations",
+            "text": "Before we locked the recipe."
+          }
+        },
+        "months": {
+          "type": "_stat",
+          "settings": {
+            "value": "18",
+            "label": "Months in R&D",
+            "text": "From first sketch to first pouch."
+          }
+        },
+        "tests": {
+          "type": "_stat",
+          "settings": {
+            "value": "300+",
+            "label": "Lab analyses",
+            "text": "Potency, stability and purity checks."
+          }
+        },
+        "batches": {
+          "type": "_stat",
+          "settings": {
+            "value": "100%",
+            "label": "Batches tested",
+            "text": "Every batch, before it ships."
+          }
+        }
+      },
+      "block_order": [
+        "iterations",
+        "months",
+        "tests",
+        "batches"
+      ]
+    },
+    "made": {
+      "type": "image-with-text",
+      "settings": {
+        "fallback_image": "display-stand",
+        "image_fit": "contain",
+        "layout": "image-right",
+        "eyebrow": "Made in the EU",
+        "heading_thin": "Not a pill.",
+        "heading_heavy": "Not a drink.",
+        "text": "<p>MindBites sits between supplements and snacks: a premium gummy you actually want to reach for. Pocket-sized, precisely dosed and ready when you are.</p>",
+        "button_label": "Shop MindBites"
+      }
+    },
+    "trust": {
+      "type": "trust-strip",
+      "settings": {},
+      "blocks": {
+        "gmp": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "GMP",
+            "label": "GMP certified"
+          }
+        },
+        "haccp": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "HACCP",
+            "label": "HACCP"
+          }
+        },
+        "eu": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "EU",
+            "label": "Made in the EU"
+          }
+        },
+        "lab": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "LAB",
+            "label": "Lab tested"
+          }
+        },
+        "dose": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "µ",
+            "label": "Microdosed"
+          }
+        }
+      },
+      "block_order": [
+        "gmp",
+        "haccp",
+        "eu",
+        "lab",
+        "dose"
+      ]
+    },
+    "main": {
+      "type": "page",
+      "settings": {
+        "show_title": false,
+        "width": "narrow"
+      }
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Join the list",
+        "heading_thin": "Stay",
+        "heading_heavy": "sharp.",
+        "text": "<p>New drops, lab notes and early access to limited releases. One email a month, tops.</p>",
+        "button_label": "Subscribe",
+        "fine_print": "No spam. Unsubscribe any time."
+      }
+    }
+  },
+  "order": [
+    "intro",
+    "founder",
+    "timeline",
+    "lab",
+    "stats",
+    "made",
+    "trust",
+    "main",
+    "newsletter"
+  ]
+}

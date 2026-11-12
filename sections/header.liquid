@@ -133,11 +133,20 @@
   }
 
   .site-header__inner {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
     gap: 16px;
     height: var(--header-height);
+  }
+
+  .site-header__brand {
+    justify-self: start;
+  }
+
+  .site-header__actions {
+    grid-column: -2;
+    justify-self: end;
   }
 
   .site-header__brand {
@@ -334,12 +343,12 @@
       display: none;
     }
 
-    .mobile-menu {
-      display: block;
+    .site-header__inner {
+      grid-template-columns: auto 1fr auto;
     }
 
-    .site-header__brand {
-      margin-right: auto;
+    .mobile-menu {
+      display: block;
     }
   }
 

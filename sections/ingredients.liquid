@@ -9,9 +9,9 @@
 
   <div class="ingredients__grid">
     <div class="ingredients__list-wrap">
-      <ul class="ingredients__list" role="list">
+      <div class="ingredients__list" role="list">
         {% content_for 'blocks' %}
-      </ul>
+      </div>
       {%- if section.settings.note != blank -%}
         <p class="ingredients__note">{{ section.settings.note | escape }}</p>
       {%- endif -%}

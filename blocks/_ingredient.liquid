@@ -1,6 +1,6 @@
 {%- assign icon_asset = 'mb-ing-' | append: block.settings.icon | append: '.webp' -%}
 
-<li class="ingredient reveal" style="--c: {{ block.settings.color }}" {{ block.shopify_attributes }}>
+<div class="ingredient reveal" role="listitem" style="--c: {{ block.settings.color }}" {{ block.shopify_attributes }}>
   <span class="ingredient__icon">
     {%- if block.settings.image -%}
       {{ block.settings.image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', class: 'ingredient__mol' }}
@@ -25,7 +25,7 @@
     <b>{{ block.settings.amount | escape }}</b>
     {{ block.settings.unit | escape -}}
   </span>
-</li>
+</div>
 
 {% stylesheet %}
   .ingredient {
@@ -60,12 +60,12 @@
     animation: mol-float 7s ease-in-out infinite;
   }
 
-  .ingredient:nth-child(2n) .ingredient__icon {
+  .shopify-block:nth-child(2n) > .ingredient .ingredient__icon {
     animation-duration: 8.2s;
     animation-delay: -1.3s;
   }
 
-  .ingredient:nth-child(3n) .ingredient__icon {
+  .shopify-block:nth-child(3n) > .ingredient .ingredient__icon {
     animation-duration: 6.6s;
     animation-delay: -3.1s;
   }

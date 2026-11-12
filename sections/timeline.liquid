@@ -1,0 +1,81 @@
+<div class="section timeline">
+  {%- render 'section-heading',
+    eyebrow: section.settings.eyebrow,
+    heading_thin: section.settings.heading_thin,
+    heading_heavy: section.settings.heading_heavy,
+    lead: section.settings.lead,
+    layout: 'split'
+  -%}
+
+  <div class="timeline__track" role="list">
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .timeline__track {
+    position: relative;
+    display: grid;
+    gap: 0;
+  }
+
+  /* Vertical hairline the milestones hang from */
+  .timeline__track::before {
+    content: '';
+    position: absolute;
+    top: 8px;
+    bottom: 8px;
+    left: 160px;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(var(--color-accent-light-rgb), 0.5) 10%, rgba(var(--color-accent-light-rgb), 0.5) 90%, transparent);
+  }
+
+  @media (max-width: 760px) {
+    .timeline__track::before {
+      left: 7px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.timeline",
+  "blocks": [{ "type": "_milestone" }],
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "How we got here"
+    },
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin",
+      "default": "From idea"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy",
+      "default": "to pouch."
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "t:labels.lead"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.timeline",
+      "blocks": {
+        "m1": { "type": "_milestone", "settings": { "date": "2023", "title": "The idea", "text": "<p>A late-night problem looking for a better answer.</p>" } },
+        "m2": { "type": "_milestone", "settings": { "date": "2024", "title": "Into the lab", "text": "<p>Prototypes, tastings and a lot of failed batches.</p>" } }
+      },
+      "block_order": ["m1", "m2"]
+    }
+  ]
+}
+{% endschema %}

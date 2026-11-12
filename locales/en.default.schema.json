@@ -46,12 +46,17 @@
     "faq": "FAQ",
     "faq_item": "Question",
     "featured_product": "Featured product",
+    "founder": "Founder",
     "hero": "Hero",
     "image_with_text": "Image with text",
     "ingredient": "Ingredient",
     "ingredients": "Ingredients",
+    "milestone": "Milestone",
     "newsletter": "Newsletter",
     "rich_text": "Rich text",
+    "stat": "Stat",
+    "stats": "Stats",
+    "timeline": "Timeline",
     "trust_item": "Badge",
     "trust_strip": "Trust badges"
   },
@@ -60,7 +65,8 @@
     "hero_image": "Leave empty to use the bundled pouch packshot. Use a transparent PNG or WebP.",
     "hero_button_link": "Leave empty to link to the selected product.",
     "dose_image": "Leave empty to use the bundled 3, 6 or 9 gummy photo.",
-    "fallback_image": "Used when no image is selected."
+    "fallback_image": "Used when no image is selected.",
+    "founder_image": "Leave empty to show the initials in a hexagon."
   },
   "labels": {
     "accent": "Accent",
@@ -72,12 +78,13 @@
     "badge": "Badge text",
     "benefit": "Benefit",
     "button": "Button",
-    "buttons": "Buttons",
     "button_label": "Button label",
     "button_link": "Button link",
+    "buttons": "Buttons",
     "cart_type": "Cart type",
     "custom_icon": "Custom icon",
     "customer_account_menu": "Customer account menu",
+    "date": "Date",
     "email": "Email",
     "eyebrow": "Eyebrow",
     "facebook": "Facebook",
@@ -101,6 +108,7 @@
     "icon": "Icon",
     "image": "Image",
     "image_fit": "Image fit",
+    "initials": "Initials",
     "input_corner_radius": "Input corner radius",
     "instagram": "Instagram",
     "layout": "Layout",
@@ -114,6 +122,7 @@
     "meter_label": "Meter label",
     "meter_level": "Meter level",
     "muted": "Muted text",
+    "name": "Name",
     "note": "Note",
     "note_left": "Note (left)",
     "note_right": "Note (right)",
@@ -130,6 +139,8 @@
     "product": "Product",
     "products_per_page": "Products per page",
     "question": "Question",
+    "quote": "Quote",
+    "role": "Role",
     "secondary_button_label": "Secondary button label",
     "secondary_button_link": "Secondary button link",
     "secondary_menu": "Secondary menu",
@@ -148,7 +159,8 @@
     "text_style": "Text style",
     "tiktok": "TikTok",
     "title": "Title",
-    "unit": "Unit"
+    "unit": "Unit",
+    "value": "Value"
   },
   "options": {
     "alignment": {
@@ -168,7 +180,11 @@
       "gummy": "Gummy close-up",
       "pouch": "Pouch packshot",
       "display": "Display stand",
-      "none": "None"
+      "none": "None",
+      "lab_floor": "Lab floor",
+      "lab_hplc": "HPLC analysis",
+      "lab_petri": "Lab sample",
+      "lab_flasks": "Lab flasks"
     },
     "icon": {
       "boost": "Boost",

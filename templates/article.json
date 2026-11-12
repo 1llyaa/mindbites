@@ -12,9 +12,21 @@
     "main": {
       "type": "article",
       "settings": {}
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Join the list",
+        "heading_thin": "Stay",
+        "heading_heavy": "sharp.",
+        "text": "<p>Get new lab notes and drops in your inbox. One email a month, tops.</p>",
+        "button_label": "Subscribe",
+        "fine_print": "No spam. Unsubscribe any time."
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "newsletter"
   ]
 }

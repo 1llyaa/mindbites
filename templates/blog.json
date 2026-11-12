@@ -12,8 +12,71 @@
     "main": {
       "type": "blog",
       "settings": {
-        "eyebrow": "Journal",
-        "lead": "<p>Notes on focus, energy and the science behind every bite.</p>"
+        "eyebrow": "Lab notes",
+        "lead": "<p>Research, formulation and quality control. What goes on behind every bite.</p>"
+      }
+    },
+    "stats": {
+      "type": "stats",
+      "settings": {
+        "eyebrow": "Our research",
+        "heading_thin": "Every claim",
+        "heading_heavy": "starts in the lab.",
+        "note": "Figures from MindBites product development, 2023–2026."
+      },
+      "blocks": {
+        "iterations": {
+          "type": "_stat",
+          "settings": {
+            "value": "47",
+            "label": "Formula iterations",
+            "text": "Before we locked the recipe."
+          }
+        },
+        "months": {
+          "type": "_stat",
+          "settings": {
+            "value": "18",
+            "label": "Months in R&D",
+            "text": "From first sketch to first pouch."
+          }
+        },
+        "tests": {
+          "type": "_stat",
+          "settings": {
+            "value": "300+",
+            "label": "Lab analyses",
+            "text": "Potency, stability and purity checks."
+          }
+        },
+        "batches": {
+          "type": "_stat",
+          "settings": {
+            "value": "100%",
+            "label": "Batches tested",
+            "text": "Every batch, before it ships."
+          }
+        }
+      },
+      "block_order": [
+        "iterations",
+        "months",
+        "tests",
+        "batches"
+      ]
+    },
+    "lab": {
+      "type": "image-with-text",
+      "settings": {
+        "fallback_image": "lab-hplc",
+        "image_fit": "cover",
+        "layout": "image-right",
+        "eyebrow": "Quality control",
+        "heading_thin": "Tested.",
+        "heading_heavy": "Then tested again.",
+        "text": "<p>Each batch is analysed by an independent lab using high-performance liquid chromatography (HPLC) to confirm the caffeine and active content per gummy before it's released.</p>",
+        "button_label": "Our story",
+        "button_link": "/pages/our-story"
       }
     },
     "newsletter": {
@@ -22,7 +85,7 @@
         "eyebrow": "Join the list",
         "heading_thin": "Stay",
         "heading_heavy": "sharp.",
-        "text": "<p>Get new articles and drops in your inbox. One email a month, tops.</p>",
+        "text": "<p>Get new lab notes and drops in your inbox. One email a month, tops.</p>",
         "button_label": "Subscribe",
         "fine_print": "No spam. Unsubscribe any time."
       }
@@ -30,6 +93,8 @@
   },
   "order": [
     "main",
+    "stats",
+    "lab",
     "newsletter"
   ]
 }

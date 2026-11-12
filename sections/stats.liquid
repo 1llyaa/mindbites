@@ -1,0 +1,87 @@
+<div class="section stats">
+  {%- render 'section-heading',
+    eyebrow: section.settings.eyebrow,
+    heading_thin: section.settings.heading_thin,
+    heading_heavy: section.settings.heading_heavy,
+    lead: section.settings.lead,
+    layout: 'center'
+  -%}
+
+  <div class="stats__grid block-grid">
+    {% content_for 'blocks' %}
+  </div>
+
+  {%- if section.settings.note != blank -%}
+    <p class="stats__note">{{ section.settings.note | escape }}</p>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 18px;
+  }
+
+  .stats__note {
+    margin-top: 20px;
+    text-align: center;
+    color: var(--color-dim);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 480px) {
+    .stats__grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.stats",
+  "blocks": [{ "type": "_stat" }],
+  "max_blocks": 6,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "By the numbers"
+    },
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin",
+      "default": "Built in"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy",
+      "default": "the lab."
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "t:labels.lead"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "t:labels.note"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.stats",
+      "blocks": {
+        "s1": { "type": "_stat", "settings": { "value": "6", "label": "Active ingredients" } },
+        "s2": { "type": "_stat", "settings": { "value": "100%", "label": "Batches lab-tested" } }
+      },
+      "block_order": ["s1", "s2"]
+    }
+  ]
+}
+{% endschema %}

@@ -2,7 +2,7 @@
   {%- if section.settings.heading != blank -%}
     <p class="eyebrow trust-strip__heading">{{ section.settings.heading | escape }}</p>
   {%- endif -%}
-  <div class="trust-strip__grid">
+  <div class="trust-strip__grid block-grid">
     {% content_for 'blocks' %}
   </div>
 </div>

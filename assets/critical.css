@@ -655,6 +655,16 @@ h3 {
   }
 }
 
+/* Theme blocks render inside a .shopify-block wrapper: let cards in card grids fill the row height */
+.block-grid > .shopify-block {
+  display: flex;
+  flex-direction: column;
+}
+
+.block-grid > .shopify-block > * {
+  flex: 1;
+}
+
 /** Media frame */
 .frame {
   position: relative;
