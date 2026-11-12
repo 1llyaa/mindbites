@@ -512,6 +512,26 @@ h3 {
   justify-content: center;
 }
 
+/* Accelerated checkout buttons (PayPal, Apple Pay, Shop Pay...) render in iframes. With the page on
+   color-scheme: dark, Chrome paints those light-scheme iframes with an opaque white backdrop, so the
+   wrappers opt back into the light scheme. Shopify's custom properties keep the buttons pill-shaped. */
+shopify-accelerated-checkout,
+shopify-accelerated-checkout-cart,
+.shopify-payment-button,
+.additional-checkout-buttons {
+  color-scheme: light;
+  --shopify-accelerated-checkout-button-border-radius: 999px;
+  --shopify-accelerated-checkout-button-block-size: 54px;
+  --shopify-accelerated-checkout-inline-alignment: center;
+}
+
+.shopify-payment-button__button,
+.shopify-payment-button__button iframe,
+.additional-checkout-buttons iframe {
+  border-radius: 999px;
+  overflow: hidden;
+}
+
 .link {
   color: var(--color-accent-light);
   text-decoration: underline;
