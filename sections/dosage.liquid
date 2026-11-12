@@ -1,0 +1,102 @@
+<div class="section dosage" id="dosage">
+  {%- render 'section-heading',
+    eyebrow: section.settings.eyebrow,
+    heading_thin: section.settings.heading_thin,
+    heading_heavy: section.settings.heading_heavy,
+    lead: section.settings.lead,
+    layout: 'split'
+  -%}
+
+  <div class="dosage__grid">
+    {% content_for 'blocks' %}
+  </div>
+
+  {%- if section.settings.note_left != blank or section.settings.note_right != blank -%}
+    <div class="dosage__note">
+      <span>{{ section.settings.note_left }}</span>
+      <span>{{ section.settings.note_right }}</span>
+    </div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .dosage__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .dosage__note {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+    color: var(--color-dim);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 860px) {
+    .dosage__grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.dosage",
+  "blocks": [{ "type": "_dose" }],
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Same great taste. Different intensity."
+    },
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin",
+      "default": "Choose"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy",
+      "default": "your edge."
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "t:labels.lead",
+      "default": "<p>One pouch holds 33 gummies, each with a precise microdose. You set the intensity, from a gentle lift to the full dose.</p>"
+    },
+    {
+      "type": "text",
+      "id": "note_left",
+      "label": "t:labels.note_left",
+      "default": "16.67 mg caffeine per gummy"
+    },
+    {
+      "type": "text",
+      "id": "note_right",
+      "label": "t:labels.note_right",
+      "default": "One product · three intensities"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.dosage",
+      "blocks": {
+        "dose_3": { "type": "_dose", "settings": { "count": "3", "name": "Smooth kick", "text": "A gentle lift, any time of day.", "amount": 50, "level": 33 } },
+        "dose_6": { "type": "_dose", "settings": { "count": "6", "name": "Full dose", "text": "The balanced everyday dose.", "amount": 100, "level": 67 } },
+        "dose_9": { "type": "_dose", "settings": { "count": "9", "name": "Max potential", "text": "For when you need more.", "amount": 150, "level": 100 } }
+      },
+      "block_order": ["dose_3", "dose_6", "dose_9"]
+    }
+  ]
+}
+{% endschema %}

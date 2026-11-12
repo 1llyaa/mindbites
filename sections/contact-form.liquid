@@ -1,0 +1,237 @@
+<div class="section section--page-top contact">
+  <div class="contact__intro">
+    {%- render 'section-heading',
+      eyebrow: section.settings.eyebrow,
+      heading_thin: section.settings.heading_thin,
+      heading_heavy: section.settings.heading_heavy,
+      lead: section.settings.lead,
+      tag: 'h1'
+    -%}
+
+    {%- if section.settings.email != blank or section.settings.phone != blank or section.settings.hours != blank -%}
+      <dl class="contact__lines">
+        {%- if section.settings.email != blank -%}
+          <div>
+            <dt>{{ 'contact.email' | t }}</dt>
+            <dd><a href="mailto:{{ section.settings.email }}">{{ section.settings.email | escape }}</a></dd>
+          </div>
+        {%- endif -%}
+        {%- if section.settings.phone != blank -%}
+          <div>
+            <dt>{{ 'contact.phone' | t }}</dt>
+            <dd><a href="tel:{{ section.settings.phone | remove: ' ' }}">{{ section.settings.phone | escape }}</a></dd>
+          </div>
+        {%- endif -%}
+        {%- if section.settings.hours != blank -%}
+          <div>
+            <dt>{{ 'contact.hours' | t }}</dt>
+            <dd>{{ section.settings.hours | escape }}</dd>
+          </div>
+        {%- endif -%}
+      </dl>
+    {%- endif -%}
+  </div>
+
+  <div class="contact__panel gcard">
+    {%- form 'contact', id: 'ContactForm', class: 'contact__form' -%}
+      {%- if form.posted_successfully? -%}
+        <p class="form-message" role="status">
+          {%- render 'icon', name: 'check' -%}
+          {{ 'contact.success' | t }}
+        </p>
+      {%- elsif form.errors -%}
+        <div class="form-message form-message--error" role="alert">
+          <ul>
+            {%- for field in form.errors -%}
+              <li>
+                {%- if field == 'form' -%}
+                  {{ form.errors.messages[field] }}
+                {%- else -%}
+                  {{ form.errors.translated_fields[field] | capitalize }}
+                  {{ form.errors.messages[field] }}
+                {%- endif -%}
+              </li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- endif -%}
+
+      <div class="contact__row">
+        <div class="field">
+          <label for="ContactForm-name">{{ 'contact.name' | t }}</label>
+          <input id="ContactForm-name" type="text" name="contact[name]" value="{{ form.name }}" autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="ContactForm-email">
+            {{- 'contact.email' | t }} <span aria-hidden="true">*</span>
+          </label>
+          <input
+            id="ContactForm-email"
+            type="email"
+            name="contact[email]"
+            value="{{ form.email }}"
+            autocomplete="email"
+            spellcheck="false"
+            autocapitalize="off"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="ContactForm-phone">{{ 'contact.phone' | t }}</label>
+        <input id="ContactForm-phone" type="tel" name="contact[phone]" value="{{ form.phone }}" autocomplete="tel">
+      </div>
+
+      <div class="field">
+        <label for="ContactForm-body">
+          {{- 'contact.message' | t }} <span aria-hidden="true">*</span>
+        </label>
+        <textarea id="ContactForm-body" name="contact[body]" required>{{ form.body }}</textarea>
+      </div>
+
+      <button class="btn contact__submit" type="submit">
+        {{- 'contact.send' | t -}}
+        <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+      </button>
+    {%- endform -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .contact {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    gap: clamp(32px, 6vw, 80px);
+    align-items: start;
+  }
+
+  .contact__intro .section-head {
+    margin-bottom: 40px;
+  }
+
+  .contact__lines {
+    margin: 0;
+  }
+
+  .contact__lines div {
+    display: grid;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 16px;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .contact__lines div:first-child {
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .contact__lines dt {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .contact__lines dd {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+
+  .contact__lines a {
+    text-decoration: none;
+  }
+
+  .contact__lines a:hover {
+    color: var(--color-accent-light);
+  }
+
+  .contact__panel {
+    padding: clamp(24px, 4vw, 48px);
+    background: radial-gradient(80% 60% at 100% 0%, rgba(var(--color-accent-rgb), 0.18), transparent 60%), rgba(10, 9, 14, 0.6);
+  }
+
+  .contact__form {
+    display: grid;
+    gap: 20px;
+  }
+
+  .contact__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .contact__submit {
+    justify-self: start;
+  }
+
+  @media (max-width: 860px) {
+    .contact {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .contact__row {
+      grid-template-columns: 1fr;
+    }
+
+    .contact__submit {
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.contact_form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin",
+      "default": "Talk to"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy",
+      "default": "us."
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "t:labels.lead",
+      "default": "<p>Questions about dosage, orders or wholesale? Send us a message and we'll get back to you within one business day.</p>"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "t:labels.email"
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "t:labels.phone"
+    },
+    {
+      "type": "text",
+      "id": "hours",
+      "label": "t:labels.hours",
+      "default": "Mon–Fri, 9:00–17:00 CET"
+    }
+  ],
+  "presets": [{ "name": "t:names.contact_form" }]
+}
+{% endschema %}

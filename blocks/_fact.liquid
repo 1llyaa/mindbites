@@ -1,0 +1,16 @@
+<li {{ block.shopify_attributes }}>{{ block.settings.text }}</li>
+
+{% schema %}
+{
+  "name": "t:names.fact",
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "<b>33</b> gummies per pouch"
+    }
+  ],
+  "presets": [{ "name": "t:names.fact" }]
+}
+{% endschema %}

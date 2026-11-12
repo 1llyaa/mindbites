@@ -1,0 +1,99 @@
+<div class="section newsletter">
+  <div class="newsletter__panel gcard reveal">
+    <div class="newsletter__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+      <h2 class="display-l">
+        {%- if section.settings.heading_thin != blank -%}
+          <span class="chrome thin">{{ section.settings.heading_thin | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading_heavy != blank -%}
+          <span class="chrome heavy">{{ section.settings.heading_heavy | escape }}</span>
+        {%- endif -%}
+      </h2>
+      {%- if section.settings.text != blank -%}
+        <div class="lead">{{ section.settings.text }}</div>
+      {%- endif -%}
+    </div>
+
+    <div class="newsletter__form">
+      {%- render 'newsletter-form', id: section.id, button_label: section.settings.button_label -%}
+      {%- if section.settings.fine_print != blank -%}
+        <p class="fine">{{ section.settings.fine_print | escape }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .newsletter__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: clamp(32px, 5vw, 72px);
+    align-items: center;
+    padding: clamp(32px, 5vw, 64px);
+    background: radial-gradient(80% 60% at 0% 0%, rgba(var(--color-accent-rgb), 0.22), transparent 60%), rgba(10, 9, 14, 0.6);
+  }
+
+  .newsletter__copy {
+    display: grid;
+    gap: 18px;
+  }
+
+  .newsletter__form {
+    display: grid;
+    gap: 14px;
+  }
+
+  @media (max-width: 860px) {
+    .newsletter__panel {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.newsletter",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Join the list"
+    },
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin",
+      "default": "Stay"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy",
+      "default": "sharp."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "<p>New drops, focus rituals and early access to limited flavours. One email a month, tops.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:labels.button_label",
+      "default": "Subscribe"
+    },
+    {
+      "type": "text",
+      "id": "fine_print",
+      "label": "t:labels.fine_print",
+      "default": "No spam. Unsubscribe any time."
+    }
+  ],
+  "presets": [{ "name": "t:names.newsletter" }]
+}
+{% endschema %}

@@ -1,39 +1,277 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
-  </div>
+<footer class="site-footer full-width">
+  <div class="site-footer__wrap content-grid">
+    <div class="site-footer__inner">
+      <div class="site-footer__top">
+        <div class="site-footer__brand">
+          <a href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+            {%- render 'logo', class: 'site-footer__logo', height: 22 -%}
+          </a>
+          {%- if settings.tagline != blank -%}
+            <p class="spaced">{{ settings.tagline | escape }}</p>
+          {%- endif -%}
+          {%- if section.settings.text != blank -%}
+            <div class="site-footer__text">{{ section.settings.text }}</div>
+          {%- endif -%}
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+          {%- liquid
+            assign has_social = false
+            if settings.social_instagram != blank or settings.social_tiktok != blank or settings.social_facebook != blank
+              assign has_social = true
+            endif
+          -%}
+          {%- if has_social -%}
+            <ul class="site-footer__social">
+              {%- if settings.social_instagram != blank -%}
+                <li>
+                  <a href="{{ settings.social_instagram }}" aria-label="Instagram" target="_blank" rel="noopener">
+                    {%- render 'icon', name: 'instagram' -%}
+                  </a>
+                </li>
+              {%- endif -%}
+              {%- if settings.social_tiktok != blank -%}
+                <li>
+                  <a href="{{ settings.social_tiktok }}" aria-label="TikTok" target="_blank" rel="noopener">
+                    {%- render 'icon', name: 'tiktok' -%}
+                  </a>
+                </li>
+              {%- endif -%}
+              {%- if settings.social_facebook != blank -%}
+                <li>
+                  <a href="{{ settings.social_facebook }}" aria-label="Facebook" target="_blank" rel="noopener">
+                    {%- render 'icon', name: 'facebook' -%}
+                  </a>
+                </li>
+              {%- endif -%}
+            </ul>
+          {%- endif -%}
+        </div>
 
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
+        <div class="site-footer__menus">
+          {%- if section.settings.menu.links.size > 0 -%}
+            <nav class="site-footer__menu" aria-label="{{ section.settings.menu.title | escape }}">
+              <p class="eyebrow">{{ section.settings.menu.title | escape }}</p>
+              <ul>
+                {%- for link in section.settings.menu.links -%}
+                  <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </nav>
+          {%- endif -%}
+          {%- if section.settings.secondary_menu.links.size > 0 -%}
+            <nav class="site-footer__menu" aria-label="{{ section.settings.secondary_menu.title | escape }}">
+              <p class="eyebrow">{{ section.settings.secondary_menu.title | escape }}</p>
+              <ul>
+                {%- for link in section.settings.secondary_menu.links -%}
+                  <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </nav>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.show_newsletter -%}
+          <div class="site-footer__newsletter">
+            <p class="eyebrow">{{ section.settings.newsletter_heading | escape }}</p>
+            {%- render 'newsletter-form', id: section.id -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="site-footer__bottom">
+        <p>
+          &copy; {{ 'now' | date: '%Y' }}
+          {{ shop.name | link_to: routes.root_url }}
+          {%- if section.settings.legal_text != blank %} · {{ section.settings.legal_text | escape }}{% endif %}
+        </p>
+
+        {%- if section.settings.show_payment_icons and shop.enabled_payment_types.size > 0 -%}
+          <ul class="site-footer__payment" aria-label="{{ 'footer.payment_methods' | t }}">
+            {%- for type in shop.enabled_payment_types -%}
+              <li>{{ type | payment_type_svg_tag }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        <a class="site-footer__top-link" href="#main-content">
+          {{- 'footer.back_to_top' | t -}}
+        </a>
+      </div>
+    </div>
   </div>
 </footer>
 
 {% stylesheet %}
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
+  .site-footer {
+    position: relative;
+    margin-top: auto;
+    color: var(--color-muted);
+    font-size: 0.9rem;
   }
-  footer a {
+
+  .site-footer::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(var(--color-accent-light-rgb), 0.35), transparent);
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: clamp(28px, 4vw, 40px);
+    padding-block: clamp(48px, 6vw, 72px) clamp(28px, 4vw, 40px);
+  }
+
+  .site-footer__top {
+    display: grid;
+    grid-template-columns: 1.2fr 1.4fr 1.2fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  .site-footer__brand {
+    display: grid;
+    gap: 14px;
+    justify-items: start;
+  }
+
+  .site-footer__logo {
+    height: 22px;
+    width: auto;
+  }
+
+  .site-footer__brand .spaced {
+    font-size: 0.72rem;
+  }
+
+  .site-footer__text {
+    max-width: 36ch;
+    line-height: 1.6;
+  }
+
+  .site-footer__social {
+    display: flex;
+    gap: 6px;
+    list-style: none;
+    margin: 4px 0 0;
+    padding: 0;
+  }
+
+  .site-footer__social a {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #c9c5d4;
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .site-footer__social a:hover {
+    color: #fff;
+    border-color: rgba(var(--color-accent-light-rgb), 0.5);
+  }
+
+  .site-footer__menus {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 32px;
+  }
+
+  .site-footer__menu {
+    display: grid;
+    gap: 16px;
+    align-content: start;
+  }
+
+  .site-footer__menu ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+
+  .site-footer a {
+    color: #c9c5d4;
     text-decoration: none;
-    color: var(--color-foreground);
+    transition: color 0.25s;
   }
-  footer .footer__links,
-  footer .footer__payment {
+
+  .site-footer a:hover {
+    color: #fff;
+  }
+
+  .site-footer__newsletter {
+    display: grid;
+    gap: 16px;
+  }
+
+  .site-footer__bottom {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px 24px;
+    font-size: 0.78rem;
+    color: var(--color-dim);
+    padding-top: clamp(24px, 3vw, 32px);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .site-footer__payment {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-footer__payment svg {
+    width: 38px;
+    height: 24px;
+  }
+
+  .site-footer .site-footer__top-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  .site-footer .site-footer__top-link:hover {
+    border-color: rgba(var(--color-accent-light-rgb), 0.5);
+  }
+
+  @media (max-width: 960px) {
+    .site-footer__top {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .site-footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .site-footer__top {
+      grid-template-columns: 1fr;
+      gap: 36px;
+    }
+
+    .site-footer__bottom {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 {% endstylesheet %}
 
@@ -42,9 +280,39 @@
   "name": "t:general.footer",
   "settings": [
     {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "<p>Microdosed nootropic gummies for energy, focus and calm, all in one bite.</p>"
+    },
+    {
       "type": "link_list",
       "id": "menu",
-      "label": "t:labels.menu"
+      "label": "t:labels.menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "link_list",
+      "id": "secondary_menu",
+      "label": "t:labels.secondary_menu",
+      "default": "footer"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_newsletter",
+      "label": "t:labels.show_newsletter",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "newsletter_heading",
+      "label": "t:labels.heading",
+      "default": "Get the drop first"
+    },
+    {
+      "type": "text",
+      "id": "legal_text",
+      "label": "t:labels.legal_text"
     },
     {
       "type": "checkbox",
@@ -52,6 +320,9 @@
       "label": "t:labels.show_payment_icons",
       "default": true
     }
-  ]
+  ],
+  "enabled_on": {
+    "groups": ["footer"]
+  }
 }
 {% endschema %}

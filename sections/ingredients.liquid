@@ -1,0 +1,155 @@
+<div class="section ingredients" id="ingredients">
+  {%- render 'section-heading',
+    eyebrow: section.settings.eyebrow,
+    heading_thin: section.settings.heading_thin,
+    heading_heavy: section.settings.heading_heavy,
+    lead: section.settings.lead,
+    layout: 'split'
+  -%}
+
+  <div class="ingredients__grid">
+    <div class="ingredients__list-wrap">
+      <ul class="ingredients__list" role="list">
+        {% content_for 'blocks' %}
+      </ul>
+      {%- if section.settings.note != blank -%}
+        <p class="ingredients__note">{{ section.settings.note | escape }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_image -%}
+      <figure class="ingredients__photo frame frame--vignette reveal">
+        {%- if section.settings.image -%}
+          {{
+            section.settings.image
+            | image_url: width: 1400
+            | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 900px) 45vw, 100vw', loading: 'lazy'
+          }}
+        {%- else -%}
+          <img
+            src="{{ 'mb-ingredients.webp' | asset_url }}"
+            alt="{{ 'ingredients.image_alt' | t }}"
+            width="1600"
+            height="2000"
+            loading="lazy"
+          >
+        {%- endif -%}
+      </figure>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .ingredients__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: clamp(32px, 6vw, 80px);
+    align-items: stretch;
+  }
+
+  .ingredients__grid:not(:has(.ingredients__photo)) {
+    grid-template-columns: 1fr;
+  }
+
+  .ingredients__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .ingredients__note {
+    color: var(--color-dim);
+    font-size: 0.8rem;
+    margin: 16px 0 0 8px;
+  }
+
+  .ingredients__photo {
+    min-height: 420px;
+  }
+
+  .ingredients__photo img {
+    position: absolute;
+    inset: 0;
+  }
+
+  @media (max-width: 900px) {
+    .ingredients__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ingredients__photo {
+      order: -1;
+      aspect-ratio: 4 / 5;
+      min-height: 0;
+      max-width: 520px;
+      width: 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.ingredients",
+  "blocks": [{ "type": "_ingredient" }],
+  "max_blocks": 10,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "The formula"
+    },
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin",
+      "default": "Six active"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy",
+      "default": "ingredients."
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "t:labels.lead",
+      "default": "<p>Six carefully chosen actives. One considered formula. Every gummy carries a precisely measured amount.</p>"
+    },
+    {
+      "type": "text",
+      "id": "note",
+      "label": "t:labels.note",
+      "default": "Amounts per 6 gummies (full dose)."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "t:labels.show_image",
+      "default": true
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image",
+      "visible_if": "{{ section.settings.show_image }}"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.ingredients",
+      "blocks": {
+        "caffeine": { "type": "_ingredient", "settings": { "icon": "caffeine", "color": "#c070ff", "name": "Caffeine", "benefit": "Energy and alertness", "amount": "100", "unit": "mg" } },
+        "theanine": { "type": "_ingredient", "settings": { "icon": "theanine", "color": "#2ee6d6", "name": "L-theanine", "benefit": "Calm focus", "amount": "80", "unit": "mg" } },
+        "tyrosine": { "type": "_ingredient", "settings": { "icon": "tyrosine", "color": "#d9c6f5", "name": "L-tyrosine", "benefit": "Mental performance", "amount": "333", "unit": "mg" } },
+        "citicoline": { "type": "_ingredient", "settings": { "icon": "citicoline", "color": "#1d93fe", "name": "Citicoline", "benefit": "Cognitive support", "amount": "150", "unit": "mg" } },
+        "b6": { "type": "_ingredient", "settings": { "icon": "b6", "color": "#fbbb0c", "name": "Vitamin B6", "benefit": "Nervous system support", "amount": "8.4", "unit": "mg" } },
+        "b12": { "type": "_ingredient", "settings": { "icon": "b12", "color": "#be36e3", "name": "Vitamin B12", "benefit": "Energy metabolism", "amount": "15", "unit": "µg" } }
+      },
+      "block_order": ["caffeine", "theanine", "tyrosine", "citicoline", "b6", "b12"]
+    }
+  ]
+}
+{% endschema %}

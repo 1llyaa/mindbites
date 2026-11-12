@@ -1,11 +1,43 @@
 [
   {
     "name": "theme_info",
-    "theme_name": "Skeleton",
-    "theme_version": "0.1.0",
-    "theme_author": "Shopify",
+    "theme_name": "MindBites",
+    "theme_version": "1.0.0",
+    "theme_author": "MindBites",
     "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
     "theme_support_url": "https://support.shopify.com/"
+  },
+  {
+    "name": "t:general.brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "t:labels.logo",
+        "info": "t:info.logo"
+      },
+      {
+        "type": "range",
+        "id": "logo_height",
+        "min": 16,
+        "max": 40,
+        "step": 1,
+        "unit": "px",
+        "label": "t:labels.logo_height",
+        "default": 24
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "t:labels.favicon"
+      },
+      {
+        "type": "text",
+        "id": "tagline",
+        "label": "t:labels.tagline",
+        "default": "Taste the edge."
+      }
+    ]
   },
   {
     "name": "t:general.typography",
@@ -17,7 +49,7 @@
       {
         "type": "font_picker",
         "id": "type_primary_font",
-        "default": "work_sans_n4",
+        "default": "inter_n4",
         "label": "t:general.primary"
       }
     ]
@@ -31,15 +63,15 @@
         "label": "t:labels.page_width",
         "options": [
           {
-            "value": "90rem",
+            "value": "77.5rem",
             "label": "t:options.page_width.narrow"
           },
           {
-            "value": "110rem",
+            "value": "90rem",
             "label": "t:options.page_width.wide"
           }
         ],
-        "default": "90rem"
+        "default": "77.5rem"
       },
       {
         "type": "range",
@@ -59,24 +91,83 @@
       {
         "type": "color",
         "id": "background_color",
-        "default": "#FFFFFF",
+        "default": "#050407",
         "label": "t:labels.background"
       },
       {
         "type": "color",
+        "id": "panel_color",
+        "default": "#0c0a12",
+        "label": "t:labels.panel"
+      },
+      {
+        "type": "color",
         "id": "foreground_color",
-        "default": "#333333",
+        "default": "#f1eff6",
         "label": "t:labels.foreground"
+      },
+      {
+        "type": "color",
+        "id": "muted_color",
+        "default": "#a29db0",
+        "label": "t:labels.muted"
+      },
+      {
+        "type": "color",
+        "id": "accent_color",
+        "default": "#623d90",
+        "label": "t:labels.accent"
+      },
+      {
+        "type": "color",
+        "id": "accent_light_color",
+        "default": "#a588c9",
+        "label": "t:labels.accent_light"
       },
       {
         "type": "range",
         "id": "input_corner_radius",
         "min": 0,
-        "max": 10,
+        "max": 16,
         "step": 1,
         "unit": "px",
         "label": "t:labels.input_corner_radius",
-        "default": 4
+        "default": 12
+      }
+    ]
+  },
+  {
+    "name": "t:general.social",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "t:labels.instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "t:labels.tiktok"
+      },
+      {
+        "type": "url",
+        "id": "social_facebook",
+        "label": "t:labels.facebook"
+      }
+    ]
+  },
+  {
+    "name": "t:general.cart",
+    "settings": [
+      {
+        "type": "select",
+        "id": "cart_type",
+        "label": "t:labels.cart_type",
+        "options": [
+          { "value": "drawer", "label": "t:options.cart_type.drawer" },
+          { "value": "page", "label": "t:options.cart_type.page" }
+        ],
+        "default": "drawer"
       }
     ]
   }

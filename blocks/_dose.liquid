@@ -1,0 +1,217 @@
+{%- liquid
+  assign fallback_image = 'mb-edge-' | append: block.settings.count | append: '.webp'
+  assign image_alt = 'dosage.image_alt' | t: count: block.settings.count
+-%}
+
+<article class="dose gcard reveal" {{ block.shopify_attributes }}>
+  <figure class="dose__media frame ratio-4-3">
+    {%- if block.settings.image -%}
+      {{
+        block.settings.image
+        | image_url: width: 900
+        | image_tag: widths: '400, 600, 900', sizes: '(min-width: 860px) 33vw, 42vw', loading: 'lazy', alt: image_alt
+      }}
+    {%- elsif block.settings.count == '3' or block.settings.count == '6' or block.settings.count == '9' -%}
+      <img src="{{ fallback_image | asset_url }}" alt="{{ image_alt }}" width="1200" height="900" loading="lazy">
+    {%- else -%}
+      {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </figure>
+
+  <div class="dose__head">
+    <div class="dose__num chrome">{{ block.settings.count | escape }}</div>
+    <div class="dose__name">{{ block.settings.name | escape }}</div>
+  </div>
+
+  {%- if block.settings.text != blank -%}
+    <p class="dose__text">{{ block.settings.text | escape }}</p>
+  {%- endif -%}
+
+  <div class="dose__meter">
+    <div class="dose__label">
+      <span>{{ block.settings.label | escape }}</span>
+      <b>{{ block.settings.amount }} {{ block.settings.unit | escape }}</b>
+    </div>
+    <div class="dose__bar"><i style="--w: {{ block.settings.level }}%"></i></div>
+  </div>
+</article>
+
+{% stylesheet %}
+  .dose {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    gap: 16px;
+    padding: 16px 16px 24px;
+  }
+
+  .dose__media {
+    border-radius: 10px;
+    isolation: isolate;
+  }
+
+  .dose__media img {
+    transition: transform 1.4s var(--ease), filter 1.4s ease;
+  }
+
+  .dose:hover .dose__media img {
+    transform: scale(1.07);
+    filter: brightness(1.08) saturate(1.08);
+  }
+
+  .dose > div,
+  .dose > p {
+    padding-inline: 8px;
+  }
+
+  .dose__num {
+    font-weight: 800;
+    font-size: 4.2rem;
+    line-height: 0.9;
+    margin-top: 6px;
+  }
+
+  .dose__name {
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-top: 10px;
+  }
+
+  .dose__text {
+    color: var(--color-muted);
+    font-size: 0.98rem;
+  }
+
+  .dose__meter {
+    display: grid;
+    gap: 10px;
+  }
+
+  .dose__label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-dim);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dose__label b {
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+
+  .dose__bar {
+    position: relative;
+    height: 3px;
+    border-radius: 3px;
+    background: rgba(255, 255, 255, 0.07);
+    overflow: hidden;
+  }
+
+  .dose__bar i {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: var(--w);
+    border-radius: 3px;
+    background: linear-gradient(90deg, #3e2560, var(--color-accent), #c7aef0);
+    box-shadow: 0 0 10px rgba(var(--color-accent-rgb), 0.9);
+    transform-origin: left;
+    transition: transform 1.8s cubic-bezier(0.22, 0.8, 0.2, 1) 0.3s;
+  }
+
+  .js .dose.reveal:not(.is-visible) .dose__bar i {
+    transform: scaleX(0);
+  }
+
+  @media (max-width: 860px) {
+    .dose {
+      grid-template-columns: 42% 1fr;
+      grid-template-rows: auto auto auto;
+      column-gap: 16px;
+      row-gap: 10px;
+      padding: 12px 12px 18px;
+    }
+
+    .dose__media {
+      grid-row: 1 / 3;
+      align-self: start;
+    }
+
+    .dose__num {
+      font-size: 3rem;
+    }
+
+    .dose__name {
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+    }
+
+    .dose__meter {
+      grid-column: 1 / -1;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.dose",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image",
+      "info": "t:info.dose_image"
+    },
+    {
+      "type": "text",
+      "id": "count",
+      "label": "t:labels.gummy_count",
+      "default": "3"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "t:labels.title",
+      "default": "Smooth kick"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "A gentle lift, any time of day."
+    },
+    {
+      "type": "text",
+      "id": "label",
+      "label": "t:labels.meter_label",
+      "default": "Caffeine"
+    },
+    {
+      "type": "number",
+      "id": "amount",
+      "label": "t:labels.amount",
+      "default": 50
+    },
+    {
+      "type": "text",
+      "id": "unit",
+      "label": "t:labels.unit",
+      "default": "mg"
+    },
+    {
+      "type": "range",
+      "id": "level",
+      "label": "t:labels.meter_level",
+      "min": 5,
+      "max": 100,
+      "step": 1,
+      "unit": "%",
+      "default": 33
+    }
+  ],
+  "presets": [{ "name": "t:names.dose" }]
+}
+{% endschema %}

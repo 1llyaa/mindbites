@@ -1,0 +1,111 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "eyebrow": "FAQ",
+        "heading_thin": "Everything",
+        "heading_heavy": "you need to know.",
+        "lead": "<p>Dosage, ingredients, shipping and returns. Can't find your answer? <a href=\"/pages/contact\">Contact us</a>.</p>",
+        "heading_tag": "h1",
+        "page_top": true
+      },
+      "blocks": {
+        "q_dose": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "How many gummies should I take?",
+            "answer": "<p>Start with 3 gummies (50 mg caffeine) and see how you feel. 6 gummies is the full dose (100 mg). Never take more than 9 gummies in a day.</p>"
+          }
+        },
+        "q_caffeine": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "How much caffeine is in one gummy?",
+            "answer": "<p>Each gummy contains 16.67 mg of caffeine, roughly a fifth of an espresso. That makes it easy to dial the dose up or down.</p>"
+          }
+        },
+        "q_when": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "When will I feel it?",
+            "answer": "<p>Most people notice the lift within 20–40 minutes. L-theanine smooths it out, so you get steady focus instead of a spike and a crash.</p>"
+          }
+        },
+        "q_who": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "Who shouldn't take MindBites?",
+            "answer": "<p>MindBites isn't for children, people under 18, or anyone pregnant or breastfeeding. If you're sensitive to caffeine or take medication, talk to your doctor first.</p>"
+          }
+        },
+        "q_combine": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "Can I combine it with coffee?",
+            "answer": "<p>Count your coffee towards your daily caffeine total. Most adults should stay under 400 mg of caffeine a day from all sources.</p>"
+          }
+        },
+        "q_store": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "How should I store the pouch?",
+            "answer": "<p>Keep the pouch sealed in a cool, dry place away from direct sunlight, and out of reach of children.</p>"
+          }
+        },
+        "q_ship": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "Where do you ship?",
+            "answer": "<p>We ship across the EU. Orders usually leave our warehouse within one business day.</p>"
+          }
+        },
+        "q_return": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "Can I return an order?",
+            "answer": "<p>Unopened pouches can be returned within 30 days. Get in touch through the contact page and we'll sort it out.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q_dose",
+        "q_caffeine",
+        "q_when",
+        "q_who",
+        "q_combine",
+        "q_store",
+        "q_ship",
+        "q_return"
+      ]
+    },
+    "cta": {
+      "type": "rich-text",
+      "settings": {
+        "eyebrow": "Still curious?",
+        "heading_thin": "We're",
+        "heading_heavy": "here to help.",
+        "heading_size": "m",
+        "heading_tag": "h2",
+        "text": "<p>Drop us a line and a real person will reply within one business day.</p>",
+        "button_label": "Contact us",
+        "button_link": "/pages/contact",
+        "alignment": "center",
+        "page_top": false
+      }
+    }
+  },
+  "order": [
+    "faq",
+    "cta"
+  ]
+}

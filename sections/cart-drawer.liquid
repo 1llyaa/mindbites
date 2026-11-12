@@ -1,0 +1,223 @@
+<cart-drawer class="cart-drawer">
+  <dialog class="cart-drawer__dialog" aria-labelledby="CartDrawerTitle" scroll-lock>
+    <div class="cart-drawer__panel" data-cart-drawer-body>
+      <span hidden data-cart-drawer-count="{{ cart.item_count }}"></span>
+
+      <div class="cart-drawer__head">
+        <h2 id="CartDrawerTitle" class="cart-drawer__title">
+          {{ 'cart.title' | t }}
+          {%- if cart.item_count > 0 %} <span>({{ cart.item_count }})</span>{% endif -%}
+        </h2>
+        <button class="cart-drawer__close" type="button" data-cart-close aria-label="{{ 'accessibility.close' | t }}">
+          {%- render 'icon', name: 'close' -%}
+        </button>
+      </div>
+
+      {%- if cart.item_count == 0 -%}
+        <div class="cart-drawer__empty">
+          {%- render 'icon', name: 'brain', class: 'cart-drawer__empty-icon' -%}
+          <p class="spaced">{{ 'cart.empty' | t }}</p>
+          <a class="btn" href="{{ routes.all_products_collection_url }}">
+            {{- 'cart.continue_shopping' | t -}}
+            <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+          </a>
+        </div>
+      {%- else -%}
+        <ul class="cart-drawer__items" role="list">
+          {%- for item in cart.items -%}
+            {%- render 'cart-line', item: item, index: forloop.index, drawer: true -%}
+          {%- endfor -%}
+        </ul>
+
+        <p class="form-message form-message--error" data-cart-error hidden></p>
+
+        <div class="cart-drawer__foot">
+          {%- if cart.cart_level_discount_applications.size > 0 -%}
+            <ul class="cart-drawer__discounts" role="list">
+              {%- for discount in cart.cart_level_discount_applications -%}
+                <li>
+                  <span>{{ discount.title | escape }}</span>
+                  <span>-{{ discount.total_allocated_amount | money }}</span>
+                </li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          <div class="cart-drawer__subtotal">
+            <span>{{ 'cart.subtotal' | t }}</span>
+            <b>{{ cart.total_price | money_with_currency }}</b>
+          </div>
+          <p class="fine">{{ 'cart.taxes_and_shipping' | t }}</p>
+          <form action="{{ routes.cart_url }}" method="post">
+            <button class="btn btn--block" type="submit" name="checkout">
+              {{- 'cart.checkout' | t -}}
+              <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+            </button>
+          </form>
+          <a class="cart-drawer__view" href="{{ routes.cart_url }}">{{ 'cart.view_cart' | t }}</a>
+        </div>
+      {%- endif -%}
+    </div>
+  </dialog>
+</cart-drawer>
+
+{% stylesheet %}
+  .cart-drawer__dialog {
+    position: fixed;
+    inset: 0 0 0 auto;
+    width: min(440px, 100vw);
+    max-width: 100vw;
+    height: 100%;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-left: 1px solid rgba(var(--color-accent-rgb), 0.3);
+    background: radial-gradient(80% 40% at 100% 0%, rgba(var(--color-accent-rgb), 0.22), transparent 70%),
+      var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .cart-drawer__dialog[open] {
+    animation: drawer-in 0.45s var(--ease) both;
+  }
+
+  .cart-drawer__dialog::backdrop {
+    background: rgba(5, 4, 7, 0.6);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  @keyframes drawer-in {
+    from {
+      transform: translateX(100%);
+    }
+  }
+
+  .cart-drawer__panel {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0 24px;
+  }
+
+  .cart-drawer.is-busy .cart-drawer__items {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .cart-drawer__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    min-height: var(--header-height);
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .cart-drawer__title {
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+  }
+
+  .cart-drawer__title span {
+    color: var(--color-muted);
+  }
+
+  .cart-drawer__close {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.03);
+    color: var(--color-foreground);
+    cursor: pointer;
+  }
+
+  .cart-drawer__close:hover {
+    border-color: rgba(var(--color-accent-light-rgb), 0.5);
+  }
+
+  .cart-drawer__empty {
+    flex: 1;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .cart-drawer__empty-icon {
+    width: 64px;
+    height: 64px;
+    color: var(--color-accent);
+    filter: drop-shadow(0 0 14px rgba(var(--color-accent-rgb), 0.7));
+  }
+
+  .cart-drawer__items {
+    flex: 1;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    transition: opacity 0.2s;
+  }
+
+  .cart-drawer__foot {
+    display: grid;
+    gap: 12px;
+    padding: 20px 0 calc(24px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .cart-drawer__discounts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.85rem;
+    color: var(--color-accent-light);
+  }
+
+  .cart-drawer__discounts li,
+  .cart-drawer__subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .cart-drawer__subtotal span {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .cart-drawer__subtotal b {
+    font-size: 1.3rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cart-drawer__view {
+    justify-self: center;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .cart-drawer__view:hover {
+    color: #fff;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:general.cart_drawer",
+  "settings": []
+}
+{% endschema %}

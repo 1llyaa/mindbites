@@ -9,53 +9,361 @@
  */
 {
   "sections": {
-    "password_MxeGai": {
-      "type": "password",
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "heading_thin": "Supplementation meets",
+        "heading_heavy": "snacking.",
+        "text": "Functional gummies for energy, focus and mental performance.",
+        "show_gummies": true,
+        "glow": 38,
+        "product": "mindbites",
+        "show_price": true,
+        "button_label": "Shop MindBites",
+        "secondary_label": "How it works",
+        "secondary_link": "#effects"
+      },
       "blocks": {
-        "pillar_UMF9Bd": {
-          "type": "pillar",
+        "fact_count": {
+          "type": "_fact",
           "settings": {
-            "icon": "∧",
-            "label": "BOOST"
+            "text": "<b>33</b> gummies per pouch"
           }
         },
-        "pillar_VYYUAM": {
-          "type": "pillar",
+        "fact_eu": {
+          "type": "_fact",
           "settings": {
-            "icon": "◯",
-            "label": "FOCUS"
-          }
-        },
-        "pillar_ab4YTE": {
-          "type": "pillar",
-          "settings": {
-            "icon": "∞",
-            "label": "SUSTAIN"
+            "text": "Made in the <b>EU</b>"
           }
         }
       },
       "block_order": [
-        "pillar_UMF9Bd",
-        "pillar_VYYUAM",
-        "pillar_ab4YTE"
-      ],
-      "name": "t:password.name",
+        "fact_count",
+        "fact_eu"
+      ]
+    },
+    "effects": {
+      "type": "effects",
       "settings": {
-        "brand_name": "MindBites",
-        "badge_text": "Store opening soon",
-        "heading_accent": "Finally something that powers you up",
-        "heading": "without burning you out.",
-        "description": "<p>Keeps you sharp, calm, and fully in the game — <strong>no crash, no mental hangover, no loss of drive.</strong></p>",
-        "button_text": "Notify me",
-        "disclaimer_text": "Early-access drops + a launch-day discount. No spam.",
-        "success_title": "You're on the list.",
-        "success_message": "We'll email you the moment the doors open.",
-        "product_image": "shopify://shop_images/patrikovo_bottle.png",
-        "accent_color": "#c79a4f"
+        "flush_top": true
+      },
+      "blocks": {
+        "boost": {
+          "type": "_effect",
+          "settings": {
+            "icon": "boost",
+            "title": "Boost",
+            "text": "Energy that kicks in, without the jitters."
+          }
+        },
+        "sustain": {
+          "type": "_effect",
+          "settings": {
+            "icon": "sustain",
+            "title": "Sustain",
+            "text": "Steady focus that lasts. No crash."
+          }
+        },
+        "focus": {
+          "type": "_effect",
+          "settings": {
+            "icon": "focus",
+            "title": "Focus",
+            "text": "Clear head, full concentration."
+          }
+        }
+      },
+      "block_order": [
+        "boost",
+        "sustain",
+        "focus"
+      ]
+    },
+    "dosage": {
+      "type": "dosage",
+      "settings": {
+        "eyebrow": "Same great taste. Different intensity.",
+        "heading_thin": "Choose",
+        "heading_heavy": "your edge.",
+        "lead": "<p>One pouch holds 33 gummies, each with a precise microdose. You set the intensity, from a gentle lift to the full dose.</p>",
+        "note_left": "16.67 mg caffeine per gummy",
+        "note_right": "One product · three intensities"
+      },
+      "blocks": {
+        "dose_3": {
+          "type": "_dose",
+          "settings": {
+            "count": "3",
+            "name": "Smooth kick",
+            "text": "A gentle lift, any time of day.",
+            "label": "Caffeine",
+            "amount": 50,
+            "unit": "mg",
+            "level": 33
+          }
+        },
+        "dose_6": {
+          "type": "_dose",
+          "settings": {
+            "count": "6",
+            "name": "Full dose",
+            "text": "The balanced everyday dose.",
+            "label": "Caffeine",
+            "amount": 100,
+            "unit": "mg",
+            "level": 67
+          }
+        },
+        "dose_9": {
+          "type": "_dose",
+          "settings": {
+            "count": "9",
+            "name": "Max potential",
+            "text": "For the days you need more.",
+            "label": "Caffeine",
+            "amount": 150,
+            "unit": "mg",
+            "level": 100
+          }
+        }
+      },
+      "block_order": [
+        "dose_3",
+        "dose_6",
+        "dose_9"
+      ]
+    },
+    "ingredients": {
+      "type": "ingredients",
+      "settings": {
+        "eyebrow": "The formula",
+        "heading_thin": "Six active",
+        "heading_heavy": "ingredients.",
+        "lead": "<p>Six carefully chosen actives. One considered formula. Every gummy carries a precisely measured amount.</p>",
+        "note": "Amounts per 6 gummies (full dose).",
+        "show_image": true
+      },
+      "blocks": {
+        "caffeine": {
+          "type": "_ingredient",
+          "settings": {
+            "icon": "caffeine",
+            "color": "#c070ff",
+            "name": "Caffeine",
+            "benefit": "Energy and alertness",
+            "amount": "100",
+            "unit": "mg"
+          }
+        },
+        "theanine": {
+          "type": "_ingredient",
+          "settings": {
+            "icon": "theanine",
+            "color": "#2ee6d6",
+            "name": "L-theanine",
+            "benefit": "Calm focus",
+            "amount": "80",
+            "unit": "mg"
+          }
+        },
+        "tyrosine": {
+          "type": "_ingredient",
+          "settings": {
+            "icon": "tyrosine",
+            "color": "#d9c6f5",
+            "name": "L-tyrosine",
+            "benefit": "Mental performance",
+            "amount": "333",
+            "unit": "mg"
+          }
+        },
+        "citicoline": {
+          "type": "_ingredient",
+          "settings": {
+            "icon": "citicoline",
+            "color": "#1d93fe",
+            "name": "Citicoline",
+            "benefit": "Cognitive support",
+            "amount": "150",
+            "unit": "mg"
+          }
+        },
+        "b6": {
+          "type": "_ingredient",
+          "settings": {
+            "icon": "b6",
+            "color": "#fbbb0c",
+            "name": "Vitamin B6",
+            "benefit": "Nervous system support",
+            "amount": "8.4",
+            "unit": "mg"
+          }
+        },
+        "b12": {
+          "type": "_ingredient",
+          "settings": {
+            "icon": "b12",
+            "color": "#be36e3",
+            "name": "Vitamin B12",
+            "benefit": "Energy metabolism",
+            "amount": "15",
+            "unit": "µg"
+          }
+        }
+      },
+      "block_order": [
+        "caffeine",
+        "theanine",
+        "tyrosine",
+        "citicoline",
+        "b6",
+        "b12"
+      ]
+    },
+    "trust": {
+      "type": "trust-strip",
+      "settings": {},
+      "blocks": {
+        "gmp": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "GMP",
+            "label": "GMP certified"
+          }
+        },
+        "haccp": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "HACCP",
+            "label": "HACCP"
+          }
+        },
+        "eu": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "EU",
+            "label": "Made in the EU"
+          }
+        },
+        "lab": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "LAB",
+            "label": "Lab tested"
+          }
+        },
+        "dose": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "µ",
+            "label": "Microdosed"
+          }
+        }
+      },
+      "block_order": [
+        "gmp",
+        "haccp",
+        "eu",
+        "lab",
+        "dose"
+      ]
+    },
+    "shop": {
+      "type": "featured-product",
+      "settings": {
+        "product": "mindbites",
+        "eyebrow": "One pouch. Three intensities.",
+        "heading_thin": "Taste",
+        "heading_heavy": "the edge.",
+        "show_description": true,
+        "show_dynamic_checkout": true,
+        "perk_1": "Fast EU shipping",
+        "perk_2": "Lab-tested, GMP-certified production",
+        "perk_3": "Made in the EU"
+      }
+    },
+    "story": {
+      "type": "image-with-text",
+      "settings": {
+        "fallback_image": "display-stand",
+        "image_fit": "contain",
+        "layout": "image-right",
+        "eyebrow": "A new category",
+        "heading_thin": "Not a pill.",
+        "heading_heavy": "Not a drink.",
+        "text": "<p>MindBites sits between supplements and snacks: a premium gummy you actually want to reach for. Clean energy from caffeine, balanced by L-theanine, backed by tyrosine, citicoline and B vitamins.</p><p>Pocket-sized, precisely dosed and ready when you are.</p>",
+        "button_label": "Our story",
+        "button_link": "/pages/about"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "eyebrow": "Questions",
+        "heading_thin": "Good to",
+        "heading_heavy": "know.",
+        "lead": "<p>Everything about dosage, caffeine and orders. Still curious? <a href=\"/pages/faq\">Read the full FAQ</a>.</p>",
+        "heading_tag": "h2",
+        "page_top": false
+      },
+      "blocks": {
+        "q_dose": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "How many gummies should I take?",
+            "answer": "<p>Start with 3 gummies (50 mg caffeine) and see how you feel. 6 gummies is the full dose (100 mg). Never take more than 9 gummies in a day.</p>"
+          }
+        },
+        "q_caffeine": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "How much caffeine is in one gummy?",
+            "answer": "<p>Each gummy contains 16.67 mg of caffeine, roughly a fifth of an espresso. That makes it easy to dial the dose up or down.</p>"
+          }
+        },
+        "q_when": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "When will I feel it?",
+            "answer": "<p>Most people notice the lift within 20–40 minutes. L-theanine smooths it out, so you get steady focus instead of a spike and a crash.</p>"
+          }
+        },
+        "q_who": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "Who shouldn't take MindBites?",
+            "answer": "<p>MindBites isn't for children, people under 18, or anyone pregnant or breastfeeding. If you're sensitive to caffeine or take medication, talk to your doctor first.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "q_dose",
+        "q_caffeine",
+        "q_when",
+        "q_who"
+      ]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Join the list",
+        "heading_thin": "Stay",
+        "heading_heavy": "sharp.",
+        "text": "<p>New drops, focus rituals and early access to limited releases. One email a month, tops.</p>",
+        "button_label": "Subscribe",
+        "fine_print": "No spam. Unsubscribe any time."
       }
     }
   },
   "order": [
-    "password_MxeGai"
+    "hero",
+    "effects",
+    "dosage",
+    "ingredients",
+    "trust",
+    "shop",
+    "story",
+    "faq",
+    "newsletter"
   ]
 }

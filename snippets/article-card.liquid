@@ -1,0 +1,118 @@
+{% doc %}
+  Renders a blog article card with image, date, title and excerpt.
+
+  @param {object} article - The article to show
+  @param {boolean} [show_excerpt] - Show the excerpt, defaults to true
+
+  @example
+  {% render 'article-card', article: article %}
+{% enddoc %}
+
+<article class="article-card gcard reveal">
+  <a class="article-card__media" href="{{ article.url }}" tabindex="-1" aria-hidden="true">
+    {%- if article.image -%}
+      {{
+        article.image
+        | image_url: width: 900
+        | image_tag: widths: '400, 600, 900', sizes: '(min-width: 990px) 33vw, (min-width: 600px) 50vw, 100vw', loading: 'lazy', alt: ''
+      }}
+    {%- else -%}
+      <img src="{{ 'mb-ingredients.webp' | asset_url }}" alt="" width="1600" height="2000" loading="lazy">
+    {%- endif -%}
+  </a>
+  <div class="article-card__body">
+    <p class="article-card__meta">{{ article.published_at | time_tag: format: 'date' }}</p>
+    <h3 class="article-card__title">
+      <a href="{{ article.url }}">{{ article.title | escape }}</a>
+    </h3>
+    {%- if show_excerpt != false -%}
+      {%- assign excerpt = article.excerpt | default: article.content | strip_html | truncatewords: 24 -%}
+      {%- if excerpt != blank -%}
+        <p class="article-card__excerpt">{{ excerpt }}</p>
+      {%- endif -%}
+    {%- endif -%}
+    <span class="article-card__more">{{ 'blog.read_more' | t }} {% render 'icon', name: 'arrow' %}</span>
+  </div>
+</article>
+
+{% stylesheet %}
+  .article-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+
+  .article-card__media {
+    display: block;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .article-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.4s var(--ease), filter 1.4s ease;
+  }
+
+  .article-card:hover .article-card__media img {
+    transform: scale(1.06);
+    filter: brightness(1.08);
+  }
+
+  .article-card__body {
+    display: grid;
+    align-content: start;
+    gap: 12px;
+    padding: 22px 24px 26px;
+  }
+
+  .article-card__meta {
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-accent-light);
+  }
+
+  .article-card__title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .article-card__title a {
+    text-decoration: none;
+  }
+
+  .article-card__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+
+  .article-card__excerpt {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+
+  .article-card__more {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #d9d6e2;
+  }
+
+  .article-card__more svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .article-card:hover .article-card__more svg {
+    transform: translateX(4px);
+  }
+{% endstylesheet %}

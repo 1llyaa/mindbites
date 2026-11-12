@@ -5,31 +5,86 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/blog
 {% endcomment %}
 
-<h1>{{ blog.title }}</h1>
+<div class="section section--page-top blog-page">
+  {%- render 'section-heading',
+    eyebrow: section.settings.eyebrow,
+    heading_heavy: blog.title,
+    lead: section.settings.lead,
+    layout: 'split',
+    tag: 'h1'
+  -%}
 
-{% paginate blog.articles by 5 %}
-  {% for article in blog.articles %}
-    <div>
-      {% if article.image %}
-        {{ article.image | image_url: width: 1000 | image_tag }}
-      {% endif %}
-      <h2>
-        {{ article.title | link_to: article.url }}
-      </h2>
-      {% assign date = article.published_at | time_tag: format: 'date' %}
-      <p>{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
-      <p>{{ article.excerpt }}</p>
-    </div>
-  {% endfor %}
-
-  {%- if paginate.pages > 1 -%}
-    {{- paginate | default_pagination -}}
+  {%- if blog.all_tags.size > 0 -%}
+    <nav class="blog-page__tags" aria-label="{{ 'blog.tags' | t }}">
+      <a class="pill" href="{{ blog.url }}" {% if current_tags == blank %}aria-current="true"{% endif %}>
+        {{- 'blog.all' | t -}}
+      </a>
+      {%- for tag in blog.all_tags -%}
+        <a
+          class="pill"
+          href="{{ blog.url }}/tagged/{{ tag | handleize }}"
+          {% if current_tags contains tag %}
+            aria-current="true"
+          {% endif %}
+        >
+          {{- tag | escape -}}
+        </a>
+      {%- endfor -%}
+    </nav>
   {%- endif -%}
-{% endpaginate %}
+
+  {%- paginate blog.articles by 9 -%}
+    <div class="article-grid">
+      {%- for article in blog.articles -%}
+        {%- render 'article-card', article: article -%}
+      {%- else -%}
+        <div class="empty-state">
+          <p class="spaced">{{ 'blog.empty' | t }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="pagination" aria-label="{{ 'general.pagination' | t }}">{{ paginate | default_pagination }}</nav>
+    {%- endif -%}
+  {%- endpaginate -%}
+</div>
+
+{% stylesheet %}
+  .blog-page__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: -24px 0 32px;
+  }
+
+  .article-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
+    gap: 20px;
+  }
+
+  .article-grid .empty-state {
+    grid-column: 1 / -1;
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.blog",
-  "settings": []
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Journal"
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "t:labels.lead",
+      "default": "<p>Notes on focus, energy and the science behind every bite.</p>"
+    }
+  ]
 }
 {% endschema %}

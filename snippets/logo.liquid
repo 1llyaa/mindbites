@@ -1,0 +1,36 @@
+{% doc %}
+  Renders the store logo: the logo theme setting when set, otherwise the
+  bundled MindBites wordmark.
+
+  @param {string} [class] - Optional class added to the image
+  @param {number} [height] - Display height in pixels, defaults to the logo height setting
+
+  @example
+  {% render 'logo', class: 'site-header__logo' %}
+{% enddoc %}
+
+{%- liquid
+  assign logo_height = height | default: settings.logo_height
+  assign logo_alt = shop.name | escape
+-%}
+
+{%- if settings.logo -%}
+  {%- liquid
+    assign logo_width = settings.logo.aspect_ratio | times: logo_height | round
+    assign logo_src_height = logo_height | times: 2
+  -%}
+  {{
+    settings.logo
+    | image_url: height: logo_src_height
+    | image_tag: class: class, alt: logo_alt, height: logo_height, width: logo_width, loading: 'eager'
+  }}
+{%- else -%}
+  {%- assign logo_width = 896 | times: logo_height | divided_by: 152 -%}
+  <img
+    src="{{ 'mb-logo.webp' | asset_url }}"
+    class="{{ class }}"
+    alt="{{ logo_alt }}"
+    width="{{ logo_width }}"
+    height="{{ logo_height }}"
+  >
+{%- endif -%}

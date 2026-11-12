@@ -1,0 +1,131 @@
+{%- assign featured = section.settings.product -%}
+
+<div class="section featured-product" id="shop">
+  {%- render 'section-heading',
+    eyebrow: section.settings.eyebrow,
+    heading_thin: section.settings.heading_thin,
+    heading_heavy: section.settings.heading_heavy,
+    layout: 'center'
+  -%}
+
+  <div class="featured-product__panel gcard">
+    {%- if featured != blank -%}
+      {%- render 'product-gallery', product: featured -%}
+      {%- render 'product-buybox',
+        product: featured,
+        id: section.id,
+        title_tag: 'h3',
+        show_description: section.settings.show_description,
+        show_dynamic_checkout: section.settings.show_dynamic_checkout,
+        perk_1: section.settings.perk_1,
+        perk_2: section.settings.perk_2,
+        perk_3: section.settings.perk_3
+      -%}
+    {%- else -%}
+      <div class="gallery">
+        <div class="gallery__glow" aria-hidden="true"></div>
+        <div class="gallery__slide">
+          <img
+            src="{{ 'mb-hero-pouch.webp' | asset_url }}"
+            alt="{{ 'hero.pouch_alt' | t }}"
+            width="1600"
+            height="2000"
+            loading="lazy"
+          >
+        </div>
+      </div>
+      <div class="buybox">
+        <h3 class="buybox__title"><span class="chrome heavy">{{ 'featured_product.placeholder_title' | t }}</span></h3>
+        <p class="lead">{{ 'featured_product.placeholder_text' | t }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .featured-product__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: center;
+    padding: clamp(20px, 4vw, 56px);
+    background: radial-gradient(80% 60% at 0% 0%, rgba(var(--color-accent-rgb), 0.18), transparent 60%), rgba(10, 9, 14, 0.6);
+  }
+
+  .featured-product__panel .gallery__track {
+    border: 0;
+    background: none;
+  }
+
+  @media (max-width: 860px) {
+    .featured-product__panel {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.featured_product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:labels.product"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "One pouch. Three intensities."
+    },
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin",
+      "default": "Taste"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy",
+      "default": "the edge."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "t:labels.show_description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "t:labels.show_dynamic_checkout",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:labels.perks"
+    },
+    {
+      "type": "text",
+      "id": "perk_1",
+      "label": "t:labels.perk_1",
+      "default": "Fast EU shipping"
+    },
+    {
+      "type": "text",
+      "id": "perk_2",
+      "label": "t:labels.perk_2",
+      "default": "Lab-tested, GMP-certified production"
+    },
+    {
+      "type": "text",
+      "id": "perk_3",
+      "label": "t:labels.perk_3",
+      "default": "Made in the EU"
+    }
+  ],
+  "presets": [{ "name": "t:names.featured_product" }]
+}
+{% endschema %}

@@ -1,0 +1,216 @@
+{% doc %}
+  Renders a single cart line item. In the drawer, quantity and remove use the
+  Ajax cart API through the `cart-drawer` element; on the cart page they post
+  the surrounding cart form.
+
+  @param {object} item - The cart line item
+  @param {number} index - 1-based line index
+  @param {boolean} [drawer] - True when rendered inside the cart drawer
+
+  @example
+  {% render 'cart-line', item: item, index: forloop.index, drawer: true %}
+{% enddoc %}
+
+<li class="cart-line" data-line="{{ index }}">
+  <a class="cart-line__media" href="{{ item.url }}" tabindex="-1" aria-hidden="true">
+    {%- if item.image -%}
+      {{ item.image | image_url: width: 240 | image_tag: loading: 'lazy', alt: '' }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </a>
+
+  <div class="cart-line__info">
+    <a class="cart-line__title" href="{{ item.url }}">{{ item.product.title | escape }}</a>
+    {%- unless item.product.has_only_default_variant -%}
+      <p class="cart-line__variant">{{ item.variant.title | escape }}</p>
+    {%- endunless -%}
+    {%- for property in item.properties -%}
+      {%- assign first_char = property.first | slice: 0 -%}
+      {%- if property.last != blank and first_char != '_' -%}
+        <p class="cart-line__variant">{{ property.first | escape }}: {{ property.last | escape }}</p>
+      {%- endif -%}
+    {%- endfor -%}
+
+    <div class="cart-line__controls">
+      <quantity-input class="qty qty--sm">
+        <button type="button" data-step="-1" aria-label="{{ 'products.decrease_quantity' | t }}">
+          {%- render 'icon', name: 'minus' -%}
+        </button>
+        <input
+          type="number"
+          {% unless drawer %}
+            name="updates[]"
+          {% endunless %}
+          value="{{ item.quantity }}"
+          min="0"
+          inputmode="numeric"
+          aria-label="{{ 'products.quantity_for' | t: title: item.product.title | escape }}"
+        >
+        <button type="button" data-step="1" aria-label="{{ 'products.increase_quantity' | t }}">
+          {%- render 'icon', name: 'plus' -%}
+        </button>
+      </quantity-input>
+
+      {%- if drawer -%}
+        <button class="cart-line__remove" type="button" data-remove-line="{{ index }}">
+          {{- 'cart.remove' | t -}}
+        </button>
+      {%- else -%}
+        <a class="cart-line__remove" href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="cart-line__price">
+    {%- if item.original_line_price > item.final_line_price -%}
+      <s>{{ item.original_line_price | money }}</s>
+    {%- endif -%}
+    <span>{{ item.final_line_price | money }}</span>
+  </div>
+</li>
+
+{% stylesheet %}
+  .cart-line {
+    display: grid;
+    grid-template-columns: 84px minmax(0, 1fr) auto;
+    gap: 16px;
+    align-items: start;
+    padding-block: 18px;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .cart-line__media {
+    display: block;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    background: radial-gradient(circle at 50% 40%, rgba(var(--color-accent-rgb), 0.25), transparent 70%), var(--color-panel);
+  }
+
+  .cart-line__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .cart-line__info {
+    display: grid;
+    gap: 4px;
+    min-width: 0;
+  }
+
+  .cart-line__title {
+    font-weight: 500;
+    color: var(--color-foreground);
+    text-decoration: none;
+    line-height: 1.35;
+  }
+
+  .cart-line__variant {
+    font-size: 0.8rem;
+    color: var(--color-muted);
+  }
+
+  .cart-line__controls {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 10px;
+  }
+
+  .cart-line__remove {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  .cart-line__remove:hover {
+    color: #fff;
+  }
+
+  .cart-line__price {
+    display: grid;
+    justify-items: end;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .cart-line__price s {
+    font-size: 0.8rem;
+    color: var(--color-dim);
+  }
+
+  /* Quantity stepper, shared with the product form */
+  .qty {
+    display: inline-flex;
+    align-items: center;
+    height: 54px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .qty button {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 100%;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-foreground);
+    cursor: pointer;
+    border-radius: 999px;
+  }
+
+  .qty button:hover {
+    color: var(--color-accent-light);
+  }
+
+  .qty .icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .qty input {
+    width: 36px;
+    padding: 0;
+    border: 0;
+    background: none;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+
+  .qty input::-webkit-outer-spin-button,
+  .qty input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .qty input:focus {
+    outline: none;
+  }
+
+  .qty--sm {
+    height: 38px;
+  }
+
+  .qty--sm button {
+    width: 34px;
+  }
+
+  .qty--sm input {
+    width: 28px;
+    font-size: 0.9rem;
+  }
+{% endstylesheet %}

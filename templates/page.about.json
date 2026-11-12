@@ -1,0 +1,166 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "intro": {
+      "type": "rich-text",
+      "settings": {
+        "eyebrow": "About MindBites",
+        "heading_thin": "Built for",
+        "heading_heavy": "the edge.",
+        "heading_size": "xl",
+        "heading_tag": "h1",
+        "text": "<p>We wanted the focus of a strong coffee without the crash, the jitters or the queue. So we put it in a gummy, and made it taste good.</p>",
+        "alignment": "center",
+        "page_top": true
+      }
+    },
+    "main": {
+      "type": "page",
+      "settings": {
+        "show_title": false,
+        "width": "narrow"
+      }
+    },
+    "why": {
+      "type": "image-with-text",
+      "settings": {
+        "fallback_image": "ingredients",
+        "image_fit": "cover",
+        "layout": "image-left",
+        "eyebrow": "Why a gummy",
+        "heading_thin": "Supplementation",
+        "heading_heavy": "meets snacking.",
+        "text": "<p>Pills feel clinical. Energy drinks feel like a compromise. A gummy is something you actually look forward to, and it lets you choose your dose bite by bite.</p><p>Every MindBites gummy carries the same precise microdose, so 3, 6 or 9 always means the same thing.</p>"
+      }
+    },
+    "effects": {
+      "type": "effects",
+      "settings": {
+        "eyebrow": "What it does",
+        "heading_thin": "Three effects.",
+        "heading_heavy": "One bite.",
+        "flush_top": false
+      },
+      "blocks": {
+        "boost": {
+          "type": "_effect",
+          "settings": {
+            "icon": "boost",
+            "title": "Boost",
+            "text": "Energy that kicks in, without the jitters."
+          }
+        },
+        "sustain": {
+          "type": "_effect",
+          "settings": {
+            "icon": "sustain",
+            "title": "Sustain",
+            "text": "Steady focus that lasts. No crash."
+          }
+        },
+        "focus": {
+          "type": "_effect",
+          "settings": {
+            "icon": "focus",
+            "title": "Focus",
+            "text": "Clear head, full concentration."
+          }
+        }
+      },
+      "block_order": [
+        "boost",
+        "sustain",
+        "focus"
+      ]
+    },
+    "made": {
+      "type": "image-with-text",
+      "settings": {
+        "fallback_image": "display-stand",
+        "image_fit": "contain",
+        "layout": "image-right",
+        "eyebrow": "How it's made",
+        "heading_thin": "Made in the EU.",
+        "heading_heavy": "Tested in a lab.",
+        "text": "<p>MindBites is produced in GMP- and HACCP-certified facilities in the EU, and every batch is lab-tested before it ships.</p>",
+        "button_label": "Shop MindBites"
+      }
+    },
+    "trust": {
+      "type": "trust-strip",
+      "settings": {},
+      "blocks": {
+        "gmp": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "GMP",
+            "label": "GMP certified"
+          }
+        },
+        "haccp": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "HACCP",
+            "label": "HACCP"
+          }
+        },
+        "eu": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "EU",
+            "label": "Made in the EU"
+          }
+        },
+        "lab": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "LAB",
+            "label": "Lab tested"
+          }
+        },
+        "dose": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "µ",
+            "label": "Microdosed"
+          }
+        }
+      },
+      "block_order": [
+        "gmp",
+        "haccp",
+        "eu",
+        "lab",
+        "dose"
+      ]
+    },
+    "newsletter": {
+      "type": "newsletter",
+      "settings": {
+        "eyebrow": "Join the list",
+        "heading_thin": "Stay",
+        "heading_heavy": "sharp.",
+        "text": "<p>New drops, focus rituals and early access to limited releases. One email a month, tops.</p>",
+        "button_label": "Subscribe",
+        "fine_print": "No spam. Unsubscribe any time."
+      }
+    }
+  },
+  "order": [
+    "intro",
+    "main",
+    "why",
+    "effects",
+    "made",
+    "trust",
+    "newsletter"
+  ]
+}

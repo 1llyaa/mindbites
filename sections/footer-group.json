@@ -13,9 +13,13 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "disabled": true,
       "settings": {
-        "menu": "",
+        "text": "<p>Microdosed nootropic gummies for energy, focus and calm, all in one bite.</p>",
+        "menu": "main-menu",
+        "secondary_menu": "footer",
+        "show_newsletter": true,
+        "newsletter_heading": "Get the drop first",
+        "legal_text": "Food supplement. Not a substitute for a varied diet.",
         "show_payment_icons": true
       }
     }

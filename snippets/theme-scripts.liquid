@@ -1,0 +1,260 @@
+{% doc %}
+  Global storefront behaviour: scroll reveal, card pointer light, quantity
+  inputs, Ajax product forms and the cart drawer. Routes and strings are passed
+  through `window.theme` because Liquid isn't rendered inside the bundled script tag.
+
+  @example
+  {% render 'theme-scripts' %}
+{% enddoc %}
+
+<script>
+  window.theme = {
+    routes: {
+      root: {{ routes.root_url | json }},
+      cart: {{ routes.cart_url | json }},
+      cartAdd: {{ routes.cart_add_url | json }},
+      cartChange: {{ routes.cart_change_url | json }}
+    },
+    cartType: {{ settings.cart_type | json }},
+    strings: {
+      addToCart: {{ 'products.add_to_cart' | t | json }},
+      adding: {{ 'products.adding' | t | json }},
+      soldOut: {{ 'products.sold_out' | t | json }},
+      unavailable: {{ 'products.unavailable' | t | json }},
+      cartError: {{ 'cart.error' | t | json }}
+    }
+  };
+</script>
+
+{% javascript %}
+  (() => {
+    const theme = window.theme || {};
+
+    /* Scroll reveal */
+    const revealObserver =
+      'IntersectionObserver' in window
+        ? new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('is-visible');
+                revealObserver.unobserve(entry.target);
+              });
+            },
+            { rootMargin: '0px 0px -8% 0px', threshold: 0.08 }
+          )
+        : null;
+
+    const observeReveals = (root = document) => {
+      root.querySelectorAll('.reveal:not(.is-visible)').forEach((el) => {
+        if (revealObserver) revealObserver.observe(el);
+        else el.classList.add('is-visible');
+      });
+    };
+
+    /* Cursor light on glass cards */
+    document.addEventListener(
+      'pointermove',
+      (event) => {
+        const card = event.target.closest && event.target.closest('.gcard');
+        if (!card) return;
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--x', `${event.clientX - rect.left}px`);
+        card.style.setProperty('--y', `${event.clientY - rect.top}px`);
+      },
+      { passive: true }
+    );
+
+    /* Cart count bubbles in the header */
+    const updateCartCount = (count) => {
+      document.querySelectorAll('[data-cart-count]').forEach((el) => {
+        el.textContent = count;
+        el.hidden = count < 1;
+      });
+    };
+
+    /* Quantity stepper */
+    class QuantityInput extends HTMLElement {
+      connectedCallback() {
+        this.input = this.querySelector('input');
+        this.addEventListener('click', (event) => {
+          const button = event.target.closest('button[data-step]');
+          if (!button) return;
+          event.preventDefault();
+          const min = Number(this.input.min) || 0;
+          const max = this.input.max ? Number(this.input.max) : Infinity;
+          const next = Number(this.input.value || 0) + Number(button.dataset.step);
+          this.input.value = Math.min(max, Math.max(min, next));
+          this.input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+      }
+    }
+    if (!customElements.get('quantity-input')) customElements.define('quantity-input', QuantityInput);
+
+    /* Cart drawer */
+    class CartDrawer extends HTMLElement {
+      connectedCallback() {
+        this.dialog = this.querySelector('dialog');
+        this.dialog.addEventListener('click', (event) => {
+          if (event.target === this.dialog || event.target.closest('[data-cart-close]')) this.close();
+        });
+        this.addEventListener('change', (event) => {
+          const input = event.target.closest('[data-line] input');
+          if (input) this.changeLine(input.closest('[data-line]').dataset.line, input.value);
+        });
+        this.addEventListener('click', (event) => {
+          const remove = event.target.closest('[data-remove-line]');
+          if (!remove) return;
+          event.preventDefault();
+          this.changeLine(remove.dataset.removeLine, 0);
+        });
+        document.addEventListener('click', (event) => {
+          const trigger = event.target.closest('[data-cart-trigger]');
+          if (!trigger) return;
+          event.preventDefault();
+          this.open();
+        });
+      }
+
+      open() {
+        if (!this.dialog.open) this.dialog.showModal();
+      }
+
+      close() {
+        this.dialog.close();
+      }
+
+      render(sectionHtml) {
+        if (!sectionHtml) return;
+        const doc = new DOMParser().parseFromString(sectionHtml, 'text/html');
+        const next = doc.querySelector('[data-cart-drawer-body]');
+        const current = this.querySelector('[data-cart-drawer-body]');
+        if (next && current) current.replaceWith(next);
+        const count = doc.querySelector('[data-cart-drawer-count]');
+        if (count) updateCartCount(Number(count.dataset.cartDrawerCount));
+      }
+
+      async changeLine(line, quantity) {
+        this.classList.add('is-busy');
+        try {
+          const response = await fetch(`${theme.routes.cartChange}.js`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify({ line: Number(line), quantity: Number(quantity), sections: ['cart-drawer'] }),
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.description || theme.strings.cartError);
+          this.render(data.sections && data.sections['cart-drawer']);
+          updateCartCount(data.item_count);
+        } catch (error) {
+          const message = this.querySelector('[data-cart-error]');
+          if (message) {
+            message.textContent = error.message;
+            message.hidden = false;
+          }
+        } finally {
+          this.classList.remove('is-busy');
+        }
+      }
+    }
+    if (!customElements.get('cart-drawer')) customElements.define('cart-drawer', CartDrawer);
+
+    /* Ajax add to cart + variant switching */
+    class ProductForm extends HTMLElement {
+      connectedCallback() {
+        this.form = this.querySelector('form');
+        this.button = this.querySelector('[type="submit"]');
+        this.buttonLabel = this.querySelector('[data-button-label]');
+        this.error = this.querySelector('[data-form-error]');
+        this.form.addEventListener('submit', (event) => this.onSubmit(event));
+        this.form.addEventListener('change', (event) => {
+          if (event.target.name === 'id') this.onVariantChange(event.target);
+        });
+      }
+
+      onVariantChange(input) {
+        const option = input.tagName === 'SELECT' ? input.selectedOptions[0] : input;
+        const { price, compare, available } = option.dataset;
+        const scope = this.closest('[data-product]') || this;
+        scope.querySelectorAll('[data-price]').forEach((el) => (el.innerHTML = price));
+        scope.querySelectorAll('[data-compare-price]').forEach((el) => {
+          el.innerHTML = compare || '';
+          el.hidden = !compare;
+        });
+        const isAvailable = available === 'true';
+        this.button.disabled = !isAvailable;
+        if (this.buttonLabel) this.buttonLabel.textContent = isAvailable ? theme.strings.addToCart : theme.strings.soldOut;
+        if (this.dataset.updateUrl === 'true') {
+          const url = new URL(window.location.href);
+          url.searchParams.set('variant', input.value);
+          window.history.replaceState({}, '', url.toString());
+        }
+      }
+
+      async onSubmit(event) {
+        const drawer = document.querySelector('cart-drawer');
+        if (!drawer || theme.cartType !== 'drawer') return;
+        event.preventDefault();
+        if (this.button.disabled) return;
+
+        this.button.setAttribute('aria-busy', 'true');
+        this.button.disabled = true;
+        if (this.buttonLabel) this.buttonLabel.textContent = theme.strings.adding;
+        if (this.error) this.error.hidden = true;
+
+        const body = new FormData(this.form);
+        body.append('sections', 'cart-drawer');
+        body.append('sections_url', window.location.pathname);
+
+        try {
+          const response = await fetch(`${theme.routes.cartAdd}.js`, {
+            method: 'POST',
+            headers: { Accept: 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
+            body,
+          });
+          const data = await response.json();
+          if (!response.ok || data.status) throw new Error(data.description || data.message || theme.strings.cartError);
+          drawer.render(data.sections && data.sections['cart-drawer']);
+          drawer.open();
+        } catch (error) {
+          if (this.error) {
+            this.error.textContent = error.message;
+            this.error.hidden = false;
+          }
+        } finally {
+          this.button.removeAttribute('aria-busy');
+          this.button.disabled = false;
+          if (this.buttonLabel) this.buttonLabel.textContent = theme.strings.addToCart;
+        }
+      }
+    }
+    if (!customElements.get('product-form')) customElements.define('product-form', ProductForm);
+
+    /* Mobile menu opens right below the header bar, wherever it currently sits */
+    document.addEventListener(
+      'toggle',
+      (event) => {
+        const menu = event.target;
+        if (!menu.matches || !menu.matches('details[data-menu]') || !menu.open) return;
+        const bar = menu.closest('.site-header__bar');
+        if (bar) menu.style.setProperty('--menu-top', `${bar.getBoundingClientRect().bottom}px`);
+      },
+      true
+    );
+
+    /* Close the mobile menu on Escape */
+    document.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      document.querySelectorAll('details[data-menu][open]').forEach((menu) => {
+        menu.open = false;
+        menu.querySelector('summary').focus();
+      });
+    });
+
+    const init = () => observeReveals();
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+    else init();
+
+    document.addEventListener('shopify:section:load', (event) => observeReveals(event.target));
+  })();
+{% endjavascript %}

@@ -1,0 +1,209 @@
+{% doc %}
+  Renders the add-to-cart form: variant pills (when the product has variants),
+  quantity stepper, add-to-cart button and optional dynamic checkout buttons.
+  Enhanced by the `product-form` element for Ajax add to cart and variant switching.
+
+  @param {object} product - The product to sell
+  @param {string} id - Unique id for the form, usually the section id
+  @param {boolean} [show_dynamic_checkout] - Show accelerated checkout buttons
+  @param {boolean} [update_url] - Update ?variant= in the URL when the variant changes
+
+  @example
+  {% render 'product-form', product: product, id: section.id, show_dynamic_checkout: true, update_url: true %}
+{% enddoc %}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign form_id = 'product-form-' | append: id
+-%}
+
+<product-form class="product-form" data-update-url="{{ update_url | default: false }}">
+  {%- form 'product', product, id: form_id, novalidate: 'novalidate' -%}
+    {%- if product.has_only_default_variant -%}
+      <input type="hidden" name="id" value="{{ current_variant.id }}">
+    {%- else -%}
+      <fieldset class="product-form__variants">
+        <legend class="field__label">
+          {{- product.options | join: ' / ' | escape -}}
+        </legend>
+        <div class="product-form__pills">
+          {%- for variant in product.variants -%}
+            {%- liquid
+              assign compare_price = ''
+              if variant.compare_at_price > variant.price
+                assign compare_price = variant.compare_at_price | money
+              endif
+            -%}
+            <label class="product-form__pill">
+              <input
+                type="radio"
+                name="id"
+                value="{{ variant.id }}"
+                data-price="{{ variant.price | money | escape }}"
+                data-compare="{{ compare_price | escape }}"
+                data-available="{{ variant.available }}"
+                {% if variant == current_variant %}
+                  checked
+                {% endif %}
+              >
+              <span>
+                {{- variant.title | escape -}}
+                {%- unless variant.available %} · {{ 'products.sold_out' | t }}{% endunless -%}
+              </span>
+            </label>
+          {%- endfor -%}
+        </div>
+      </fieldset>
+    {%- endif -%}
+
+    <div class="product-form__buy">
+      <quantity-input class="qty">
+        <button type="button" data-step="-1" aria-label="{{ 'products.decrease_quantity' | t }}">
+          {%- render 'icon', name: 'minus' -%}
+        </button>
+        <input
+          type="number"
+          name="quantity"
+          value="1"
+          min="1"
+          inputmode="numeric"
+          aria-label="{{ 'products.quantity' | t }}"
+        >
+        <button type="button" data-step="1" aria-label="{{ 'products.increase_quantity' | t }}">
+          {%- render 'icon', name: 'plus' -%}
+        </button>
+      </quantity-input>
+
+      <button
+        class="btn product-form__submit"
+        type="submit"
+        name="add"
+        {% unless current_variant.available %}
+          disabled
+        {% endunless %}
+      >
+        <span data-button-label>
+          {%- if current_variant.available -%}
+            {{- 'products.add_to_cart' | t -}}
+          {%- else -%}
+            {{- 'products.sold_out' | t -}}
+          {%- endif -%}
+        </span>
+        <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+      </button>
+    </div>
+
+    <p class="form-message form-message--error" data-form-error role="alert" hidden></p>
+
+    {%- if show_dynamic_checkout -%}
+      <div class="product-form__dynamic">{{ form | payment_button }}</div>
+    {%- endif -%}
+  {%- endform -%}
+</product-form>
+
+{% stylesheet %}
+  .product-form form {
+    display: grid;
+    gap: 18px;
+  }
+
+  .product-form__variants {
+    display: grid;
+    gap: 12px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .product-form__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .product-form__pill {
+    position: relative;
+    cursor: pointer;
+  }
+
+  .product-form__pill input {
+    position: absolute;
+    opacity: 0;
+    inset: 0;
+    cursor: pointer;
+  }
+
+  .product-form__pill span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.03);
+    font-size: 0.9rem;
+    transition: border-color 0.25s, background-color 0.25s;
+  }
+
+  .product-form__pill input:checked + span {
+    border-color: var(--color-accent-light);
+    background: rgba(var(--color-accent-rgb), 0.25);
+  }
+
+  .product-form__pill input:focus-visible + span {
+    outline: 2px solid var(--color-accent-light);
+    outline-offset: 3px;
+  }
+
+  .product-form__buy {
+    display: flex;
+    gap: 12px;
+  }
+
+  .product-form__submit {
+    flex: 1;
+    justify-content: space-between;
+  }
+
+  .product-form__submit[aria-busy='true'] .ar {
+    animation: pulse-ar 1s ease-in-out infinite;
+  }
+
+  @keyframes pulse-ar {
+    50% {
+      opacity: 0.4;
+    }
+  }
+
+  .product-form__dynamic .shopify-payment-button__button {
+    border-radius: 999px;
+    min-height: 54px;
+    overflow: hidden;
+  }
+
+  .product-form__dynamic .shopify-payment-button__button--unbranded {
+    background: rgba(255, 255, 255, 0.04);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+    color: var(--color-foreground);
+    font-weight: 500;
+  }
+
+  .product-form__dynamic .shopify-payment-button__button--unbranded:hover:not([disabled]) {
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .product-form__dynamic .shopify-payment-button__more-options {
+    color: var(--color-muted);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 420px) {
+    .product-form__buy {
+      flex-direction: column;
+    }
+
+    .product-form__buy .qty {
+      align-self: flex-start;
+    }
+  }
+{% endstylesheet %}

@@ -1,0 +1,114 @@
+<div class="section faq {% if section.settings.page_top %}section--page-top{% endif %}" id="faq">
+  <div class="faq__grid">
+    {%- render 'section-heading',
+      eyebrow: section.settings.eyebrow,
+      heading_thin: section.settings.heading_thin,
+      heading_heavy: section.settings.heading_heavy,
+      lead: section.settings.lead,
+      tag: section.settings.heading_tag
+    -%}
+
+    <div class="faq__list">
+      {% content_for 'blocks' %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .faq__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(32px, 6vw, 80px);
+    align-items: start;
+  }
+
+  .faq__grid .section-head {
+    position: sticky;
+    top: calc(var(--header-height) + 32px);
+    margin: 0;
+  }
+
+  .faq__list {
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  @media (max-width: 860px) {
+    .faq__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .faq__grid .section-head {
+      position: static;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.faq",
+  "blocks": [{ "type": "_faq-item" }],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Questions"
+    },
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin",
+      "default": "Good to"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy",
+      "default": "know."
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "t:labels.lead"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "t:labels.heading_tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "checkbox",
+      "id": "page_top",
+      "label": "t:labels.page_top",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.faq",
+      "blocks": {
+        "q1": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "How many gummies should I take?",
+            "answer": "<p>Start with 3 gummies (50 mg caffeine) and see how you feel. 6 gummies is the full dose. Don't exceed 9 gummies a day.</p>"
+          }
+        },
+        "q2": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "When will I feel it?",
+            "answer": "<p>Most people notice the lift within 20–40 minutes. L-theanine smooths it out, so there's no jittery spike and no crash.</p>"
+          }
+        }
+      },
+      "block_order": ["q1", "q2"]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,156 @@
+<article class="effect gcard reveal" {{ block.shopify_attributes }}>
+  <div class="effect__badge">
+    {%- render 'icon', name: block.settings.icon -%}
+  </div>
+  <h3 class="effect__title">{{ block.settings.title | escape }}</h3>
+  {%- if block.settings.text != blank -%}
+    <p>{{ block.settings.text | escape }}</p>
+  {%- endif -%}
+</article>
+
+{% stylesheet %}
+  .effect {
+    display: grid;
+    align-content: start;
+    justify-items: center;
+    text-align: center;
+    padding: 30px 28px;
+  }
+
+  .effect__badge {
+    display: grid;
+    place-items: center;
+    width: 84px;
+    height: 84px;
+    margin-bottom: 18px;
+  }
+
+  .effect__badge svg {
+    width: 80px;
+    height: 80px;
+    overflow: visible;
+    filter: drop-shadow(0 0 14px rgba(var(--color-accent-rgb), 0.7));
+    transition: filter 0.4s;
+  }
+
+  .effect:hover .effect__badge svg {
+    filter: drop-shadow(0 0 16px rgba(var(--color-accent-light-rgb), 0.75));
+  }
+
+  .effect__title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    padding-left: 0.24em;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .effect p {
+    color: var(--color-muted);
+    font-size: 0.98rem;
+    line-height: 1.65;
+    max-width: 28ch;
+  }
+
+  /* Brand icon motion */
+  .brand-icon--boost .c1,
+  .brand-icon--boost .c2 {
+    animation: chev 2.4s ease-in-out infinite;
+  }
+
+  .brand-icon--boost .c2 {
+    animation-delay: 0.2s;
+  }
+
+  @keyframes chev {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    50% {
+      transform: translateY(-8px);
+      opacity: 0.55;
+    }
+  }
+
+  .brand-icon--sustain .trace {
+    stroke-dasharray: 6 210;
+    animation: loop 3.2s linear infinite;
+  }
+
+  @keyframes loop {
+    to {
+      stroke-dashoffset: -216;
+    }
+  }
+
+  .brand-icon--focus .ring {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: ring-pulse 2.8s ease-out infinite;
+  }
+
+  @keyframes ring-pulse {
+    0% {
+      transform: scale(0.6);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .effect {
+      padding: 22px 20px 24px;
+    }
+
+    .effect__badge {
+      width: 64px;
+      height: 64px;
+      margin-bottom: 12px;
+    }
+
+    .effect__badge svg {
+      width: 60px;
+      height: 60px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.effect",
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:labels.icon",
+      "options": [
+        { "value": "boost", "label": "t:options.icon.boost" },
+        { "value": "sustain", "label": "t:options.icon.sustain" },
+        { "value": "focus", "label": "t:options.icon.focus" },
+        { "value": "hex", "label": "t:options.icon.hex" }
+      ],
+      "default": "boost"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "t:labels.title",
+      "default": "Boost"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "Energy that kicks in."
+    }
+  ],
+  "presets": [{ "name": "t:names.effect" }]
+}
+{% endschema %}

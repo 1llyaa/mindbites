@@ -1,0 +1,106 @@
+{% doc %}
+  Renders the product information column: eyebrow, chrome title, price,
+  short description, add-to-cart form and perks list.
+
+  @param {object} product - The product to sell
+  @param {string} id - Unique id, usually the section id
+  @param {string} [eyebrow] - Small label above the title
+  @param {string} [title_tag] - Title tag, defaults to h2
+  @param {boolean} [show_description] - Show the product description
+  @param {boolean} [show_dynamic_checkout] - Show accelerated checkout buttons
+  @param {boolean} [update_url] - Update ?variant= in the URL on variant change
+  @param {string} [perk_1] - First perk line, shown with a truck icon
+  @param {string} [perk_2] - Second perk line, shown with a shield icon
+  @param {string} [perk_3] - Third perk line, shown with a leaf icon
+
+  @example
+  {% render 'product-buybox', product: product, id: section.id, title_tag: 'h1', show_description: true %}
+{% enddoc %}
+
+{%- assign heading_tag = title_tag | default: 'h2' -%}
+
+<div class="buybox" data-product>
+  {%- if eyebrow != blank -%}
+    <p class="eyebrow">{{ eyebrow | escape }}</p>
+  {%- endif -%}
+
+  <{{ heading_tag }} class="buybox__title">
+    <span class="chrome heavy">{{ product.title | escape }}</span>
+  </{{ heading_tag }}>
+
+  {%- render 'price', target: product.selected_or_first_available_variant, class: 'buybox__price' -%}
+
+  {%- if show_description and product.description != blank -%}
+    <div class="buybox__description rte">{{ product.description }}</div>
+  {%- endif -%}
+
+  {%- render 'product-form',
+    product: product,
+    id: id,
+    show_dynamic_checkout: show_dynamic_checkout,
+    update_url: update_url
+  -%}
+
+  {%- if perk_1 != blank or perk_2 != blank or perk_3 != blank -%}
+    <ul class="buybox__perks" role="list">
+      {%- if perk_1 != blank -%}
+        <li>{% render 'icon', name: 'truck' %}{{ perk_1 | escape }}</li>
+      {%- endif -%}
+      {%- if perk_2 != blank -%}
+        <li>{% render 'icon', name: 'shield' %}{{ perk_2 | escape }}</li>
+      {%- endif -%}
+      {%- if perk_3 != blank -%}
+        <li>{% render 'icon', name: 'leaf' %}{{ perk_3 | escape }}</li>
+      {%- endif -%}
+    </ul>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .buybox {
+    display: grid;
+    gap: 22px;
+    align-content: center;
+    min-width: 0;
+  }
+
+  .buybox__title {
+    font-size: clamp(2.2rem, 4.6vw, 4rem);
+    letter-spacing: -0.025em;
+  }
+
+  .buybox__price {
+    font-size: 1.6rem;
+  }
+
+  .buybox__price .price__current {
+    font-weight: 300;
+    letter-spacing: -0.01em;
+  }
+
+  .buybox__description {
+    color: var(--color-muted);
+    max-width: 56ch;
+  }
+
+  .buybox__perks {
+    list-style: none;
+    margin: 0;
+    padding: 18px 0 0;
+    display: grid;
+    gap: 12px;
+    border-top: 1px solid var(--color-hairline);
+    font-size: 0.9rem;
+    color: #d9d6e2;
+  }
+
+  .buybox__perks li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .buybox__perks .icon {
+    color: var(--color-accent-light);
+  }
+{% endstylesheet %}

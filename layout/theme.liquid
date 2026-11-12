@@ -1,6 +1,10 @@
 <!doctype html>
-<html lang="{{ request.locale.iso_code }}">
+<html lang="{{ request.locale.iso_code }}" class="no-js">
   <head>
+    <script>
+      document.documentElement.classList.replace('no-js', 'js');
+    </script>
+
     {% # Inlined CSS Variables %}
     {% render 'css-variables' %}
 
@@ -20,17 +24,40 @@
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
 
+    {% render 'favicon' %}
+
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
 
     {{ content_for_header }}
   </head>
 
-  <body>
+  <body class="template-{{ template.name }}">
+    <a class="skip-link" href="#main-content">{{ 'accessibility.skip_to_content' | t }}</a>
+
+    {% # Shared gradient used to stroke the brand line icons %}
+    <svg width="0" height="0" style="position: absolute" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="mb-metal" gradientUnits="userSpaceOnUse" x1="0" y1="14" x2="0" y2="72">
+          <stop offset="0" stop-color="#c7aef0"/>
+          <stop offset=".55" stop-color="#8c62c4"/>
+          <stop offset="1" stop-color="{{ settings.accent_color }}"/>
+        </linearGradient>
+      </defs>
+    </svg>
+
     {% sections 'header-group' %}
 
-    {{ content_for_layout }}
+    <main id="main-content" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
 
     {% sections 'footer-group' %}
+
+    {% if settings.cart_type == 'drawer' %}
+      {% section 'cart-drawer' %}
+    {% endif %}
+
+    {% render 'theme-scripts' %}
   </body>
 </html>

@@ -1,0 +1,69 @@
+{% doc %}
+  Renders a product or variant price with an optional compare-at price.
+  The `data-price` and `data-compare-price` hooks are updated by the product
+  form when the variant changes.
+
+  @param {object} target - Product or variant to show the price for
+  @param {string} [class] - Optional wrapper class
+
+  @example
+  {% render 'price', target: product.selected_or_first_available_variant %}
+{% enddoc %}
+
+{%- liquid
+  assign compare_at = target.compare_at_price
+  assign on_sale = false
+  if compare_at > target.price
+    assign on_sale = true
+  endif
+-%}
+
+<div class="price {{ class }}">
+  <span class="price__current" data-price>{{ target.price | money }}</span>
+  <s
+    class="price__compare"
+    data-compare-price
+    {% unless on_sale %}
+      hidden
+    {% endunless %}
+  >
+    {%- if on_sale %}{{ compare_at | money }}{% endif -%}
+  </s>
+  {%- if on_sale -%}
+    <span class="price__badge">{{ 'products.sale' | t }}</span>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 12px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .price__current {
+    color: var(--color-foreground);
+    font-weight: 500;
+  }
+
+  .price__compare {
+    color: var(--color-dim);
+    font-size: 0.9em;
+  }
+
+  .price__compare[hidden] {
+    display: none;
+  }
+
+  .price__badge {
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-accent-light);
+    border: 1px solid rgba(var(--color-accent-light-rgb), 0.35);
+    border-radius: 999px;
+    padding: 0.3em 0.8em;
+  }
+{% endstylesheet %}

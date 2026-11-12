@@ -1,0 +1,93 @@
+<details class="faq-item" {{ block.shopify_attributes }}>
+  <summary>
+    <span>{{ block.settings.question | escape }}</span>
+    <span class="faq-item__toggle" aria-hidden="true">{% render 'icon', name: 'plus' %}</span>
+  </summary>
+  <div class="faq-item__answer rte">{{ block.settings.answer }}</div>
+</details>
+
+{% stylesheet %}
+  .faq-item {
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .faq-item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 22px 0;
+    list-style: none;
+    cursor: pointer;
+    font-size: 1.08rem;
+    font-weight: 500;
+    transition: color 0.25s;
+  }
+
+  .faq-item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq-item summary:hover {
+    color: #fff;
+  }
+
+  .faq-item__toggle {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(var(--color-accent-light-rgb), 0.3);
+    color: var(--color-accent-light);
+    transition: transform 0.4s var(--ease), border-color 0.3s;
+  }
+
+  .faq-item__toggle .icon {
+    width: 16px;
+    height: 16px;
+  }
+
+  .faq-item[open] .faq-item__toggle {
+    transform: rotate(45deg);
+    border-color: var(--color-accent-light);
+  }
+
+  .faq-item__answer {
+    padding: 0 48px 24px 0;
+    color: var(--color-muted);
+  }
+
+  .faq-item[open] .faq-item__answer {
+    animation: faq-open 0.4s var(--ease);
+  }
+
+  @keyframes faq-open {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.faq_item",
+  "settings": [
+    {
+      "type": "text",
+      "id": "question",
+      "label": "t:labels.question",
+      "default": "How many gummies should I take?"
+    },
+    {
+      "type": "richtext",
+      "id": "answer",
+      "label": "t:labels.answer",
+      "default": "<p>Start with 3 gummies and see how you feel. 6 gummies is the full dose.</p>"
+    }
+  ],
+  "presets": [{ "name": "t:names.faq_item" }]
+}
+{% endschema %}

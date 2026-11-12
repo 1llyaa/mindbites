@@ -11,10 +11,63 @@
   "sections": {
     "main": {
       "type": "collection",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Shop",
+        "fallback_text": "<p>Microdosed nootropic gummies. One pouch, three intensities.</p>",
+        "products_per_page": 24
+      }
+    },
+    "trust": {
+      "type": "trust-strip",
+      "settings": {},
+      "blocks": {
+        "gmp": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "GMP",
+            "label": "GMP certified"
+          }
+        },
+        "haccp": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "HACCP",
+            "label": "HACCP"
+          }
+        },
+        "eu": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "EU",
+            "label": "Made in the EU"
+          }
+        },
+        "lab": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "LAB",
+            "label": "Lab tested"
+          }
+        },
+        "dose": {
+          "type": "_trust-item",
+          "settings": {
+            "badge": "µ",
+            "label": "Microdosed"
+          }
+        }
+      },
+      "block_order": [
+        "gmp",
+        "haccp",
+        "eu",
+        "lab",
+        "dose"
+      ]
     }
   },
   "order": [
-    "main"
+    "main",
+    "trust"
   ]
 }

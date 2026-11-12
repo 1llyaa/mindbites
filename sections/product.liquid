@@ -5,46 +5,83 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/product
 {% endcomment %}
 
-<div class="product-images">
-  {% for image in product.images %}
-    {% render 'image', class: 'product-image', image: image %}
-  {% endfor %}
+<div class="section section--page-top product-main">
+  {%- render 'product-gallery', product: product, eager: true -%}
+
+  {%- render 'product-buybox',
+    product: product,
+    id: section.id,
+    eyebrow: section.settings.eyebrow,
+    title_tag: 'h1',
+    show_description: section.settings.show_description,
+    show_dynamic_checkout: section.settings.show_dynamic_checkout,
+    update_url: true,
+    perk_1: section.settings.perk_1,
+    perk_2: section.settings.perk_2,
+    perk_3: section.settings.perk_3
+  -%}
 </div>
 
-<div class="product-info">
-  <h1>{{ product.title }}</h1>
-  <p>{{ product.price | money }}</p>
-  <p>{{ product.description }}</p>
-</div>
+{% stylesheet %}
+  .product-main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 88px);
+    align-items: center;
+  }
 
-<div class="product-form">
-  {% form 'product', product %}
-    {% assign current_variant = product.selected_or_first_available_variant %}
-
-    <select name="id">
-      {% for variant in product.variants %}
-        <option
-          value="{{ variant.id }}"
-          {% if variant == current_variant %}
-            selected="selected"
-          {% endif %}
-        >
-          {{ variant.title }} - {{ variant.price | money }}
-        </option>
-      {% endfor %}
-    </select>
-
-    <input type="text" name="quantity" min="1" value="1">
-
-    <input type="submit" value="Add to cart">
-    {{ form | payment_button }}
-  {% endform %}
-</div>
+  @media (max-width: 860px) {
+    .product-main {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {
   "name": "t:general.product",
-  "settings": [],
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Microdosed nootropic gummies"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "t:labels.show_description",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "t:labels.show_dynamic_checkout",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:labels.perks"
+    },
+    {
+      "type": "text",
+      "id": "perk_1",
+      "label": "t:labels.perk_1",
+      "default": "Fast EU shipping"
+    },
+    {
+      "type": "text",
+      "id": "perk_2",
+      "label": "t:labels.perk_2",
+      "default": "Lab-tested, GMP-certified production"
+    },
+    {
+      "type": "text",
+      "id": "perk_3",
+      "label": "t:labels.perk_3",
+      "default": "Made in the EU"
+    }
+  ],
   "disabled_on": {
     "groups": ["header", "footer"]
   }

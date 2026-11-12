@@ -5,29 +5,148 @@
   https://shopify.dev/docs/storefronts/themes/architecture/templates/cart
 {% endcomment %}
 
-<h1>{{ 'cart.title' | t }}</h1>
+<div class="section section--page-top cart-page">
+  <div class="section-head">
+    <p class="eyebrow">{{ 'cart.eyebrow' | t }}</p>
+    <h1 class="display-l"><span class="chrome heavy">{{ 'cart.title' | t }}</span></h1>
+  </div>
 
-<form action="{{ routes.cart_url }}" method="post">
-  <table>
-    {% for item in cart.items %}
-      <tr>
-        <td>
-          {% render 'image', image: item.image, url: item.url %}
-        </td>
-        <td>
-          <p>{{ item.product.title }}</p>
-          {{ 'cart.remove' | t | link_to: item.url_to_remove }}
-        </td>
-        <td>
-          <input type="text" name="updates[]" value="{{ item.quantity }}">
-          <input type="submit" value="{{ 'cart.update' | t }}">
-        </td>
-      </tr>
-    {% endfor %}
-  </table>
+  {%- if cart.item_count == 0 -%}
+    <div class="empty-state gcard">
+      {%- render 'icon', name: 'brain', class: 'cart-page__empty-icon' -%}
+      <p class="spaced">{{ 'cart.empty' | t }}</p>
+      <a class="btn" href="{{ routes.all_products_collection_url }}">
+        {{- 'cart.continue_shopping' | t -}}
+        <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+      </a>
+    </div>
+  {%- else -%}
+    <form class="cart-page__grid" action="{{ routes.cart_url }}" method="post" id="CartPageForm">
+      <ul class="cart-page__items" role="list">
+        {%- for item in cart.items -%}
+          {%- render 'cart-line', item: item, index: forloop.index -%}
+        {%- endfor -%}
+      </ul>
 
-  <input type="submit" name="checkout" value="{{ 'cart.checkout' | t }}">
-</form>
+      <aside class="cart-page__summary gcard">
+        {%- if cart.cart_level_discount_applications.size > 0 -%}
+          <ul class="cart-page__discounts" role="list">
+            {%- for discount in cart.cart_level_discount_applications -%}
+              <li>
+                <span>{{ discount.title | escape }}</span>
+                <span>-{{ discount.total_allocated_amount | money }}</span>
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        <div class="cart-page__subtotal">
+          <span>{{ 'cart.subtotal' | t }}</span>
+          <b>{{ cart.total_price | money_with_currency }}</b>
+        </div>
+        <p class="fine">{{ 'cart.taxes_and_shipping' | t }}</p>
+
+        <div class="field">
+          <label for="CartNote">{{ 'cart.note' | t }}</label>
+          <textarea id="CartNote" name="note" rows="3">{{ cart.note }}</textarea>
+        </div>
+
+        <button class="btn btn--block" type="submit" name="checkout">
+          {{- 'cart.checkout' | t -}}
+          <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+        </button>
+        <button class="btn btn--ghost btn--block" type="submit" name="update">{{ 'cart.update' | t }}</button>
+
+        {%- if additional_checkout_buttons -%}
+          <div class="cart-page__dynamic">{{ content_for_additional_checkout_buttons }}</div>
+        {%- endif -%}
+      </aside>
+    </form>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .cart-page__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 64px);
+    align-items: start;
+  }
+
+  .cart-page__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  .cart-page__items .cart-line {
+    grid-template-columns: 120px minmax(0, 1fr) auto;
+    padding-block: 24px;
+  }
+
+  .cart-page__summary {
+    position: sticky;
+    top: calc(var(--header-height) + 24px);
+    display: grid;
+    gap: 16px;
+    padding: clamp(22px, 3vw, 32px);
+  }
+
+  .cart-page__discounts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    color: var(--color-accent-light);
+    font-size: 0.9rem;
+  }
+
+  .cart-page__discounts li,
+  .cart-page__subtotal {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .cart-page__subtotal span {
+    font-size: 0.75rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .cart-page__subtotal b {
+    font-size: 1.6rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cart-page__summary textarea {
+    min-height: 90px;
+  }
+
+  .cart-page__empty-icon {
+    width: 72px;
+    height: 72px;
+    color: var(--color-accent);
+    filter: drop-shadow(0 0 14px rgba(var(--color-accent-rgb), 0.7));
+  }
+
+  @media (max-width: 860px) {
+    .cart-page__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .cart-page__items .cart-line {
+      grid-template-columns: 84px minmax(0, 1fr) auto;
+    }
+
+    .cart-page__summary {
+      position: static;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {

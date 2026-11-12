@@ -1,0 +1,213 @@
+{%- assign icon_asset = 'mb-ing-' | append: block.settings.icon | append: '.webp' -%}
+
+<li class="ingredient reveal" style="--c: {{ block.settings.color }}" {{ block.shopify_attributes }}>
+  <span class="ingredient__icon">
+    {%- if block.settings.image -%}
+      {{ block.settings.image | image_url: width: 120 | image_tag: loading: 'lazy', alt: '', class: 'ingredient__mol' }}
+    {%- elsif block.settings.icon != 'none' -%}
+      <img
+        class="ingredient__mol{% if block.settings.icon == 'b6' or block.settings.icon == 'b12' %} ingredient__mol--sm{% endif %}"
+        src="{{ icon_asset | asset_url }}"
+        alt=""
+        width="240"
+        height="240"
+        loading="lazy"
+      >
+    {%- endif -%}
+  </span>
+  <div>
+    <h3>{{ block.settings.name | escape }}</h3>
+    {%- if block.settings.benefit != blank -%}
+      <p>{{ block.settings.benefit | escape }}</p>
+    {%- endif -%}
+  </div>
+  <span class="ingredient__amount">
+    <b>{{ block.settings.amount | escape }}</b>
+    {{ block.settings.unit | escape -}}
+  </span>
+</li>
+
+{% stylesheet %}
+  .ingredient {
+    position: relative;
+    display: grid;
+    grid-template-columns: 60px 1fr auto;
+    align-items: center;
+    gap: 20px;
+    padding: 18px 16px 18px 8px;
+    border-bottom: 1px solid var(--color-hairline);
+  }
+
+  .ingredient::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--c) 14%, transparent), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+  }
+
+  .ingredient:hover::before {
+    opacity: 1;
+  }
+
+  .ingredient__icon {
+    display: grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    animation: mol-float 7s ease-in-out infinite;
+  }
+
+  .ingredient:nth-child(2n) .ingredient__icon {
+    animation-duration: 8.2s;
+    animation-delay: -1.3s;
+  }
+
+  .ingredient:nth-child(3n) .ingredient__icon {
+    animation-duration: 6.6s;
+    animation-delay: -3.1s;
+  }
+
+  @keyframes mol-float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    30% {
+      transform: translateY(-3px) rotate(2.5deg);
+    }
+    70% {
+      transform: translateY(2px) rotate(-2deg);
+    }
+  }
+
+  .ingredient__mol {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    transition: filter 0.4s, transform 0.5s var(--ease);
+  }
+
+  .ingredient__mol--sm {
+    transform: scale(0.8);
+  }
+
+  .ingredient:hover .ingredient__mol {
+    filter: drop-shadow(0 0 8px var(--c));
+    transform: scale(1.06);
+  }
+
+  .ingredient h3 {
+    font-size: 1.08rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .ingredient p {
+    margin: 4px 0 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+
+  .ingredient__amount {
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    text-align: right;
+    color: var(--color-muted);
+    font-size: 0.85rem;
+  }
+
+  .ingredient__amount b {
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--color-foreground);
+    margin-right: 2px;
+  }
+
+  @media (max-width: 560px) {
+    .ingredient {
+      grid-template-columns: 44px 1fr auto;
+      gap: 14px;
+      padding: 16px 4px;
+    }
+
+    .ingredient__icon,
+    .ingredient__mol {
+      width: 46px;
+      height: 46px;
+    }
+
+    .ingredient__amount b {
+      font-size: 1.3rem;
+    }
+
+    .ingredient p {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.ingredient",
+  "settings": [
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "t:labels.icon",
+      "options": [
+        { "value": "caffeine", "label": "t:options.ingredient.caffeine" },
+        { "value": "theanine", "label": "t:options.ingredient.theanine" },
+        { "value": "tyrosine", "label": "t:options.ingredient.tyrosine" },
+        { "value": "citicoline", "label": "t:options.ingredient.citicoline" },
+        { "value": "b6", "label": "t:options.ingredient.b6" },
+        { "value": "b12", "label": "t:options.ingredient.b12" },
+        { "value": "none", "label": "t:options.ingredient.none" }
+      ],
+      "default": "caffeine"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.custom_icon"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "label": "t:labels.glow_color",
+      "default": "#c070ff"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "t:labels.title",
+      "default": "Caffeine"
+    },
+    {
+      "type": "text",
+      "id": "benefit",
+      "label": "t:labels.benefit",
+      "default": "Energy and alertness"
+    },
+    {
+      "type": "text",
+      "id": "amount",
+      "label": "t:labels.amount",
+      "default": "100"
+    },
+    {
+      "type": "text",
+      "id": "unit",
+      "label": "t:labels.unit",
+      "default": "mg"
+    }
+  ],
+  "presets": [{ "name": "t:names.ingredient" }]
+}
+{% endschema %}

@@ -1,0 +1,135 @@
+<div class="section rich-text rich-text--{{ section.settings.alignment }} {% if section.settings.page_top %}section--page-top{% endif %}">
+  <div class="rich-text__inner reveal">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {%- endif -%}
+
+    {%- if section.settings.heading_thin != blank or section.settings.heading_heavy != blank -%}
+      <{{ section.settings.heading_tag }} class="display-{{ section.settings.heading_size }}">
+        {%- if section.settings.heading_thin != blank -%}
+          <span class="chrome thin">{{ section.settings.heading_thin | escape }}</span>
+        {%- endif -%}
+        {%- if section.settings.heading_heavy != blank -%}
+          <span class="chrome heavy">{{ section.settings.heading_heavy | escape }}</span>
+        {%- endif -%}
+      </{{ section.settings.heading_tag }}>
+    {%- endif -%}
+
+    {%- if section.settings.text != blank -%}
+      <div class="rich-text__text rte">{{ section.settings.text }}</div>
+    {%- endif -%}
+
+    {%- if section.settings.button_label != blank -%}
+      <a class="btn" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+        {{- section.settings.button_label | escape -}}
+        <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .rich-text__inner {
+    display: grid;
+    gap: 24px;
+    max-width: 820px;
+  }
+
+  .rich-text--center .rich-text__inner {
+    margin-inline: auto;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .rich-text--center .chrome {
+    margin-inline: auto;
+  }
+
+  .rich-text__text {
+    font-size: 1.08rem;
+    color: var(--color-muted);
+  }
+
+  .rich-text__text p strong {
+    color: var(--color-foreground);
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.rich_text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin",
+      "default": "Taste"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy",
+      "default": "the edge."
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "label": "t:labels.heading_size",
+      "options": [
+        { "value": "xl", "label": "t:options.size.extra_large" },
+        { "value": "l", "label": "t:options.size.large" },
+        { "value": "m", "label": "t:options.size.medium" }
+      ],
+      "default": "l"
+    },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "t:labels.heading_tag",
+      "options": [
+        { "value": "h1", "label": "H1" },
+        { "value": "h2", "label": "H2" }
+      ],
+      "default": "h2"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "<p>Share the story behind the brand.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:labels.button_label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:labels.button_link"
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "t:labels.alignment",
+      "options": [
+        { "value": "left", "label": "t:options.alignment.left" },
+        { "value": "center", "label": "t:options.alignment.center" }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "page_top",
+      "label": "t:labels.page_top",
+      "default": false
+    }
+  ],
+  "presets": [{ "name": "t:names.rich_text" }]
+}
+{% endschema %}

@@ -1,0 +1,128 @@
+{% doc %}
+  Renders a product card for grids (collection, search, recommendations).
+
+  @param {object} product - The product to show
+  @param {string} [heading_tag] - Tag for the product title, defaults to h3
+
+  @example
+  {% render 'product-card', product: product %}
+{% enddoc %}
+
+{%- assign title_tag = heading_tag | default: 'h3' -%}
+
+<article class="product-card gcard reveal">
+  <a class="product-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+    {%- if product.featured_image -%}
+      {{
+        product.featured_image
+        | image_url: width: 800
+        | image_tag: widths: '300, 500, 800', sizes: '(min-width: 990px) 33vw, (min-width: 600px) 50vw, 100vw', loading: 'lazy', alt: ''
+      }}
+    {%- else -%}
+      <img src="{{ 'mb-hero-pouch.webp' | asset_url }}" alt="" width="1600" height="2000" loading="lazy">
+    {%- endif -%}
+    {%- unless product.available -%}
+      <span class="product-card__badge">{{ 'products.sold_out' | t }}</span>
+    {%- endunless -%}
+  </a>
+  <div class="product-card__body">
+    <{{ title_tag }} class="product-card__title">
+      <a href="{{ product.url }}">{{ product.title | escape }}</a>
+    </{{ title_tag }}>
+    <div class="product-card__foot">
+      {%- render 'price', target: product -%}
+      <span class="product-card__go" aria-hidden="true">{% render 'icon', name: 'arrow' %}</span>
+    </div>
+  </div>
+</article>
+
+{% stylesheet %}
+  .product-card {
+    display: grid;
+    grid-template-rows: auto 1fr;
+  }
+
+  .product-card__media {
+    position: relative;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    padding: 28px;
+    background: radial-gradient(circle at 50% 45%, rgba(var(--color-accent-rgb), 0.3), transparent 65%);
+  }
+
+  .product-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 24px 30px rgba(0, 0, 0, 0.6));
+    transition: transform 1.2s var(--ease);
+  }
+
+  .product-card:hover .product-card__media img {
+    transform: translateY(-8px) scale(1.03);
+  }
+
+  .product-card__badge {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-size: 0.7rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 0.4em 0.9em;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(5, 4, 7, 0.6);
+  }
+
+  .product-card__body {
+    display: grid;
+    gap: 10px;
+    padding: 4px 24px 24px;
+  }
+
+  .product-card__title {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .product-card__title a {
+    text-decoration: none;
+  }
+
+  .product-card__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+
+  .product-card__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .product-card__go {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #ffffff 0%, #e9e6f0 48%, #c9c3d6 52%, #ece9f3 100%);
+    color: #0b0910;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .product-card__go svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .product-card:hover .product-card__go {
+    transform: translateX(4px);
+  }
+{% endstylesheet %}

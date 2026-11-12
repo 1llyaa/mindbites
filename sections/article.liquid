@@ -1,64 +1,210 @@
 {% comment %}
   This section is used in the article template to render the article page, which
   displays the full content of the blog post and can optionally include a
-  comments section for customers (not shown in this example).
+  comments section for customers.
 
   https://shopify.dev/docs/storefronts/themes/architecture/templates/article
 {% endcomment %}
 
-{% if article.image %}
-  {{ article.image | image_url: width: 1000 | image_tag }}
-{% endif %}
+<article class="section section--page-top article-page">
+  <header class="article-page__head reveal">
+    <a class="article-page__back" href="{{ blog.url }}">{{ 'blog.back_to' | t: title: blog.title }}</a>
+    {%- assign date = article.published_at | time_tag: format: 'date' -%}
+    <p class="eyebrow">{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
+    <h1 class="display-m"><span class="chrome heavy">{{ article.title | escape }}</span></h1>
+    {%- if article.tags.size > 0 -%}
+      <ul class="article-page__tags" role="list">
+        {%- for tag in article.tags -%}
+          <li><a class="pill" href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag | escape }}</a></li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </header>
 
-<h1>{{ article.title }}</h1>
+  {%- if article.image -%}
+    <figure class="article-page__image frame ratio-16-9">
+      {{
+        article.image
+        | image_url: width: 1800
+        | image_tag: widths: '800, 1200, 1600, 1800', sizes: '(min-width: 1240px) 1180px, 100vw', loading: 'eager'
+      }}
+    </figure>
+  {%- endif -%}
 
-{% assign date = article.published_at | time_tag: format: 'date' %}
-<p>{{ 'blog.article_metadata_html' | t: date: date, author: article.author }}</p>
+  <div class="article-page__content rte">{{ article.content }}</div>
 
-{{ article.content }}
+  {%- if blog.comments_enabled? -%}
+    <div class="article-page__comments" id="comments">
+      {%- if article.comments_count > 0 -%}
+        <h2 class="display-m"><span class="chrome thin">{{ 'blog.article_comments' | t }}</span></h2>
+        {%- paginate article.comments by 10 -%}
+          <ul class="article-page__comment-list" role="list">
+            {%- for comment in article.comments -%}
+              <li class="gcard">
+                <p class="article-page__comment-meta">
+                  <b>{{ comment.author | escape }}</b>
+                  {{ comment.created_at | time_tag: format: 'date' }}
+                </p>
+                <div class="rte">{{ comment.content }}</div>
+              </li>
+            {%- endfor -%}
+          </ul>
+          {%- if paginate.pages > 1 -%}
+            <nav class="pagination" aria-label="{{ 'general.pagination' | t }}">
+              {{- paginate | default_pagination: anchor: 'comments' -}}
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      {%- endif -%}
 
-{% if blog.comments_enabled? %}
-  <h2>{{ 'blog.article_comments' | t }}</h2>
+      {%- form 'new_comment', article, class: 'article-page__form gcard' -%}
+        <h2 class="article-page__form-title">{{ 'blog.comment_form_title' | t }}</h2>
 
-  <div id="comments">
-    {% paginate article.comments by 10 %}
-      {% for comment in article.comments %}
-        <div>
-          <p>{{ comment.author }}</p>
-          <p>
-            {{- comment.created_at | time_tag: format: 'date' -}}
+        {%- if form.posted_successfully? -%}
+          <p class="form-message" role="status">
+            {%- if blog.moderated? -%}
+              {{ 'blog.comment_moderated' | t }}
+            {%- else -%}
+              {{ 'blog.comment_posted' | t }}
+            {%- endif -%}
           </p>
-          <p>{{ comment.content }}</p>
+        {%- endif -%}
+        {%- if form.errors -%}
+          <div class="form-message form-message--error" role="alert">{{ form.errors | default_errors }}</div>
+        {%- endif -%}
+
+        <div class="article-page__form-row">
+          <div class="field">
+            <label for="CommentAuthor">{{ 'blog.comment_form_name' | t }}</label>
+            <input type="text" name="comment[author]" id="CommentAuthor" value="{{ form.author }}" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label for="CommentEmail">{{ 'blog.comment_form_email' | t }}</label>
+            <input type="email" name="comment[email]" id="CommentEmail" value="{{ form.email }}" autocomplete="email" required>
+          </div>
         </div>
-      {% endfor %}
-
-      {{ paginate | default_pagination: anchor: 'comments' }}
-    {% endpaginate %}
-  </div>
-
-  {% form 'new_comment', article %}
-    <h2>{{ 'blog.comment_form_title' | t }}</h2>
-
-    {{ form.errors | default_errors }}
-
-    <div>
-      <label for="author">{{ 'blog.comment_form_name' | t }}</label>
-      <input type="text" name="comment[author]" id="author" value="{{ form.author }}" required>
+        <div class="field">
+          <label for="CommentBody">{{ 'blog.comment_form_body' | t }}</label>
+          <textarea name="comment[body]" id="CommentBody" required>{{ form.body }}</textarea>
+        </div>
+        <button class="btn" type="submit">
+          {{- 'blog.comment_form_submit' | t -}}
+          <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+        </button>
+      {%- endform -%}
     </div>
+  {%- endif -%}
+</article>
 
-    <div>
-      <label for="email">{{ 'blog.comment_form_email' | t }}</label>
-      <input type="email" name="comment[email]" id="email" value="{{ form.email }}" required>
-    </div>
+{% stylesheet %}
+  .article-page {
+    display: grid;
+    gap: clamp(32px, 5vw, 56px);
+  }
 
-    <div>
-      <label for="body">{{ 'blog.comment_form_body' | t }}</label>
-      <textarea name="comment[body]" id="body" required>{{ form.body }}</textarea>
-    </div>
+  .article-page__head,
+  .article-page__content,
+  .article-page__comments {
+    width: 100%;
+    max-width: 760px;
+    margin-inline: auto;
+  }
 
-    <input type="submit" value="{{ 'blog.comment_form_submit' | t }}">
-  {% endform %}
-{% endif %}
+  .article-page__head {
+    display: grid;
+    gap: 18px;
+  }
+
+  .article-page__back {
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .article-page__back::before {
+    content: '← ';
+  }
+
+  .article-page__back:hover {
+    color: #fff;
+  }
+
+  .article-page__head h1 {
+    text-transform: none;
+  }
+
+  .article-page__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .article-page__content {
+    font-size: 1.08rem;
+  }
+
+  .article-page__comments {
+    display: grid;
+    gap: 28px;
+  }
+
+  .article-page__comment-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 12px;
+  }
+
+  .article-page__comment-list li {
+    padding: 22px 24px;
+  }
+
+  .article-page__comment-meta {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    margin-bottom: 8px;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  .article-page__comment-meta b {
+    color: var(--color-foreground);
+  }
+
+  .article-page__form {
+    display: grid;
+    gap: 20px;
+    padding: clamp(22px, 4vw, 40px);
+  }
+
+  .article-page__form-title {
+    font-size: 1.2rem;
+    letter-spacing: 0.06em;
+  }
+
+  .article-page__form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  .article-page__form .btn {
+    justify-self: start;
+  }
+
+  @media (max-width: 560px) {
+    .article-page__form-row {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
 
 {% schema %}
 {

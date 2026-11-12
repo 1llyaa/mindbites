@@ -1,0 +1,77 @@
+<div class="section effects {% if section.settings.flush_top %}section--flush-top{% endif %}" id="effects">
+  {%- render 'section-heading',
+    eyebrow: section.settings.eyebrow,
+    heading_thin: section.settings.heading_thin,
+    heading_heavy: section.settings.heading_heavy,
+    lead: section.settings.lead,
+    layout: 'center'
+  -%}
+
+  <div class="effects__row">
+    <div class="light-line" aria-hidden="true"></div>
+    {% content_for 'blocks' %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .effects__row {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+  }
+
+  @media (max-width: 760px) {
+    .effects__row {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.effects",
+  "blocks": [{ "type": "_effect" }],
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow"
+    },
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy"
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "t:labels.lead"
+    },
+    {
+      "type": "checkbox",
+      "id": "flush_top",
+      "label": "t:labels.flush_top",
+      "default": false
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.effects",
+      "blocks": {
+        "boost": { "type": "_effect", "settings": { "icon": "boost", "title": "Boost", "text": "Energy that kicks in." } },
+        "sustain": { "type": "_effect", "settings": { "icon": "sustain", "title": "Sustain", "text": "Focus that lasts." } },
+        "focus": { "type": "_effect", "settings": { "icon": "focus", "title": "Focus", "text": "Clear head, full concentration." } }
+      },
+      "block_order": ["boost", "sustain", "focus"]
+    }
+  ]
+}
+{% endschema %}

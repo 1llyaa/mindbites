@@ -1,23 +1,61 @@
 {
   "404": {
     "title": "404",
-    "not_found": "Page not found.",
-    "back_to_shopping": "Back to shopping"
+    "eyebrow": "Page not found",
+    "not_found": "This page took a different dose.",
+    "back_to_shopping": "Back to shopping",
+    "home": "Go home"
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "close": "Close"
   },
   "blog": {
+    "all": "All",
+    "tags": "Filter by topic",
+    "read_more": "Read article",
+    "back_to": "Back to {{ title }}",
+    "empty": "No articles yet. Check back soon.",
     "article_comments": "Comments",
     "article_metadata_html": "{{ date }} by {{ author }}",
     "comment_form_body": "Comment",
     "comment_form_email": "Email",
     "comment_form_name": "Name",
-    "comment_form_submit": "Post",
-    "comment_form_title": "Add a comment"
+    "comment_form_submit": "Post comment",
+    "comment_form_title": "Add a comment",
+    "comment_moderated": "Thanks! Your comment will appear once it's approved.",
+    "comment_posted": "Thanks! Your comment has been posted."
   },
   "cart": {
-    "checkout": "Checkout",
     "title": "Cart",
-    "update": "Update",
-    "remove": "Remove"
+    "eyebrow": "Your order",
+    "checkout": "Checkout",
+    "update": "Update cart",
+    "remove": "Remove",
+    "empty": "Your cart is empty",
+    "continue_shopping": "Continue shopping",
+    "subtotal": "Subtotal",
+    "taxes_and_shipping": "Taxes and shipping calculated at checkout.",
+    "note": "Order note",
+    "view_cart": "View cart",
+    "error": "Something went wrong. Please try again."
+  },
+  "collections": {
+    "title": "Collections",
+    "empty": "No products here yet.",
+    "product_count": {
+      "one": "{{ count }} product",
+      "other": "{{ count }} products"
+    }
+  },
+  "contact": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "hours": "Hours",
+    "message": "Message",
+    "send": "Send message",
+    "success": "Thanks for reaching out. We'll get back to you within one business day."
   },
   "customers": {
     "login": {
@@ -27,8 +65,19 @@
       "title": "Login"
     }
   },
-  "collections": {
-    "title": "Collections"
+  "dosage": {
+    "image_alt": "{{ count }} MindBites gummies"
+  },
+  "featured_product": {
+    "placeholder_title": "Your product",
+    "placeholder_text": "Choose a product in the theme editor to show it here."
+  },
+  "footer": {
+    "back_to_top": "Back to top",
+    "payment_methods": "Payment methods"
+  },
+  "general": {
+    "pagination": "Pagination"
   },
   "gift_card": {
     "add_to_apple_wallet": "Add to Apple Wallet",
@@ -36,6 +85,22 @@
     "expired": "This gift card has expired",
     "expires_on": "Expires on {{ expires_on }}",
     "use_at_checkout": "Use this gift card at checkout"
+  },
+  "header": {
+    "menu": "Menu"
+  },
+  "hero": {
+    "per_pouch": "per pouch",
+    "pouch_alt": "MindBites pouch with purple brain-shaped gummies"
+  },
+  "ingredients": {
+    "image_alt": "Purple brain-shaped MindBites gummy"
+  },
+  "newsletter": {
+    "email": "Email",
+    "placeholder": "you@email.com",
+    "submit": "Subscribe",
+    "success": "You're on the list. Watch your inbox."
   },
   "password": {
     "title": "This shop is private",
@@ -45,11 +110,25 @@
     "close": "Close",
     "email_placeholder": "you@email.com"
   },
+  "products": {
+    "add_to_cart": "Add to cart",
+    "adding": "Adding…",
+    "sold_out": "Sold out",
+    "unavailable": "Unavailable",
+    "sale": "Sale",
+    "quantity": "Quantity",
+    "quantity_for": "Quantity for {{ title }}",
+    "decrease_quantity": "Decrease quantity",
+    "increase_quantity": "Increase quantity",
+    "show_image": "Show image {{ index }}"
+  },
   "search": {
     "title": "Search",
-    "placeholder": "Search articles, pages, or products",
+    "eyebrow": "Find it",
+    "page": "Page",
+    "placeholder": "Search products, articles and pages",
     "submit": "Search",
-    "no_results_html": "No results found for {{ terms }}",
-    "results_for_html": "{{ count }} results found for {{ terms }}"
+    "no_results_html": "No results found for “{{ terms }}”.",
+    "results_for_html": "{{ count }} results for “{{ terms }}”"
   }
 }

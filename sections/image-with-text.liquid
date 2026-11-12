@@ -1,0 +1,166 @@
+{%- liquid
+  assign fallback_asset = 'mb-' | append: section.settings.fallback_image | append: '.webp'
+-%}
+
+<div class="section image-text image-text--{{ section.settings.layout }}">
+  <figure class="image-text__media frame ratio-4-5 frame--{{ section.settings.image_fit }} reveal">
+    {%- if section.settings.image -%}
+      {{
+        section.settings.image
+        | image_url: width: 1400
+        | image_tag: widths: '600, 900, 1200, 1400', sizes: '(min-width: 860px) 50vw, 100vw', loading: 'lazy'
+      }}
+    {%- elsif section.settings.fallback_image != 'none' -%}
+      <img src="{{ fallback_asset | asset_url }}" alt="" width="1600" height="2000" loading="lazy">
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </figure>
+
+  <div class="image-text__content reveal">
+    {%- if section.settings.eyebrow != blank -%}
+      <p class="eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {%- endif -%}
+    <h2 class="display-l">
+      {%- if section.settings.heading_thin != blank -%}
+        <span class="chrome thin">{{ section.settings.heading_thin | escape }}</span>
+      {%- endif -%}
+      {%- if section.settings.heading_heavy != blank -%}
+        <span class="chrome heavy">{{ section.settings.heading_heavy | escape }}</span>
+      {%- endif -%}
+    </h2>
+    <div class="rule" aria-hidden="true"></div>
+    {%- if section.settings.text != blank -%}
+      <div class="image-text__text rte">{{ section.settings.text }}</div>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a class="btn" href="{{ section.settings.button_link | default: routes.all_products_collection_url }}">
+        {{- section.settings.button_label | escape -}}
+        <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+      </a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% stylesheet %}
+  .image-text {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 80px);
+    align-items: center;
+  }
+
+  .image-text--image-right .image-text__media {
+    order: 2;
+  }
+
+  .image-text__media.frame--contain {
+    background: radial-gradient(circle at 50% 45%, rgba(var(--color-accent-rgb), 0.32), transparent 65%);
+  }
+
+  .image-text__content {
+    display: grid;
+    gap: 22px;
+    justify-items: start;
+  }
+
+  .image-text__text {
+    color: var(--color-muted);
+    max-width: 52ch;
+  }
+
+  @media (max-width: 860px) {
+    .image-text {
+      grid-template-columns: 1fr;
+    }
+
+    .image-text--image-right .image-text__media {
+      order: 0;
+    }
+
+    .image-text__media {
+      max-width: 520px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "t:names.image_with_text",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "select",
+      "id": "fallback_image",
+      "label": "t:labels.fallback_image",
+      "info": "t:info.fallback_image",
+      "options": [
+        { "value": "ingredients", "label": "t:options.fallback_image.gummy" },
+        { "value": "hero-pouch", "label": "t:options.fallback_image.pouch" },
+        { "value": "display-stand", "label": "t:options.fallback_image.display" },
+        { "value": "none", "label": "t:options.fallback_image.none" }
+      ],
+      "default": "ingredients"
+    },
+    {
+      "type": "select",
+      "id": "image_fit",
+      "label": "t:labels.image_fit",
+      "options": [
+        { "value": "cover", "label": "t:options.image_fit.cover" },
+        { "value": "contain", "label": "t:options.image_fit.contain" }
+      ],
+      "default": "cover"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "t:labels.layout",
+      "options": [
+        { "value": "image-left", "label": "t:options.layout.image_left" },
+        { "value": "image-right", "label": "t:options.layout.image_right" }
+      ],
+      "default": "image-left"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "t:labels.eyebrow",
+      "default": "Our story"
+    },
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin",
+      "default": "Built for"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy",
+      "default": "the edge."
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "t:labels.text",
+      "default": "<p>Tell customers what makes the product different.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:labels.button_label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:labels.button_link"
+    }
+  ],
+  "presets": [{ "name": "t:names.image_with_text" }]
+}
+{% endschema %}

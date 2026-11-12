@@ -1,0 +1,499 @@
+{%- liquid
+  assign product = section.settings.product
+  assign primary_link = section.settings.button_link
+  if primary_link == blank
+    if product != blank
+      assign primary_link = product.url
+    else
+      assign primary_link = routes.all_products_collection_url
+    endif
+  endif
+-%}
+
+<div class="hero full-width" style="--hero-glow: {{ section.settings.glow }}%">
+  <div class="hero__hex" aria-hidden="true"></div>
+  <div class="hero__inner content-grid">
+    <div class="hero__poster">
+      {%- if section.settings.show_gummies -%}
+        <div class="hero__gummies" aria-hidden="true">
+          <span class="gm gm--front" style="--x: 66%; --y: 63%; --s: clamp(90px, 11vw, 180px); --r: -14deg; --f: 1; --d: 7s">
+            <img src="{{ 'mb-gummy-3.webp' | asset_url }}" alt="" width="348" height="360">
+          </span>
+          <span class="gm gm--front gm--wide" style="--x: 29%; --y: 45%; --s: clamp(62px, 7vw, 120px); --r: 18deg; --f: -1; --d: 8.4s">
+            <img src="{{ 'mb-gummy-2.webp' | asset_url }}" alt="" width="360" height="293">
+          </span>
+          <span class="gm gm--mid" style="--x: 19%; --y: 64%; --s: clamp(56px, 6.4vw, 110px); --r: -8deg; --f: 1; --d: 6.4s">
+            <img src="{{ 'mb-gummy-1.webp' | asset_url }}" alt="" width="360" height="232">
+          </span>
+          <span class="gm gm--mid" style="--x: 68%; --y: 40%; --s: clamp(50px, 5.6vw, 96px); --r: 12deg; --f: -1; --d: 7.6s">
+            <img src="{{ 'mb-gummy-5.webp' | asset_url }}" alt="" width="360" height="292">
+          </span>
+          <span class="gm gm--mid" style="--x: 36%; --y: 69%; --s: clamp(42px, 4.4vw, 76px); --r: -20deg; --f: 1; --d: 9s">
+            <img src="{{ 'mb-gummy-4.webp' | asset_url }}" alt="" width="360" height="321">
+          </span>
+          <span class="gm gm--back gm--wide" style="--x: 81%; --y: 57%; --s: clamp(36px, 3.8vw, 66px); --r: 24deg; --f: -1; --d: 10s">
+            <img src="{{ 'mb-gummy-4.webp' | asset_url }}" alt="" width="360" height="321">
+          </span>
+          <span class="gm gm--back gm--wide" style="--x: 84%; --y: 22%; --s: clamp(34px, 3.4vw, 60px); --r: -10deg; --f: 1; --d: 11s">
+            <img src="{{ 'mb-gummy-1.webp' | asset_url }}" alt="" width="360" height="232">
+          </span>
+        </div>
+      {%- endif -%}
+
+      <h1 class="hero__title">
+        {%- if section.settings.heading_thin != blank -%}
+          <span class="hero__line hero__line--thin"><span class="chrome thin">{{ section.settings.heading_thin }}</span></span>
+        {%- endif -%}
+        {%- if section.settings.heading_heavy != blank -%}
+          <span class="hero__line hero__line--heavy"><span class="chrome heavy">{{ section.settings.heading_heavy }}</span></span>
+        {%- endif -%}
+      </h1>
+
+      <div class="hero__stage">
+        <div class="hero__float">
+          {%- if section.settings.image -%}
+            {{
+              section.settings.image
+              | image_url: width: 1200
+              | image_tag:
+                class: 'hero__pouch',
+                widths: '400, 600, 800, 1000, 1200',
+                sizes: '(min-width: 760px) 400px, 62vw',
+                loading: 'eager',
+                fetchpriority: 'high'
+            }}
+          {%- else -%}
+            <img
+              class="hero__pouch"
+              src="{{ 'mb-hero-pouch.webp' | asset_url }}"
+              alt="{{ 'hero.pouch_alt' | t }}"
+              width="1600"
+              height="2000"
+              fetchpriority="high"
+            >
+          {%- endif -%}
+        </div>
+        <div class="hero__halo" aria-hidden="true"></div>
+      </div>
+
+      <div class="hero__copy">
+        {%- if section.settings.text != blank -%}
+          <p class="spaced">{{ section.settings.text }}</p>
+        {%- endif -%}
+
+        <div class="hero__actions">
+          {%- if section.settings.button_label != blank -%}
+            <a class="btn" href="{{ primary_link }}">
+              {{- section.settings.button_label | escape -}}
+              <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+            </a>
+          {%- endif -%}
+          {%- if section.settings.secondary_label != blank -%}
+            <a class="btn btn--ghost" href="{{ section.settings.secondary_link | default: '#' }}">
+              {{- section.settings.secondary_label | escape -}}
+            </a>
+          {%- endif -%}
+        </div>
+
+        <ul class="hero__facts">
+          {%- if section.settings.show_price and product != blank -%}
+            <li>
+              <b>{{ product.price | money }}</b>
+              {{ 'hero.per_pouch' | t }}
+            </li>
+          {%- endif -%}
+          {% content_for 'blocks' %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .hero {
+    position: relative;
+    overflow: hidden;
+    --mx: 50%;
+    --my: 40%;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    width: min(90vw, 900px);
+    aspect-ratio: 1;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(var(--color-accent-rgb), calc(var(--hero-glow) / 100)), transparent 65%);
+    filter: blur(30px);
+    pointer-events: none;
+  }
+
+  .hero__hex {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 1 55 16.5v31L28 63 1 47.5v-31z M28 63v34 M1 16.5 0 16 M55 16.5 56 16' fill='none' stroke='%23623d90' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 42px 73px;
+    opacity: 0.5;
+    -webkit-mask-image: radial-gradient(420px circle at var(--mx) var(--my), #000 0%, transparent 70%);
+    mask-image: radial-gradient(420px circle at var(--mx) var(--my), #000 0%, transparent 70%);
+  }
+
+  .hero__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero__poster {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    align-content: center;
+    min-height: calc(100svh - var(--header-height) - 34px);
+    padding-block: clamp(28px, 4vh, 48px) clamp(40px, 6vh, 72px);
+  }
+
+  .hero__title {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    line-height: 0.9;
+    letter-spacing: 0;
+  }
+
+  .hero__line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.18em;
+    margin-bottom: -0.18em;
+  }
+
+  .hero__line > span {
+    animation: rise 1s var(--ease) both, sheen 10s ease-in-out infinite;
+  }
+
+  .hero__line--thin {
+    font-size: clamp(1.05rem, 4.6vw, 4.4rem);
+    letter-spacing: 0.02em;
+  }
+
+  .hero__line--heavy {
+    font-size: clamp(2.8rem, 13.6vw, 13.2rem);
+    letter-spacing: -0.045em;
+    margin-top: 0.02em;
+  }
+
+  .hero__line--heavy > span {
+    animation-delay: 0.12s, 0s;
+  }
+
+  @keyframes rise {
+    from {
+      transform: translateY(105%);
+    }
+  }
+
+  .hero__stage {
+    position: relative;
+    z-index: 2;
+    width: min(34vw, calc((100svh - var(--header-height)) * 0.42), 400px);
+    margin-top: calc(-1 * clamp(2.8rem, 13.6vw, 13.2rem) * 0.52);
+  }
+
+  .hero__float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .hero__pouch {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 30px 50px rgba(0, 0, 0, 0.7));
+  }
+
+  .hero__halo {
+    position: absolute;
+    left: 50%;
+    bottom: -2%;
+    width: 62%;
+    height: 34px;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at center, rgba(var(--color-accent-rgb), 0.55), transparent 70%);
+    filter: blur(8px);
+    z-index: -1;
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      translate: 0 0;
+    }
+    50% {
+      translate: 0 -14px;
+    }
+  }
+
+  .hero__gummies {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .gm {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: var(--s);
+    translate: -50% -50%;
+    animation: gm-in 1.2s var(--ease) both;
+  }
+
+  .gm img {
+    width: 100%;
+    height: auto;
+    scale: var(--f) 1;
+    rotate: var(--r);
+    animation: gm-float var(--d) ease-in-out infinite;
+    filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 22px rgba(130, 60, 220, 0.35));
+  }
+
+  .gm--back {
+    z-index: 0;
+    filter: blur(1.5px);
+    opacity: 0.75;
+  }
+
+  .gm--mid {
+    z-index: 0;
+  }
+
+  .gm--front {
+    z-index: 3;
+  }
+
+  @keyframes gm-float {
+    0%,
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-12px) rotate(6deg);
+    }
+  }
+
+  @keyframes gm-in {
+    from {
+      opacity: 0;
+      scale: 0.25;
+      left: 50%;
+      top: 52%;
+    }
+  }
+
+  .hero__copy {
+    position: relative;
+    z-index: 3;
+    display: grid;
+    justify-items: center;
+    gap: 18px;
+    margin-top: clamp(16px, 2.4vh, 28px);
+    max-width: 820px;
+  }
+
+  .hero__copy .spaced {
+    margin: 0;
+    font-size: 0.8rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .hero__facts {
+    list-style: none;
+    margin: 0;
+    padding: 4px 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 28px;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+  }
+
+  .hero__facts b {
+    color: var(--color-foreground);
+    font-weight: 600;
+  }
+
+  @media (max-width: 760px) {
+    .hero__poster {
+      min-height: 0;
+      padding-block: 28px 40px;
+    }
+
+    .hero__stage {
+      width: min(62vw, 300px);
+      margin-top: calc(-1 * clamp(2.8rem, 15.6vw, 5.2rem) * 0.5);
+    }
+
+    .hero__line--thin {
+      font-size: clamp(1.05rem, 5.2vw, 1.6rem);
+    }
+
+    .hero__line--heavy {
+      font-size: clamp(2.8rem, 15.6vw, 5.2rem);
+    }
+
+    .hero__copy .spaced {
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+    }
+
+    .hero__actions {
+      display: grid;
+      width: 100%;
+    }
+
+    .hero__actions .btn {
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .hero__actions .btn--ghost {
+      justify-content: center;
+    }
+
+    .hero__facts {
+      gap: 8px 18px;
+      font-size: 0.8rem;
+    }
+
+    .gm--wide {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  document.addEventListener(
+    'pointermove',
+    (event) => {
+      const hero = event.target.closest && event.target.closest('.hero');
+      if (!hero) return;
+      const rect = hero.getBoundingClientRect();
+      hero.style.setProperty('--mx', `${((event.clientX - rect.left) / rect.width) * 100}%`);
+      hero.style.setProperty('--my', `${((event.clientY - rect.top) / rect.height) * 100}%`);
+    },
+    { passive: true }
+  );
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:names.hero",
+  "blocks": [{ "type": "_fact" }],
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_thin",
+      "label": "t:labels.heading_thin",
+      "default": "Supplementation meets"
+    },
+    {
+      "type": "text",
+      "id": "heading_heavy",
+      "label": "t:labels.heading_heavy",
+      "default": "snacking."
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "t:labels.subheading",
+      "default": "Functional gummies for energy, focus and mental performance."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image",
+      "info": "t:info.hero_image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_gummies",
+      "label": "t:labels.show_gummies",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "glow",
+      "label": "t:labels.glow",
+      "min": 0,
+      "max": 80,
+      "step": 2,
+      "unit": "%",
+      "default": 38
+    },
+    {
+      "type": "header",
+      "content": "t:labels.product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "t:labels.product"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "t:labels.show_price",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "t:labels.buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:labels.button_label",
+      "default": "Shop MindBites"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "t:labels.button_link",
+      "info": "t:info.hero_button_link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "t:labels.secondary_button_label",
+      "default": "How it works"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "t:labels.secondary_button_link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:names.hero",
+      "blocks": {
+        "fact_1": { "type": "_fact", "settings": { "text": "<b>33</b> gummies per pouch" } },
+        "fact_2": { "type": "_fact", "settings": { "text": "Made in the <b>EU</b>" } }
+      },
+      "block_order": ["fact_1", "fact_2"]
+    }
+  ]
+}
+{% endschema %}

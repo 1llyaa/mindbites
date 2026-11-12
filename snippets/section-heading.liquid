@@ -1,0 +1,60 @@
+{% doc %}
+  Renders the shared section heading: eyebrow, a two-weight chrome headline
+  (thin line + heavy line) and an optional lead paragraph.
+
+  @param {string} [eyebrow] - Small uppercase label above the heading
+  @param {string} [heading_thin] - Light-weight satin line of the heading
+  @param {string} [heading_heavy] - Heavy-weight chrome line of the heading
+  @param {string} [lead] - Lead paragraph (rich text)
+  @param {string} [layout] - 'split' (heading left, lead right), 'center', or 'stack' (default)
+  @param {string} [tag] - Heading tag, defaults to h2
+  @param {string} [size] - 'xl', 'l' (default) or 'm'
+
+  @example
+  {% render 'section-heading',
+    eyebrow: section.settings.eyebrow,
+    heading_thin: section.settings.heading_thin,
+    heading_heavy: section.settings.heading_heavy,
+    lead: section.settings.lead,
+    layout: 'split'
+  %}
+{% enddoc %}
+
+{%- liquid
+  assign heading_tag = tag | default: 'h2'
+  assign heading_size = size | default: 'l'
+  assign has_heading = false
+  if heading_thin != blank or heading_heavy != blank
+    assign has_heading = true
+  endif
+-%}
+
+{%- if eyebrow != blank or has_heading or lead != blank -%}
+  <div class="section-head section-head--{{ layout | default: 'stack' }} reveal">
+    {%- capture title -%}
+      {%- if eyebrow != blank -%}
+        <p class="eyebrow">{{ eyebrow }}</p>
+      {%- endif -%}
+      {%- if has_heading -%}
+        <{{ heading_tag }} class="display-{{ heading_size }}">
+          {%- if heading_thin != blank -%}
+            <span class="chrome thin">{{ heading_thin }}</span>
+          {%- endif -%}
+          {%- if heading_heavy != blank -%}
+            <span class="chrome heavy">{{ heading_heavy }}</span>
+          {%- endif -%}
+        </{{ heading_tag }}>
+      {%- endif -%}
+    {%- endcapture -%}
+
+    {%- if layout == 'split' -%}
+      <div>{{ title }}</div>
+    {%- else -%}
+      {{ title }}
+    {%- endif -%}
+
+    {%- if lead != blank -%}
+      <div class="lead">{{ lead }}</div>
+    {%- endif -%}
+  </div>
+{%- endif -%}

@@ -1,0 +1,17 @@
+{% doc %}
+  Outputs favicon and touch icon links. Uses the favicon theme setting when set,
+  otherwise falls back to the bundled MindBites icons.
+
+  @example
+  {% render 'favicon' %}
+{% enddoc %}
+
+{%- if settings.favicon -%}
+  <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+  <link rel="apple-touch-icon" href="{{ settings.favicon | image_url: width: 180, height: 180 }}">
+{%- else -%}
+  <link rel="icon" type="image/png" sizes="32x32" href="{{ 'mb-favicon-32.png' | asset_url }}">
+  <link rel="icon" type="image/png" sizes="204x204" href="{{ 'mb-favicon.png' | asset_url }}">
+  <link rel="apple-touch-icon" href="{{ 'mb-apple-touch-icon.png' | asset_url }}">
+{%- endif -%}
+<meta name="theme-color" content="{{ settings.background_color }}">

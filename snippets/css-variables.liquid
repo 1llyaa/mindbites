@@ -1,18 +1,50 @@
+{% doc %}
+  Outputs the font faces and global CSS custom properties driven by theme settings.
+
+  @example
+  {% render 'css-variables' %}
+{% enddoc %}
+
+{%- liquid
+  assign font = settings.type_primary_font
+  assign font_light = font | font_modify: 'weight', '300'
+  assign font_medium = font | font_modify: 'weight', '500'
+  assign font_semibold = font | font_modify: 'weight', '600'
+  assign font_bold = font | font_modify: 'weight', 'bold'
+  assign font_heavy = font | font_modify: 'weight', '800'
+  assign font_black = font | font_modify: 'weight', '900'
+-%}
+
 {% style %}
-  {% # Loads all font variantions with display: swap %}
-  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
+  {% # Loads the font weights used across the theme with display: swap %}
+  {{ font | font_face: font_display: 'swap' }}
+  {{ font_light | font_face: font_display: 'swap' }}
+  {{ font_medium | font_face: font_display: 'swap' }}
+  {{ font_semibold | font_face: font_display: 'swap' }}
+  {{ font_bold | font_face: font_display: 'swap' }}
+  {{ font_heavy | font_face: font_display: 'swap' }}
+  {{ font_black | font_face: font_display: 'swap' }}
 
   :root {
-    --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
-    --font-primary--style: {{ settings.type_primary_font.style }};
-    --font-primary--weight: {{ settings.type_primary_font.weight }};
+    --font-primary--family: {{ font.family }}, {{ font.fallback_families }};
+    --font-primary--style: {{ font.style }};
+    --font-primary--weight: {{ font.weight }};
     --page-width: {{ settings.max_page_width }};
     --page-margin: {{ settings.min_page_margin }}px;
+
     --color-background: {{ settings.background_color }};
+    --color-panel: {{ settings.panel_color }};
     --color-foreground: {{ settings.foreground_color }};
+    --color-muted: {{ settings.muted_color }};
+    --color-dim: {{ settings.muted_color | color_darken: 8 }};
+    --color-accent: {{ settings.accent_color }};
+    --color-accent-light: {{ settings.accent_light_color }};
+    --color-accent-rgb: {{ settings.accent_color | color_extract: 'red' }}, {{ settings.accent_color | color_extract: 'green' }}, {{ settings.accent_color | color_extract: 'blue' }};
+    --color-accent-light-rgb: {{ settings.accent_light_color | color_extract: 'red' }}, {{ settings.accent_light_color | color_extract: 'green' }}, {{ settings.accent_light_color | color_extract: 'blue' }};
+    --color-line: rgba(var(--color-accent-rgb), 0.55);
+    --color-hairline: rgba(255, 255, 255, 0.08);
+
     --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    --logo-height: {{ settings.logo_height }}px;
   }
 {% endstyle %}

@@ -1,0 +1,100 @@
+{% doc %}
+  Renders the email signup form (Shopify customer form) with success and
+  error states.
+
+  @param {string} id - Unique id used for the form and its field
+  @param {string} [button_label] - Optional submit label, defaults to the translated "Subscribe"
+
+  @example
+  {% render 'newsletter-form', id: section.id %}
+{% enddoc %}
+
+{%- liquid
+  assign form_id = 'newsletter-' | append: id
+  assign submit_label = button_label
+  if submit_label == blank
+    assign submit_label = 'newsletter.submit' | t
+  endif
+-%}
+
+{%- form 'customer', id: form_id, class: 'newsletter-form' -%}
+  <input type="hidden" name="contact[tags]" value="newsletter">
+
+  {%- if form.posted_successfully? -%}
+    <p class="form-message" role="status">
+      {%- render 'icon', name: 'check' -%}
+      {{ 'newsletter.success' | t }}
+    </p>
+  {%- else -%}
+    <div class="newsletter-form__row">
+      <label class="visually-hidden" for="{{ form_id }}-email">{{ 'newsletter.email' | t }}</label>
+      <input
+        class="input"
+        id="{{ form_id }}-email"
+        type="email"
+        name="contact[email]"
+        value="{{ form.email }}"
+        placeholder="{{ 'newsletter.placeholder' | t }}"
+        autocomplete="email"
+        autocapitalize="off"
+        spellcheck="false"
+        required
+        {% if form.errors %}
+          aria-invalid="true" aria-describedby="{{ form_id }}-error"
+        {% endif %}
+      >
+      <button class="btn" type="submit">
+        {{- submit_label | escape -}}
+        <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+      </button>
+    </div>
+    {%- if form.errors -%}
+      <p class="form-message form-message--error" id="{{ form_id }}-error">
+        {{ form.errors.translated_fields.email | capitalize }}
+        {{ form.errors.messages.email }}
+      </p>
+    {%- endif -%}
+  {%- endif -%}
+{%- endform -%}
+
+{% stylesheet %}
+  .newsletter-form {
+    display: grid;
+    gap: 12px;
+  }
+
+  .newsletter-form__row {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .newsletter-form__row .input {
+    min-height: 58px;
+    padding-right: 150px;
+    border-radius: 999px;
+  }
+
+  .newsletter-form__row .btn {
+    position: absolute;
+    right: 4px;
+    --h: 50px;
+  }
+
+  @media (max-width: 420px) {
+    .newsletter-form__row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .newsletter-form__row .input {
+      padding-right: 18px;
+    }
+
+    .newsletter-form__row .btn {
+      position: static;
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+{% endstylesheet %}

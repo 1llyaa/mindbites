@@ -11,7 +11,11 @@
   "sections": {
     "main": {
       "type": "collections",
-      "settings": {}
+      "settings": {
+        "eyebrow": "Shop",
+        "heading": "Collections",
+        "grid_gap": 20
+      }
     }
   },
   "order": [
