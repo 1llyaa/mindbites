@@ -16,47 +16,52 @@
         "heading_thin": "Talk to",
         "heading_heavy": "us.",
         "lead": "<p>Questions about dosage, an order or stocking MindBites? Send us a message and we'll get back to you within one business day.</p>",
-        "email": "hello@mindbites.eu",
+        "email": "Info@mindbites.gg",
+        "phone": "",
         "hours": "Mon–Fri, 9:00–17:00 CET"
       }
     },
     "faq": {
       "type": "faq",
-      "settings": {
-        "eyebrow": "Before you write",
-        "heading_thin": "Quick",
-        "heading_heavy": "answers.",
-        "heading_tag": "h2",
-        "page_top": false
-      },
       "blocks": {
         "q_ship": {
           "type": "_faq-item",
           "settings": {
             "question": "Where do you ship?",
             "answer": "<p>We ship across the EU. Orders usually leave our warehouse within one business day.</p>"
-          }
+          },
+          "blocks": {}
         },
         "q_return": {
           "type": "_faq-item",
           "settings": {
             "question": "Can I return an order?",
             "answer": "<p>Unopened pouches can be returned within 30 days. Get in touch through the contact page and we'll sort it out.</p>"
-          }
+          },
+          "blocks": {}
         },
         "q_dose": {
           "type": "_faq-item",
           "settings": {
             "question": "How many gummies should I take?",
             "answer": "<p>Start with 3 gummies (50 mg caffeine) and see how you feel. 6 gummies is the full dose (100 mg). Never take more than 9 gummies in a day.</p>"
-          }
+          },
+          "blocks": {}
         }
       },
       "block_order": [
         "q_ship",
         "q_return",
         "q_dose"
-      ]
+      ],
+      "settings": {
+        "eyebrow": "Before you write",
+        "heading_thin": "Quick",
+        "heading_heavy": "answers.",
+        "lead": "",
+        "heading_tag": "h2",
+        "page_top": false
+      }
     }
   },
   "order": [
