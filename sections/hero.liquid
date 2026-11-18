@@ -74,6 +74,16 @@
           {%- endif -%}
         </div>
         <div class="hero__halo" aria-hidden="true"></div>
+
+        {%- if section.settings.show_gummies -%}
+          {% # Mobile only: a smaller set orbiting the pouch, since the poster-wide set lands behind the copy %}
+          <div class="hero__orbit" aria-hidden="true">
+            <span class="hero__orbit-gm hero__orbit-gm--1"><img src="{{ 'mb-gummy-3.webp' | asset_url }}" alt="" width="348" height="360"></span>
+            <span class="hero__orbit-gm hero__orbit-gm--2"><img src="{{ 'mb-gummy-2.webp' | asset_url }}" alt="" width="360" height="293"></span>
+            <span class="hero__orbit-gm hero__orbit-gm--3"><img src="{{ 'mb-gummy-5.webp' | asset_url }}" alt="" width="360" height="292"></span>
+            <span class="hero__orbit-gm hero__orbit-gm--4"><img src="{{ 'mb-gummy-1.webp' | asset_url }}" alt="" width="360" height="232"></span>
+          </div>
+        {%- endif -%}
       </div>
 
       <div class="hero__copy">
@@ -376,9 +386,87 @@
       font-size: 0.8rem;
     }
 
-    .gm--wide {
+  }
+
+  /* Phones and tablets: the poster-wide gummies would land behind the copy, so a smaller set orbits the pouch */
+  @media (max-width: 990px) {
+    .hero__gummies {
       display: none;
     }
+
+    .hero .hero__orbit {
+      display: block;
+    }
+  }
+
+  .hero__orbit {
+    display: none;
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .hero__orbit-gm {
+    position: absolute;
+    animation: orbit-in 1.1s var(--ease) both 0.3s;
+  }
+
+  @keyframes orbit-in {
+    from {
+      opacity: 0;
+      scale: 0.3;
+    }
+  }
+
+  .hero__orbit-gm img {
+    width: 100%;
+    height: auto;
+    animation: gm-float 7s ease-in-out infinite;
+    filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 18px rgba(130, 60, 220, 0.45));
+  }
+
+  .hero__orbit-gm--1 {
+    width: 36%;
+    right: -20%;
+    bottom: 8%;
+    rotate: -14deg;
+  }
+
+  .hero__orbit-gm--2 {
+    width: 26%;
+    left: -22%;
+    top: 30%;
+    rotate: 18deg;
+  }
+
+  .hero__orbit-gm--3 {
+    width: 20%;
+    right: -12%;
+    top: 4%;
+    opacity: 0.85;
+  }
+
+  .hero__orbit-gm--4 {
+    width: 24%;
+    left: -12%;
+    bottom: 2%;
+    rotate: -8deg;
+  }
+
+  .hero__orbit-gm--2 img {
+    animation-duration: 8.4s;
+    animation-delay: -2s;
+  }
+
+  .hero__orbit-gm--3 img {
+    animation-duration: 9.6s;
+    animation-delay: -4s;
+  }
+
+  .hero__orbit-gm--4 img {
+    animation-duration: 6.4s;
+    animation-delay: -3s;
   }
 {% endstylesheet %}
 
