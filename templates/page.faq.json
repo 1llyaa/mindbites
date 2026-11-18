@@ -15,7 +15,7 @@
         "eyebrow": "FAQ",
         "heading_thin": "Everything",
         "heading_heavy": "you need to know.",
-        "lead": "<p>Dosage, ingredients, shipping and returns. Can't find your answer? <a href=\"/pages/contact\">Contact us</a>.</p>",
+        "lead": "<p>Dosage, ingredients and pre-orders. Can't find your answer? <a href=\"/pages/contact\">Contact us</a>.</p>",
         "heading_tag": "h1",
         "page_top": true
       },
@@ -62,18 +62,18 @@
             "answer": "<p>Keep the pouch sealed in a cool, dry place away from direct sunlight, and out of reach of children.</p>"
           }
         },
-        "q_ship": {
+        "q_order": {
           "type": "_faq-item",
           "settings": {
-            "question": "Where do you ship?",
-            "answer": "<p>We ship across the EU. Orders usually leave our warehouse within one business day.</p>"
+            "question": "When can I order?",
+            "answer": "<p>Pre-orders open soon. Join The Edge List and we'll email you the moment they do, before anyone else.</p>"
           }
         },
-        "q_return": {
+        "q_edge": {
           "type": "_faq-item",
           "settings": {
-            "question": "Can I return an order?",
-            "answer": "<p>Unopened pouches can be returned within 30 days. Get in touch through the contact page and we'll sort it out.</p>"
+            "question": "What is The Edge List?",
+            "answer": "<p>Our early-access list. Members hear first when pre-orders open and get a launch-day perk. One email when it matters, no spam.</p>"
           }
         }
       },
@@ -84,8 +84,8 @@
         "q_who",
         "q_combine",
         "q_store",
-        "q_ship",
-        "q_return"
+        "q_order",
+        "q_edge"
       ]
     },
     "cta": {

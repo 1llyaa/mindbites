@@ -54,7 +54,7 @@
 
     {% sections 'footer-group' %}
 
-    {% if settings.cart_type == 'drawer' %}
+    {% if settings.cart_type == 'drawer' and settings.store_mode != 'edge_list' %}
       {% section 'cart-drawer' %}
     {% endif %}
 

@@ -15,31 +15,15 @@
         "eyebrow": "Contact",
         "heading_thin": "Talk to",
         "heading_heavy": "us.",
-        "lead": "<p>Questions about dosage, an order or stocking MindBites? Send us a message and we'll get back to you within one business day.</p>",
+        "lead": "<p>Questions about dosage, pre-orders or stocking MindBites? Send us a message and we'll get back to you within one business day.</p>",
         "email": "Info@mindbites.gg",
         "phone": "",
-        "hours": "Mon–Fri, 9:00–17:00 CET"
+        "hours": ""
       }
     },
     "faq": {
       "type": "faq",
       "blocks": {
-        "q_ship": {
-          "type": "_faq-item",
-          "settings": {
-            "question": "Where do you ship?",
-            "answer": "<p>We ship across the EU. Orders usually leave our warehouse within one business day.</p>"
-          },
-          "blocks": {}
-        },
-        "q_return": {
-          "type": "_faq-item",
-          "settings": {
-            "question": "Can I return an order?",
-            "answer": "<p>Unopened pouches can be returned within 30 days. Get in touch through the contact page and we'll sort it out.</p>"
-          },
-          "blocks": {}
-        },
         "q_dose": {
           "type": "_faq-item",
           "settings": {
@@ -47,11 +31,25 @@
             "answer": "<p>Start with 3 gummies (50 mg caffeine) and see how you feel. 6 gummies is the full dose (100 mg). Never take more than 9 gummies in a day.</p>"
           },
           "blocks": {}
+        },
+        "q_order": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "When can I order?",
+            "answer": "<p>Pre-orders open soon. Join The Edge List and we'll email you the moment they do, before anyone else.</p>"
+          }
+        },
+        "q_edge": {
+          "type": "_faq-item",
+          "settings": {
+            "question": "What is The Edge List?",
+            "answer": "<p>Our early-access list. Members hear first when pre-orders open and get a launch-day perk. One email when it matters, no spam.</p>"
+          }
         }
       },
       "block_order": [
-        "q_ship",
-        "q_return",
+        "q_order",
+        "q_edge",
         "q_dose"
       ],
       "settings": {

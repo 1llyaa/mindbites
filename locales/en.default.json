@@ -130,5 +130,12 @@
     "submit": "Search",
     "no_results_html": "No results found for “{{ terms }}”.",
     "results_for_html": "{{ count }} results for “{{ terms }}”"
+  },
+  "edge_list": {
+    "success_title": "You're on The Edge List.",
+    "success_text": "We'll email you the moment pre-orders open.",
+    "badge": "Coming soon",
+    "cart_title": "Pre-orders open soon",
+    "cart_text": "MindBites isn't available to order yet. Join The Edge List and we'll let you know first."
   }
 }

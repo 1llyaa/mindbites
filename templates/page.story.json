@@ -78,8 +78,8 @@
           "type": "_milestone",
           "settings": {
             "date": "2026",
-            "title": "First pouches ship",
-            "text": "<p>Produced in GMP- and HACCP-certified facilities in the EU, with every batch lab-tested before it leaves. MindBites is officially out in the world.</p>"
+            "title": "The Edge List opens",
+            "text": "<p>Production is lined up in GMP- and HACCP-certified facilities in the EU, with every batch lab-tested. Pre-orders open soon, and The Edge List gets in first.</p>"
           }
         }
       },
@@ -163,7 +163,8 @@
         "heading_thin": "Not a pill.",
         "heading_heavy": "Not a drink.",
         "text": "<p>MindBites sits between supplements and snacks: a premium gummy you actually want to reach for. Pocket-sized, precisely dosed and ready when you are.</p>",
-        "button_label": "Shop MindBites"
+        "button_label": "Join The Edge List",
+        "button_link": "/products/mindbites"
       }
     },
     "trust": {
@@ -224,12 +225,12 @@
     "newsletter": {
       "type": "newsletter",
       "settings": {
-        "eyebrow": "Join the list",
-        "heading_thin": "Stay",
-        "heading_heavy": "sharp.",
-        "text": "<p>New drops, lab notes and early access to limited releases. One email a month, tops.</p>",
+        "eyebrow": "The Edge List",
+        "heading_thin": "Taste",
+        "heading_heavy": "the edge.",
+        "text": "<p>Pre-orders open soon. Join The Edge List to be first in line, with early access and a launch-day perk.</p>",
         "button_label": "Subscribe",
-        "fine_print": "No spam. Unsubscribe any time."
+        "fine_print": "One email when pre-orders open. No spam."
       }
     }
   },

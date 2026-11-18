@@ -77,6 +77,7 @@
           </shopify-account>
         {%- endif -%}
 
+        {%- unless settings.store_mode == 'edge_list' -%}
         <a
           class="site-header__icon site-header__cart"
           href="{{ routes.cart_url }}"
@@ -96,6 +97,7 @@
             {{- cart.item_count -}}
           </span>
         </a>
+        {%- endunless -%}
 
         {%- if section.settings.cta_label != blank -%}
           <a class="btn btn--sm site-header__cta" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">

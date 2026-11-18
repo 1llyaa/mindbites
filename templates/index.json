@@ -19,9 +19,10 @@
         "glow": 38,
         "product": "mindbites",
         "show_price": true,
-        "button_label": "Shop MindBites",
+        "button_label": "Join The Edge List",
         "secondary_label": "How it works",
-        "secondary_link": "#effects"
+        "secondary_link": "#effects",
+        "button_link": "#shop"
       },
       "blocks": {
         "fact_count": {
@@ -272,12 +273,12 @@
       "type": "featured-product",
       "settings": {
         "product": "mindbites",
-        "eyebrow": "One pouch. Three intensities.",
+        "eyebrow": "Pre-orders open soon",
         "heading_thin": "Taste",
         "heading_heavy": "the edge.",
         "show_description": true,
         "show_dynamic_checkout": true,
-        "perk_1": "Fast EU shipping",
+        "perk_1": "",
         "perk_2": "Lab-tested, GMP-certified production",
         "perk_3": "Made in the EU"
       }
@@ -346,12 +347,12 @@
     "newsletter": {
       "type": "newsletter",
       "settings": {
-        "eyebrow": "Join the list",
-        "heading_thin": "Stay",
-        "heading_heavy": "sharp.",
-        "text": "<p>New drops, focus rituals and early access to limited releases. One email a month, tops.</p>",
+        "eyebrow": "The Edge List",
+        "heading_thin": "Taste",
+        "heading_heavy": "the edge.",
+        "text": "<p>Pre-orders open soon. Join The Edge List to be first in line, with early access and a launch-day perk.</p>",
         "button_label": "Subscribe",
-        "fine_print": "No spam. Unsubscribe any time."
+        "fine_print": "One email when pre-orders open. No spam."
       }
     }
   },

@@ -82,12 +82,12 @@
     "newsletter": {
       "type": "newsletter",
       "settings": {
-        "eyebrow": "Join the list",
-        "heading_thin": "Stay",
-        "heading_heavy": "sharp.",
-        "text": "<p>Get new lab notes and drops in your inbox. One email a month, tops.</p>",
+        "eyebrow": "The Edge List",
+        "heading_thin": "Taste",
+        "heading_heavy": "the edge.",
+        "text": "<p>Pre-orders open soon. Join The Edge List to be first in line, with early access and a launch-day perk.</p>",
         "button_label": "Subscribe",
-        "fine_print": "No spam. Unsubscribe any time."
+        "fine_print": "One email when pre-orders open. No spam."
       }
     }
   },

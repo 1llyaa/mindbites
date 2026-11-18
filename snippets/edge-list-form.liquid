@@ -1,0 +1,132 @@
+{% doc %}
+  Renders The Edge List signup used instead of add to cart while the store is
+  in pre-order mode. Subscribes the email as a customer tagged `edge-list` and,
+  when a product is given, `edge-list:<product handle>`.
+
+  @param {string} id - Unique id for the form, usually the section id
+  @param {object} [product] - Product the visitor is interested in
+  @param {boolean} [show_intro] - Show the list name and pitch above the form
+
+  @example
+  {% render 'edge-list-form', id: section.id, product: product, show_intro: true %}
+{% enddoc %}
+
+{%- liquid
+  assign form_id = 'edge-list-' | append: id
+  assign list_tags = 'edge-list,preorder'
+  if product != blank
+    assign list_tags = list_tags | append: ',edge-list:' | append: product.handle
+  endif
+-%}
+
+<div class="edge-list" id="{{ form_id }}-wrap">
+  {%- if show_intro -%}
+    <div class="edge-list__intro">
+      <p class="eyebrow">{{ settings.edge_list_name | escape }}</p>
+      <p class="edge-list__pitch"><span class="chrome heavy">{{ settings.edge_list_pitch | escape }}</span></p>
+      {%- if settings.edge_list_text != blank -%}
+        <p class="edge-list__text">{{ settings.edge_list_text | escape }}</p>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+
+  {%- form 'customer', id: form_id, class: 'newsletter-form' -%}
+    <input type="hidden" name="contact[tags]" value="{{ list_tags }}">
+    <input type="hidden" name="contact[accepts_marketing]" value="true">
+
+    {%- if form.posted_successfully? -%}
+      <div class="form-message" role="status">
+        {%- render 'icon', name: 'check' -%}
+        <div>
+          <p class="edge-list__success-title">{{ 'edge_list.success_title' | t }}</p>
+          <p>{{ 'edge_list.success_text' | t }}</p>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="newsletter-form__row">
+        <label class="visually-hidden" for="{{ form_id }}-email">{{ 'newsletter.email' | t }}</label>
+        <input
+          class="input"
+          id="{{ form_id }}-email"
+          type="email"
+          name="contact[email]"
+          value="{{ form.email }}"
+          placeholder="{{ 'newsletter.placeholder' | t }}"
+          autocomplete="email"
+          autocapitalize="off"
+          spellcheck="false"
+          required
+          {% if form.errors %}
+            aria-invalid="true" aria-describedby="{{ form_id }}-error"
+          {% endif %}
+        >
+        <button class="btn" type="submit">
+          {{- settings.edge_list_button | escape -}}
+          <span class="ar">{% render 'icon', name: 'arrow' %}</span>
+        </button>
+      </div>
+      {%- if form.errors -%}
+        <p class="form-message form-message--error" id="{{ form_id }}-error">
+          {{ form.errors.translated_fields.email | capitalize }}
+          {{ form.errors.messages.email }}
+        </p>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endform -%}
+</div>
+
+{% stylesheet %}
+  .edge-list {
+    display: grid;
+    gap: 18px;
+  }
+
+  .edge-list__intro {
+    display: grid;
+    gap: 10px;
+    padding: 20px 22px;
+    border-radius: 16px;
+    border: 1px solid rgba(var(--color-accent-light-rgb), 0.28);
+    background: radial-gradient(80% 120% at 0% 0%, rgba(var(--color-accent-rgb), 0.22), transparent 60%),
+      rgba(255, 255, 255, 0.02);
+  }
+
+  .edge-list__pitch {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    text-transform: uppercase;
+    letter-spacing: -0.015em;
+    line-height: 1;
+  }
+
+  .edge-list__text {
+    color: var(--color-muted);
+    font-size: 0.95rem;
+  }
+
+  .edge-list__success-title {
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+
+  /* The pill input keeps the longer "Join The Edge List" label inside it */
+  .edge-list .newsletter-form__row .input {
+    padding-right: 230px;
+  }
+
+  @media (max-width: 520px) {
+    .edge-list .newsletter-form__row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .edge-list .newsletter-form__row .input {
+      padding-right: 18px;
+    }
+
+    .edge-list .newsletter-form__row .btn {
+      position: static;
+      width: 100%;
+      justify-content: space-between;
+    }
+  }
+{% endstylesheet %}

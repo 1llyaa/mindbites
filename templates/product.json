@@ -15,7 +15,7 @@
         "eyebrow": "Microdosed nootropic gummies",
         "show_description": true,
         "show_dynamic_checkout": true,
-        "perk_1": "Fast EU shipping",
+        "perk_1": "",
         "perk_2": "Lab-tested, GMP-certified production",
         "perk_3": "Made in the EU"
       }
@@ -287,11 +287,11 @@
             "answer": "<p>Count your coffee towards your daily caffeine total. Most adults should stay under 400 mg of caffeine a day from all sources.</p>"
           }
         },
-        "q_ship": {
+        "q_order": {
           "type": "_faq-item",
           "settings": {
-            "question": "Where do you ship?",
-            "answer": "<p>We ship across the EU. Orders usually leave our warehouse within one business day.</p>"
+            "question": "When can I order?",
+            "answer": "<p>Pre-orders open soon. Join The Edge List and we'll email you the moment they do, before anyone else.</p>"
           }
         }
       },
@@ -300,7 +300,7 @@
         "q_when",
         "q_who",
         "q_combine",
-        "q_ship"
+        "q_order"
       ]
     }
   },

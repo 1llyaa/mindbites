@@ -14,7 +14,8 @@
     "announcement": {
       "type": "announcement-bar",
       "settings": {
-        "text": "Free EU shipping on orders of <b>2+ pouches</b>"
+        "text": "Taste the edge. Join <b>The Edge List</b> for early access.",
+        "link": "/products/mindbites"
       }
     },
     "header": {
@@ -23,7 +24,8 @@
         "menu": "main-menu",
         "customer_account_menu": "customer-account-main-menu",
         "show_search": true,
-        "cta_label": "Shop now"
+        "cta_label": "Join The Edge List",
+        "cta_link": "/products/mindbites"
       }
     }
   },

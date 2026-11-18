@@ -18,7 +18,11 @@
     </div>
 
     <div class="newsletter__form">
-      {%- render 'newsletter-form', id: section.id, button_label: section.settings.button_label -%}
+      {%- if settings.store_mode == 'edge_list' -%}
+        {%- render 'edge-list-form', id: section.id -%}
+      {%- else -%}
+        {%- render 'newsletter-form', id: section.id, button_label: section.settings.button_label -%}
+      {%- endif -%}
       {%- if section.settings.fine_print != blank -%}
         <p class="fine">{{ section.settings.fine_print | escape }}</p>
       {%- endif -%}

@@ -34,12 +34,16 @@
     <div class="buybox__description rte">{{ product.description }}</div>
   {%- endif -%}
 
-  {%- render 'product-form',
-    product: product,
-    id: id,
-    show_dynamic_checkout: show_dynamic_checkout,
-    update_url: update_url
-  -%}
+  {%- if settings.store_mode == 'edge_list' -%}
+    {%- render 'edge-list-form', id: id, product: product, show_intro: true -%}
+  {%- else -%}
+    {%- render 'product-form',
+      product: product,
+      id: id,
+      show_dynamic_checkout: show_dynamic_checkout,
+      update_url: update_url
+    -%}
+  {%- endif -%}
 
   {%- if perk_1 != blank or perk_2 != blank or perk_3 != blank -%}
     <ul class="buybox__perks" role="list">

@@ -157,6 +157,52 @@
     ]
   },
   {
+    "name": "t:general.store_mode",
+    "settings": [
+      {
+        "type": "select",
+        "id": "store_mode",
+        "label": "t:labels.store_mode",
+        "info": "t:info.store_mode",
+        "options": [
+          {
+            "value": "edge_list",
+            "label": "t:options.store_mode.edge_list"
+          },
+          {
+            "value": "shop",
+            "label": "t:options.store_mode.shop"
+          }
+        ],
+        "default": "edge_list"
+      },
+      {
+        "type": "text",
+        "id": "edge_list_name",
+        "label": "t:labels.edge_list_name",
+        "default": "The Edge List"
+      },
+      {
+        "type": "text",
+        "id": "edge_list_pitch",
+        "label": "t:labels.edge_list_pitch",
+        "default": "Taste the edge."
+      },
+      {
+        "type": "textarea",
+        "id": "edge_list_text",
+        "label": "t:labels.text",
+        "default": "Pre-orders open soon. Join The Edge List and be the first to get MindBites, with early access and a launch-day perk."
+      },
+      {
+        "type": "text",
+        "id": "edge_list_button",
+        "label": "t:labels.button_label",
+        "default": "Join The Edge List"
+      }
+    ]
+  },
+  {
     "name": "t:general.cart",
     "settings": [
       {
@@ -164,8 +210,14 @@
         "id": "cart_type",
         "label": "t:labels.cart_type",
         "options": [
-          { "value": "drawer", "label": "t:options.cart_type.drawer" },
-          { "value": "page", "label": "t:options.cart_type.page" }
+          {
+            "value": "drawer",
+            "label": "t:options.cart_type.drawer"
+          },
+          {
+            "value": "page",
+            "label": "t:options.cart_type.page"
+          }
         ],
         "default": "drawer"
       }
